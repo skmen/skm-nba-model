@@ -29,9 +29,12 @@ class GameFetcher:
         """Initialize the game fetcher with NBA API client."""
         pass  # Initialize if needed
     
-    def get_today_games(self) -> Optional[pd.DataFrame]:
+    def get_today_games(self, date: str = None) -> Optional[pd.DataFrame]:
         """
-        Fetch all NBA games scheduled for today.
+        Fetch all NBA games scheduled for a specific date.
+        
+        Args:
+            date: Optional date string in DD-MM-YYYY format.
         
         Returns:
             DataFrame with columns: GAME_ID, HOME_TEAM, AWAY_TEAM, GAME_STATUS
@@ -44,33 +47,45 @@ class GameFetcher:
             logger.info("Fetching today's NBA games...")
             
             # Get today's date
-            today = datetime.now().strftime('%Y-%m-%d')
+            if date:
+                today = datetime.strptime(date, '%d-%m-%Y').strftime('%Y-%m-%d')
+            else:
+                today = datetime.now().strftime('%Y-%m-%d')
             
             # Fetch scoreboard data
             scoreboard_data = scoreboard.ScoreBoard()
-            games = scoreboard_data.get_data_frames()[0]
+            games_dict = scoreboard_data.get_dict()
+            games = pd.json_normalize(games_dict['scoreboard']['games'])
             
             if games.empty:
                 logger.info("No games scheduled for today")
                 return None
             
             # Filter for today's games
-            games['GAME_DATE'] = pd.to_datetime(games['GAME_DATE_EST']).dt.date
+            games['GAME_DATE'] = pd.to_datetime(games['gameEt'], utc=True).dt.date
             today_games = games[games['GAME_DATE'] == pd.to_datetime(today).date()]
             
             if today_games.empty:
                 logger.info(f"No games scheduled for {today}")
                 return None
             
-            logger.info(f"Found {len(today_games)} game(s) for today")
+            logger.info(f"Found {len(today_games)} game(s) for {today}")
             
             # Extract relevant columns
             result = today_games[[
-                'GAME_ID',
-                'HOME_TEAM_ID',
-                'AWAY_TEAM_ID',
-                'GAME_STATUS_ID'
+                'gameId',
+                'homeTeam.teamId',
+                'awayTeam.teamId',
+                'gameStatus'
             ]].copy()
+
+            # Rename columns for consistency
+            result.rename(columns={
+                'gameId': 'GAME_ID',
+                'homeTeam.teamId': 'HOME_TEAM_ID',
+                'awayTeam.teamId': 'AWAY_TEAM_ID',
+                'gameStatus': 'GAME_STATUS_ID'
+            }, inplace=True)
             
             # Add team names mapping
             result['HOME_TEAM'] = result['HOME_TEAM_ID'].apply(self._get_team_name)
@@ -110,10 +125,16 @@ class GameFetcher:
             # Extract relevant columns
             result = roster_df[[
                 'PLAYER_ID',
-                'PLAYER_NAME',
+                'PLAYER',
                 'POSITION',
-                'JERSEY_NUM'
+                'NUM'
             ]].copy()
+
+            # Rename columns for consistency
+            result.rename(columns={
+                'PLAYER': 'PLAYER_NAME',
+                'NUM': 'JERSEY_NUM'
+            }, inplace=True)
             
             logger.debug(f"Found {len(result)} players in roster for team_id={team_id}")
             return result
@@ -146,18 +167,28 @@ class GameFetcher:
                 logger.warning(f"No lineups found for game_id={game_id}")
                 return None
             
+            # Get home and away team IDs from the first two rows
+            home_team_id = player_stats.iloc[0]['TEAM_ID']
+            away_team_id = player_stats[player_stats['TEAM_ID'] != home_team_id].iloc[0]['TEAM_ID']
+
             # Separate home and away (START_POSITION will indicate starters)
             home_lineup = player_stats[
-                (player_stats['TEAM_ID'] == player_stats['TEAM_ID'].iloc[0]) &
+                (player_stats['TEAM_ID'] == home_team_id) &
                 (player_stats['START_POSITION'].notna()) &
                 (player_stats['START_POSITION'] != '')
             ][['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'START_POSITION']].to_dict('records')
             
-            logger.debug(f"Found {len(home_lineup)} starters for home team")
+            away_lineup = player_stats[
+                (player_stats['TEAM_ID'] == away_team_id) &
+                (player_stats['START_POSITION'].notna()) &
+                (player_stats['START_POSITION'] != '')
+            ][['PLAYER_ID', 'PLAYER_NAME', 'TEAM_ID', 'START_POSITION']].to_dict('records')
+            
+            logger.debug(f"Found {len(home_lineup)} starters for home team and {len(away_lineup)} for away team")
             
             return {
                 'HOME_LINEUP': home_lineup,
-                'AWAY_LINEUP': [],  # Separate query needed for away team
+                'AWAY_LINEUP': away_lineup,
                 'GAME_ID': game_id
             }
             
@@ -167,20 +198,22 @@ class GameFetcher:
     
     def get_playing_today(
         self,
-        team_name: str
+        team_name: str,
+        date: str = None
     ) -> Tuple[bool, Optional[str]]:
         """
         Check if a team is playing today.
         
         Args:
             team_name: NBA team name (e.g., 'Los Angeles Lakers')
+            date: Optional date string in DD-MM-YYYY format.
             
         Returns:
             Tuple of (is_playing, game_id)
             (False, None) if team is not playing
         """
         try:
-            today_games = self.get_today_games()
+            today_games = self.get_today_games(date)
             
             if today_games is None or today_games.empty:
                 return False, None
@@ -284,15 +317,18 @@ class GameFetcher:
             logger.error(f"Error checking if {player_name} is active: {e}")
             return False
     
-    def get_all_playing_today(self) -> pd.DataFrame:
+    def get_all_playing_today(self, date: str = None) -> pd.DataFrame:
         """
         Get all players playing in today's games (starters + active roster).
+        
+        Args:
+            date: Optional date string in DD-MM-YYYY format.
         
         Returns:
             DataFrame with columns: PLAYER_NAME, TEAM_NAME, GAME_ID, IS_STARTER
         """
         try:
-            today_games = self.get_today_games()
+            today_games = self.get_today_games(date)
             
             if today_games is None or today_games.empty:
                 logger.info("No games today, returning empty result")
@@ -310,37 +346,44 @@ class GameFetcher:
                 away_team_id = game['AWAY_TEAM_ID']
                 home_team = game['HOME_TEAM']
                 away_team = game['AWAY_TEAM']
-                
-                # Get lineups
+
+                # Get starting lineups
                 lineups = self.get_team_lineups(game_id)
-                if lineups is None:
-                    continue
+                starters = []
+                if lineups:
+                    starters.extend(player['PLAYER_ID'] for player in lineups.get('HOME_LINEUP', []))
+                    starters.extend(player['PLAYER_ID'] for player in lineups.get('AWAY_LINEUP', []))
+
+                # Get full rosters
+                home_roster = self.get_team_roster(home_team_id)
+                away_roster = self.get_team_roster(away_team_id)
                 
-                # Add starters
-                for starter in lineups.get('HOME_LINEUP', []):
-                    all_players.append({
-                        'PLAYER_ID': starter['PLAYER_ID'],
-                        'PLAYER_NAME': starter['PLAYER_NAME'],
-                        'TEAM_ID': home_team_id,
-                        'TEAM_NAME': home_team,
-                        'GAME_ID': game_id,
-                        'IS_STARTER': True
-                    })
-                
-                for starter in lineups.get('AWAY_LINEUP', []):
-                    all_players.append({
-                        'PLAYER_ID': starter['PLAYER_ID'],
-                        'PLAYER_NAME': starter['PLAYER_NAME'],
-                        'TEAM_ID': away_team_id,
-                        'TEAM_NAME': away_team,
-                        'GAME_ID': game_id,
-                        'IS_STARTER': True
-                    })
-                
-                # Add bench (active but not starting)
-                # This would require fetching inactive players too
-                logger.debug(f"Added starters for game {game_id}")
-            
+                # Process home team roster
+                if home_roster is not None:
+                    for _, player in home_roster.iterrows():
+                        all_players.append({
+                            'PLAYER_ID': player['PLAYER_ID'],
+                            'PLAYER_NAME': player['PLAYER_NAME'],
+                            'TEAM_ID': home_team_id,
+                            'TEAM_NAME': home_team,
+                            'GAME_ID': game_id,
+                            'IS_STARTER': player['PLAYER_ID'] in starters,
+                            'IS_HOME': True
+                        })
+
+                # Process away team roster
+                if away_roster is not None:
+                    for _, player in away_roster.iterrows():
+                        all_players.append({
+                            'PLAYER_ID': player['PLAYER_ID'],
+                            'PLAYER_NAME': player['PLAYER_NAME'],
+                            'TEAM_ID': away_team_id,
+                            'TEAM_NAME': away_team,
+                            'GAME_ID': game_id,
+                            'IS_STARTER': player['PLAYER_ID'] in starters,
+                            'IS_HOME': False
+                        })
+
             result_df = pd.DataFrame(all_players)
             logger.info(f"Found {len(result_df)} players playing today")
             return result_df

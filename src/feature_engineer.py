@@ -12,7 +12,7 @@ from typing import Dict, Optional, Tuple
 import pandas as pd
 import numpy as np
 
-from config import (
+from .config import (
     ARENA_COORDINATES,
     LAG_STATS,
     LAG_WINDOW,
@@ -21,7 +21,7 @@ from config import (
     DATA_DIR,
     SEASON_WEIGHTS,
 )
-from utils import (
+from .utils import (
     get_data_filepath,
     FeatureEngineeringError,
     validate_dataframe,

@@ -11,15 +11,15 @@ from typing import Dict, Optional, List
 
 import pandas as pd
 import numpy as np
-from nba_api.stats.static import players
+from nba_api.stats.static import players, teams
 from nba_api.stats.endpoints import (
     playergamelog,
     leaguedashteamstats,
-    leaguedashplayerstats,
+    playerdashboardbygeneralsplits,
 )
 
-from config import DATA_DIR, API_DELAY, SEASONS_TO_FETCH, GAME_TYPE_FILTER
-from utils import (
+from .config import DATA_DIR, API_DELAY, SEASONS_TO_FETCH, GAME_TYPE_FILTER
+from .utils import (
     get_data_filepath,
     DataAcquisitionError,
     sanitize_filename,
@@ -67,14 +67,21 @@ def get_player_gamelog(player_name: str, season: str) -> Optional[pd.DataFrame]:
             logger.warning(f"No game log data found for {player_name} in {season}")
             return None
 
-        # Filter for regular season games only
-        initial_count = len(df)
-        df = df[df['GAME_TYPE'] == GAME_TYPE_FILTER].reset_index(drop=True)
-        filtered_count = len(df)
-        
-        if initial_count > filtered_count:
-            logger.info(f"Filtered from {initial_count} to {filtered_count} "
-                       f"regular season games")
+        df['PLAYER_ID'] = player_id
+
+
+        # Filter for regular season games only, if GAME_TYPE is available
+        if 'GAME_TYPE' in df.columns:
+            initial_count = len(df)
+            df = df[df['GAME_TYPE'] == GAME_TYPE_FILTER].reset_index(drop=True)
+            filtered_count = len(df)
+
+            if initial_count > filtered_count:
+                logger.info(f"Filtered from {initial_count} to {filtered_count} "
+                           f"regular season games")
+        else:
+            logger.warning("'GAME_TYPE' column not found, unable to filter for regular season games. "
+                           "Proceeding with all games.")
 
         if df.empty:
             logger.warning(f"No regular season games found for {player_name} in {season}")
@@ -194,7 +201,7 @@ def get_opponent_defense_metrics(season: str) -> Dict[str, Dict[str, float]]:
         season: NBA season (e.g., "2023-24")
 
     Returns:
-        Dictionary mapping team names to {'DEF_RATING': value, 'PACE': value}
+        Dictionary mapping team abbreviations to {'DEF_RATING': value, 'PACE': value}
 
     Raises:
         DataAcquisitionError: If API call fails
@@ -202,21 +209,26 @@ def get_opponent_defense_metrics(season: str) -> Dict[str, Dict[str, float]]:
     try:
         logger.info(f"Fetching opponent defense metrics for {season}...")
 
+        team_map = {team["full_name"]: team["abbreviation"] for team in teams.get_teams()}
+
         stats = leaguedashteamstats.LeagueDashTeamStats(
-            measure_type_nullable='Advanced',
-            season=season
+            measure_type_detailed_defense="Advanced", season=season
         )
         df = stats.get_data_frames()[0]
 
         opponent_defense = {}
         for _, row in df.iterrows():
-            team_name = row['TEAM_NAME']
-            opponent_defense[team_name] = {
-                'DEF_RATING': row.get('DEF_RATING', np.nan),
-                'PACE': row.get('PACE', np.nan)
-            }
+            team_name = row["TEAM_NAME"]
+            if team_name in team_map:
+                team_abbr = team_map[team_name]
+                opponent_defense[team_abbr] = {
+                    "DEF_RATING": row.get("DEF_RATING", np.nan),
+                    "PACE": row.get("PACE", np.nan),
+                }
 
-        logger.info(f"Retrieved defense metrics for {len(opponent_defense)} teams in {season}")
+        logger.info(
+            f"Retrieved defense metrics for {len(opponent_defense)} teams in {season}"
+        )
         return opponent_defense
 
     except Exception as e:
@@ -306,19 +318,19 @@ def get_player_usage_rate(player_id: int, season: str) -> Optional[float]:
     try:
         logger.debug(f"Fetching usage rate for player {player_id}...")
 
-        stats = leaguedashplayerstats.LeagueDashPlayerStats(
-            player_id_nullable=player_id,
+        stats = playerdashboardbygeneralsplits.PlayerDashboardByGeneralSplits(
+            player_id=player_id,
             season=season,
             last_n_games=5,
-            measure_type_nullable='Advanced'
+            measure_type_detailed="Advanced",
         )
-        df = stats.get_data_frames()[0]
+        df = stats.overall_player_dashboard.get_data_frame()
 
         if df.empty:
             logger.warning(f"No usage rate data for player {player_id}")
             return None
 
-        usage_rate = df['USG_PCT'].iloc[0]
+        usage_rate = df["USG_PCT"].iloc[0]
         logger.debug(f"Usage rate: {usage_rate:.2f}%")
         return usage_rate
 

@@ -1,3 +1,4 @@
+# Force re-cache
 """
 Utility functions for NBA prediction pipeline.
 
@@ -8,7 +9,7 @@ import logging
 import os
 from typing import Optional
 
-from config import LOG_LEVEL, LOG_FORMAT, DATA_DIR
+from .config import LOG_LEVEL, LOG_FORMAT, DATA_DIR
 
 # ============================================================================
 # LOGGING CONFIGURATION
@@ -153,11 +154,11 @@ def print_result(label: str, value: any) -> None:
     print(f"{label:.<40} {value}")
 
 
-def print_model_results(xgb_mae: float, naive_mae: float) -> None:
+def print_model_results(target_name: str, xgb_mae: float, naive_mae: float) -> None:
     """Print formatted model evaluation results."""
-    print_section("MODEL EVALUATION")
-    print_result("XGBoost MAE", f"{xgb_mae:.2f} points")
-    print_result("Naive Baseline MAE", f"{naive_mae:.2f} points")
+    print_section(f"MODEL EVALUATION ({target_name})")
+    print_result(f"XGBoost MAE ({target_name})", f"{xgb_mae:.2f}")
+    print_result(f"Naive Baseline MAE ({target_name})", f"{naive_mae:.2f}")
 
     if xgb_mae < naive_mae:
         improvement = ((naive_mae - xgb_mae) / naive_mae) * 100
@@ -167,8 +168,9 @@ def print_model_results(xgb_mae: float, naive_mae: float) -> None:
         print(f"\n❌ FAIL: Model underperforms baseline by {diff:.1f}%")
 
 
-def print_prediction(predicted_score: float) -> None:
+def print_prediction(predictions: dict) -> None:
     """Print formatted prediction."""
     print_section("PREDICTION FOR NEXT GAME")
-    print(f"Projected Points: {predicted_score:.1f}")
+    for target, value in predictions.items():
+        print(f"Projected {target}: {value:.1f}")
     print_section("")

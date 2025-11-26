@@ -32,11 +32,11 @@ Example:
 __version__ = "2.1.0"
 __author__ = "Your Name"
 
-from config import FEATURES, TARGET, DEFAULT_PLAYER_NAME, DEFAULT_SEASON
-from prediction_pipeline import run_prediction_pipeline
-from game_fetcher import GameFetcher
-from batch_predictor import BatchPredictor, predict_all_players_today
-from scheduler import get_scheduler, print_cron_setup
+from .config import FEATURES, TARGETS, DEFAULT_PLAYER_NAME, DEFAULT_SEASON
+from .prediction_pipeline import run_prediction_pipeline
+from .game_fetcher import GameFetcher
+from .batch_predictor import BatchPredictor, predict_all_players_today
+from .scheduler import get_scheduler, print_cron_setup
 
 __all__ = [
     # Prediction
@@ -49,7 +49,7 @@ __all__ = [
     'print_cron_setup',
     # Configuration
     'FEATURES',
-    'TARGET',
+    'TARGETS',
     'DEFAULT_PLAYER_NAME',
     'DEFAULT_SEASON',
 ]

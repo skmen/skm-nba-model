@@ -11,8 +11,9 @@ Date: 2025
 import logging
 from typing import Dict, List, Optional, Tuple
 import pandas as pd
+import time
 
-from src.config import FEATURES, TARGET
+from src.config import FEATURES, TARGETS, API_DELAY
 from src.data_fetcher import get_player_gamelog, get_opponent_defense_metrics, get_player_usage_rate
 from src.feature_engineer import engineer_features
 from src.model import predict_next_game, prepare_prediction_data
@@ -108,20 +109,25 @@ class BatchPredictor:
             # Step 5: Prepare prediction data
             prediction_data = prepare_prediction_data(engineered, is_home_game)
             
-            # Step 6: Make prediction
-            prediction = predict_next_game(self.model, prediction_data, FEATURES)
-            
-            logger.info(f"Predicted {prediction:.2f} PTS for {player_name}")
+            # Step 6: Make prediction for each target
+            all_predictions = {}
+            for target in TARGETS:
+                model_to_use = self.model
+                if model_to_use is None:
+                    logger.info(f"No pre-trained model found. Training model for {player_name} ({target}) on-the-fly...")
+                    from src.model import train_model
+                    model_to_use, _, _, _, _ = train_model(engineered, FEATURES, target)
+
+                prediction = predict_next_game(model_to_use, prediction_data, FEATURES)
+                all_predictions[target] = prediction
+                logger.info(f"Predicted {prediction:.2f} {target} for {player_name}")
+
             
             return {
                 'PLAYER_NAME': player_name,
                 'TEAM_NAME': team_name,
                 'IS_HOME': is_home_game,
-                'PTS': prediction,
-                'REB': None,  # Would require separate models
-                'AST': None,
-                'STL': None,
-                'BLK': None,
+                **all_predictions,
                 'PREDICTION_TIME': pd.Timestamp.now()
             }
             
@@ -156,6 +162,8 @@ class BatchPredictor:
             for i, player in enumerate(players_data):
                 logger.info(f"[{i+1}/{len(players_data)}] Predicting {player['PLAYER_NAME']}...")
                 
+                time.sleep(API_DELAY)
+
                 prediction = self.predict_player_today(
                     player_name=player['PLAYER_NAME'],
                     team_name=player['TEAM_NAME'],
@@ -200,7 +208,7 @@ class BatchPredictor:
                     'TEAM_NAME': row['TEAM_NAME'],
                     'GAME_ID': row['GAME_ID'],
                     'IS_STARTER': row['IS_STARTER'],
-                    'IS_HOME': None  # Would need to determine from game info
+                    'IS_HOME': row['IS_HOME']
                 })
             
             # Get predictions

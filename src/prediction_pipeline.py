@@ -11,21 +11,21 @@ Usage:
 import logging
 from typing import Optional
 
-from config import (
+from .config import (
     DEFAULT_PLAYER_NAME,
     DEFAULT_SEASON,
     FEATURES,
-    TARGET,
+    TARGETS,
 )
-from utils import (
+from .utils import (
     setup_logger,
     print_section,
     print_model_results,
     print_prediction,
 )
-from data_fetcher import acquire_all_data
-from feature_engineer import engineer_features
-from model import (
+from .data_fetcher import acquire_all_data
+from .feature_engineer import engineer_features
+from .model import (
     train_model,
     evaluate_model,
     plot_model_results,
@@ -52,9 +52,9 @@ def run_prediction_pipeline(
     Steps:
     1. Acquire data (game logs, opponent stats)
     2. Engineer features
-    3. Train model
-    4. Evaluate performance
-    5. Make prediction
+    3. Train model for each target
+    4. Evaluate performance for each target
+    5. Make prediction for each target
 
     Args:
         player_name: Full name of the player to predict for
@@ -89,63 +89,68 @@ def run_prediction_pipeline(
             logger.error(f"Feature engineering failed: {e}")
             raise
 
-        # ====================================================================
-        # STEP 3: TRAIN MODEL
-        # ====================================================================
-        try:
-            model, X_train, X_test, y_train, y_test = train_model(
-                engineered_df,
-                FEATURES,
-                TARGET,
-            )
-        except Exception as e:
-            logger.error(f"Model training failed: {e}")
-            raise
+        all_predictions = {}
+        for target in TARGETS:
+            print_section(f"PROCESSING TARGET: {target}")
+            # ====================================================================
+            # STEP 3: TRAIN MODEL
+            # ====================================================================
+            try:
+                model, X_train, X_test, y_train, y_test = train_model(
+                    engineered_df,
+                    FEATURES,
+                    target,
+                )
+            except Exception as e:
+                logger.error(f"Model training failed for {target}: {e}")
+                continue
 
-        # ====================================================================
-        # STEP 4: EVALUATE MODEL
-        # ====================================================================
-        try:
-            xgb_mae, naive_mae, success = evaluate_model(model, X_test, y_test)
-            print_model_results(xgb_mae, naive_mae)
-        except Exception as e:
-            logger.error(f"Model evaluation failed: {e}")
-            raise
+            # ====================================================================
+            # STEP 4: EVALUATE MODEL
+            # ====================================================================
+            try:
+                xgb_mae, naive_mae, success = evaluate_model(model, X_test, y_test, target)
+                print_model_results(target, xgb_mae, naive_mae)
+            except Exception as e:
+                logger.error(f"Model evaluation failed for {target}: {e}")
+                continue
 
-        # ====================================================================
-        # STEP 5: VISUALIZE RESULTS
-        # ====================================================================
-        try:
-            predictions = model.predict(X_test)
-            plot_model_results(y_test, predictions)
-        except Exception as e:
-            logger.warning(f"Visualization failed: {e}")
-            # Don't raise - visualization is optional
+            # ====================================================================
+            # STEP 5: VISUALIZE RESULTS
+            # ====================================================================
+            try:
+                predictions = model.predict(X_test)
+                plot_model_results(y_test, predictions)
+            except Exception as e:
+                logger.warning(f"Visualization failed for {target}: {e}")
+                # Don't raise - visualization is optional
 
-        # ====================================================================
-        # STEP 6: FEATURE IMPORTANCE
-        # ====================================================================
-        try:
-            importance_df = get_feature_importance(model, FEATURES)
-            if not importance_df.empty:
-                logger.info("\n" + "=" * 60)
-                logger.info("TOP 10 MOST IMPORTANT FEATURES")
-                logger.info("=" * 60)
-                for _, row in importance_df.iterrows():
-                    logger.info(f"{row['feature']:.<40} {row['importance']:.0f}")
-        except Exception as e:
-            logger.debug(f"Could not get feature importance: {e}")
+            # ====================================================================
+            # STEP 6: FEATURE IMPORTANCE
+            # ====================================================================
+            try:
+                importance_df = get_feature_importance(model, FEATURES)
+                if not importance_df.empty:
+                    logger.info("\n" + "=" * 60)
+                    logger.info(f"TOP 10 MOST IMPORTANT FEATURES ({target})")
+                    logger.info("=" * 60)
+                    for _, row in importance_df.iterrows():
+                        logger.info(f"{row['feature']:.<40} {row['importance']:.0f}")
+            except Exception as e:
+                logger.debug(f"Could not get feature importance for {target}: {e}")
 
-        # ====================================================================
-        # STEP 7: MAKE PREDICTION
-        # ====================================================================
-        try:
-            prediction_features = prepare_prediction_data(engineered_df)
-            predicted_score = predict_next_game(model, prediction_features, FEATURES)
-            print_prediction(predicted_score)
-        except Exception as e:
-            logger.error(f"Prediction failed: {e}")
-            raise
+            # ====================================================================
+            # STEP 7: MAKE PREDICTION
+            # ====================================================================
+            try:
+                prediction_features = prepare_prediction_data(engineered_df)
+                predicted_score = predict_next_game(model, prediction_features, FEATURES)
+                all_predictions[target] = predicted_score
+            except Exception as e:
+                logger.error(f"Prediction failed for {target}: {e}")
+                continue
+
+        print_prediction(all_predictions)
 
         logger.info("=" * 60)
         logger.info("PIPELINE COMPLETE")

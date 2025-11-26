@@ -39,6 +39,7 @@ from src.utils import setup_logger, print_section, print_result
 from src.game_fetcher import GameFetcher
 from src.batch_predictor import predict_all_players_today
 from src.scheduler import get_scheduler, print_cron_setup
+from src.config import TARGETS
 
 import logging
 logger = setup_logger(__name__)
@@ -57,12 +58,13 @@ def ensure_directories() -> None:
         logger.debug(f"Ensured directory exists: {dir_path}")
 
 
-def run_daily_predictions(season: str = "2024-25") -> bool:
+def run_daily_predictions(season: str = "2024-25", date: str = None) -> bool:
     """
     Run complete prediction workflow for today.
     
     Args:
         season: NBA season (e.g., "2024-25")
+        date: Optional date string in DD-MM-YYYY format
         
     Returns:
         True if successful, False otherwise
@@ -75,70 +77,65 @@ def run_daily_predictions(season: str = "2024-25") -> bool:
         # Step 1: Fetch today's games
         print_section("Step 1: Fetching Today's Games")
         fetcher = GameFetcher()
-        today_games = fetcher.get_today_games()
+        today_games = fetcher.get_today_games(date)
         
         if today_games is None or today_games.empty:
-            print_result("❌ No games scheduled for today", success=True)
+            print_result("❌ No games scheduled for today", True)
             logger.info("No games today - exiting")
             return True  # Not a failure, just no games
         
-        print_result(f"✅ Found {len(today_games)} game(s) today", success=True)
+        print_result(f"✅ Found {len(today_games)} game(s) today", True)
         logger.info(f"Today's games:\n{today_games}")
         
         # Step 2: Get all playing players
         print_section("Step 2: Fetching Players Playing Today")
-        playing_today = fetcher.get_all_playing_today()
+        playing_today = fetcher.get_all_playing_today(date)
         
         if playing_today.empty:
-            print_result("❌ No starting players found", success=True)
+            print_result("❌ No starting players found", True)
             logger.info("No players in starting lineups")
             return True
         
         print_result(
             f"✅ Found {len(playing_today)} starting players",
-            success=True
+            True
         )
         logger.info(f"Players playing today:\n{playing_today}")
         
-        # Step 3: Filter for starters only (as requested)
-        starters_only = playing_today[playing_today['IS_STARTER'] == True].copy()
-        print_result(
-            f"✅ Filtered to {len(starters_only)} starters",
-            success=True
-        )
         
         # Step 4: Make predictions
         print_section("Step 3: Generating Predictions")
         print("This may take a few minutes...\n")
         
         predictions = predict_all_players_today(
-            starters_only,
+            playing_today,
             output_csv=f"data/predictions/predictions_{datetime.now().strftime('%Y%m%d')}.csv",
             season=season
         )
         
         if predictions.empty:
-            print_result("❌ No predictions generated", success=False)
+            print_result("❌ No predictions generated", False)
             logger.error("Prediction failed")
             return False
         
         print_result(
             f"✅ Generated predictions for {len(predictions)} players",
-            success=True
+            True
         )
         
         # Step 5: Summary
         print_section("📊 PREDICTION SUMMARY")
         print(f"Games today:           {len(today_games)}")
-        print(f"Players starting:      {len(starters_only)}")
+        print(f"Players playing:       {len(playing_today)}")
         print(f"Predictions made:      {len(predictions)}")
-        print(f"Success rate:          {len(predictions)/len(starters_only)*100:.1f}%")
+        print(f"Success rate:          {len(predictions)/len(playing_today)*100:.1f}%")
         
         if not predictions.empty:
-            print(f"\nTop 5 predicted scores:")
-            top_5 = predictions.nlargest(5, 'PTS')[['PLAYER_NAME', 'TEAM_NAME', 'PTS']]
-            for idx, (_, row) in enumerate(top_5.iterrows(), 1):
-                print(f"  {idx}. {row['PLAYER_NAME']:25} ({row['TEAM_NAME']:20}) - {row['PTS']:.1f} pts")
+            for target in TARGETS:
+                print(f"\nTop 5 predicted {target}:")
+                top_5 = predictions.nlargest(5, target)[['PLAYER_NAME', 'TEAM_NAME', target]]
+                for idx, (_, row) in enumerate(top_5.iterrows(), 1):
+                    print(f"  {idx}. {row['PLAYER_NAME']:25} ({row['TEAM_NAME']:20}) - {row[target]:.1f} {target.lower()}")
         
         # Step 6: Save summary
         end_time = datetime.now()
@@ -155,7 +152,7 @@ def run_daily_predictions(season: str = "2024-25") -> bool:
         
     except Exception as e:
         logger.error(f"Fatal error in daily predictions: {e}", exc_info=True)
-        print_result("❌ Error in prediction pipeline", success=False)
+        print_result("❌ Error in prediction pipeline", False)
         print(f"Error: {e}")
         return False
 
@@ -225,6 +222,13 @@ Examples:
         help='Enable verbose logging'
     )
     
+    parser.add_argument(
+        '--date',
+        type=str,
+        default=None,
+        help='Date to fetch games for (DD-MM-YYYY)'
+    )
+    
     args = parser.parse_args()
     
     # Setup logging
@@ -251,7 +255,7 @@ Examples:
     
     # Run once
     if args.run_once:
-        success = run_daily_predictions(args.season)
+        success = run_daily_predictions(args.season, args.date)
         sys.exit(0 if success else 1)
     
     # Start scheduler

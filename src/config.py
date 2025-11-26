@@ -61,7 +61,7 @@ FEATURES = [
     'USAGE_RATE'                             # Roster Context
 ]
 
-TARGET = 'PTS'
+TARGETS = ['PTS', 'REB', 'AST', 'STL', 'BLK']
 
 # ============================================================================
 # LAG STATISTICS (for feature engineering)
@@ -99,7 +99,7 @@ TRAIN_TEST_RATIO = 0.8  # 80% train, 20% test
 # DEFAULT PLAYER & SEASON (for quick testing)
 # ============================================================================
 
-DEFAULT_PLAYER_NAME = "James Harden"
+DEFAULT_PLAYER_NAME = "LeBron James"
 DEFAULT_SEASON = "2023-24"
 
 # ============================================================================

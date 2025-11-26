@@ -13,13 +13,13 @@ import xgboost as xgb
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_absolute_error
 
-from config import (
+from .config import (
     XGBOOST_PARAMS,
     TRAIN_TEST_RATIO,
     PLOT_FIGSIZE,
     PLOT_ALPHA,
 )
-from utils import ModelTrainingError, logger
+from .utils import ModelTrainingError, logger
 
 # ============================================================================
 # MODEL TRAINING
@@ -120,6 +120,7 @@ def evaluate_model(
     model: xgb.XGBRegressor,
     X_test: pd.DataFrame,
     y_test: pd.Series,
+    target: str,
 ) -> Tuple[float, float, bool]:
     """
     Evaluate model performance using Mean Absolute Error (MAE).
@@ -130,13 +131,14 @@ def evaluate_model(
         model: Trained XGBoost model
         X_test: Test features
         y_test: Test target values
+        target: The name of the target variable being evaluated
 
     Returns:
         Tuple of (xgb_mae, naive_mae, success_flag)
     """
     try:
         logger.info("=" * 60)
-        logger.info("EVALUATING MODEL")
+        logger.info(f"EVALUATING MODEL ({target})")
         logger.info("=" * 60)
 
         # Get predictions
@@ -144,14 +146,14 @@ def evaluate_model(
         xgb_mae = mean_absolute_error(y_test, predictions)
 
         # Calculate naive baseline (using 5-game average)
-        naive_predictions = X_test['PTS_L5']
+        naive_predictions = X_test[f'{target}_L5']
         naive_mae = mean_absolute_error(y_test, naive_predictions)
 
         # Compare
         success = xgb_mae < naive_mae
 
-        logger.info(f"XGBoost MAE: {xgb_mae:.2f} points")
-        logger.info(f"Naive MAE:   {naive_mae:.2f} points")
+        logger.info(f"XGBoost MAE ({target}): {xgb_mae:.2f}")
+        logger.info(f"Naive MAE ({target}):   {naive_mae:.2f}")
 
         if success:
             improvement = ((naive_mae - xgb_mae) / naive_mae) * 100
