@@ -7,65 +7,91 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* New Styles for Score Cards */
-        .upload-section {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border: 1px solid #e9ecef;
-        }
-        .upload-group {
-            flex: 1;
-        }
-        .upload-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
+        /* --- GAME CARD STYLES --- */
         #gamePredictionsContainer {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Wider cards */
+            gap: 20px;
             margin-bottom: 30px;
         }
-        
         .score-card {
             background: white;
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         .score-card h3 {
             margin: 0 0 10px 0;
-            font-size: 1.1em;
             text-align: center;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
+            font-size: 1.1em;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 8px;
         }
         .score-row {
             display: flex;
             justify-content: space-between;
-            margin: 5px 0;
             font-size: 1.1em;
+            padding: 2px 0;
         }
-        .winner {
-            font-weight: bold;
-            color: #28a745;
-        }
-        .meta-info {
-            margin-top: 10px;
+        .winner { font-weight: bold; color: #28a745; }
+        
+        /* --- BETTING CALCULATOR SECTIONS --- */
+        .bet-section {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
             font-size: 0.9em;
-            color: #666;
-            text-align: center;
-            background: #f1f1f1;
-            padding: 5px;
-            border-radius: 4px;
         }
+        .bet-section-title {
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #555;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Grid for Inputs */
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr; /* Label | Inputs | Result */
+            gap: 5px;
+            align-items: center;
+        }
+        .input-group {
+            display: flex;
+            gap: 3px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        /* Recommendation Badges */
+        .rec-box {
+            text-align: center;
+            font-weight: bold;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            min-height: 24px;
+            line-height: 1.4;
+        }
+        .rec-strong { background: #28a745; color: white; }
+        .rec-lean { background: #ffc107; color: black; }
+        .rec-pass { background: #dc3545; color: white; }
+        .rec-empty { background: #f8f9fa; color: #ccc; border: 1px dashed #ddd; }
+
+        /* Helpers */
+        .team-label { font-size: 0.85em; color: #666; }
+        .upload-section { display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; }
+        .upload-group { flex: 1; }
+        .upload-group label { display: block; font-weight: bold; margin-bottom: 5px; }
     </style>
 </head>
 <body>
@@ -80,15 +106,15 @@
     </header>
 
     <div class="container">
-        <h1>NBA Predictions Viewer</h1>
+        <h1>NBA Game Analyzer</h1>
         
         <div class="upload-section">
             <div class="upload-group">
-                <label for="jsonFileInput">1. Load Game Summaries (JSON)</label>
+                <label>1. Load Game Summaries (JSON)</label>
                 <input type="file" id="jsonFileInput" accept=".json">
             </div>
             <div class="upload-group">
-                <label for="csvFileInput">2. Load Player Props (CSV)</label>
+                <label>2. Load Player Props (CSV)</label>
                 <input type="file" id="csvFileInput" accept=".csv">
             </div>
         </div>
@@ -98,23 +124,12 @@
         <table id="predictionsTable" class="display" style="width:100%">
             <thead>
                 <tr>
-                    <th>PLAYER_NAME</th>
-                    <th>TEAM_NAME</th>
-                    <th>IS_HOME</th>
-                    <th>MINUTES</th>
-                    <th>USAGE_RATE</th>
-                    <th>PACE</th>
-                    <th>OPP_DvP</th>
-                    <th>PTS</th>
-                    <th>REB</th>
-                    <th>AST</th>
-                    <th>STL</th>
-                    <th>BLK</th>
-                    <th>PRA</th>
+                    <th>PLAYER_NAME</th><th>TEAM_NAME</th><th>IS_HOME</th>
+                    <th>MINUTES</th><th>USAGE_RATE</th><th>PACE</th><th>OPP_DvP</th>
+                    <th>PTS</th><th>REB</th><th>AST</th><th>STL</th><th>BLK</th><th>PRA</th>
                 </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 
