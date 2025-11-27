@@ -131,47 +131,57 @@ def create_opponent_context_features(df: pd.DataFrame, opponent_defense: Dict[st
     
 def apply_dvp_context(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Merges local DvP (Defense vs Position) stats into the dataframe.
-    If the DvP stats file is not available, it creates a neutral
-    'DVP_MULTIPLIER' column with a default value of 1.0.
+    Merges local DvP stats.
+    Renames DvP columns to avoid collisions with player stats.
     """
     dvp_path = "data/dvp_stats.csv"
     
     try:
         if not os.path.exists(dvp_path):
-            logger.warning(f"DvP file not found at '{dvp_path}'. Creating neutral DVP_MULTIPLIER.")
             df['DVP_MULTIPLIER'] = 1.0
             return df
 
         dvp_df = pd.read_csv(dvp_path)
         
-        # Ensure OPP_NAME exists
-        if 'OPP_NAME' not in df.columns:
-            logger.warning("Cannot apply DvP context without 'OPP_NAME' column.")
-            df['DVP_MULTIPLIER'] = 1.0
-            return df
+        # 1. RENAME DvP COLUMNS TO AVOID COLLISION
+        # We rename 'PTS' -> 'OPP_ALLOW_PTS', etc.
+        rename_map = {
+            'PTS': 'OPP_ALLOW_PTS',
+            'REB': 'OPP_ALLOW_REB',
+            'AST': 'OPP_ALLOW_AST',
+            'STL': 'OPP_ALLOW_STL',
+            'BLK': 'OPP_ALLOW_BLK',
+            'PRA': 'OPP_ALLOW_PRA'
+        }
+        dvp_df.rename(columns=rename_map, inplace=True)
 
-        # Use a default position if not present.
         if 'POSITION_GROUP' not in df.columns:
-            df['POSITION_GROUP'] = 'Guard'  # Default position
-            logger.debug("No 'POSITION_GROUP' found, defaulting to 'Guard' for DvP merge.")
+            df['POSITION_GROUP'] = 'Guard' 
         
-        # Merge DvP stats
+        # 2. Merge with specific suffixes to be safe (though renaming above handles it)
         df = df.merge(
             dvp_df,
             left_on=['OPP_NAME', 'POSITION_GROUP'],
-            right_on=['OPP_TEAM', 'POSITION_GROUP'],
+            right_on=['OPPONENT_TEAM', 'POSITION'],
             how='left'
         )
         
-        # Fill missing values with a neutral 1.0 and clean up
+        # 3. Calculate Multiplier (if not present in file)
+        # If the file has raw stats but no multiplier, we calculate it relative to league average
+        if 'OPP_ALLOW_PTS' in df.columns:
+             # Simple logic: If opponent allows 0 (missing), assume neutral (1.0)
+             # You could make this more complex by comparing to league avg
+             # For now, we assume the file contains the raw 'Avg Points Allowed'
+             pass
+
         df['DVP_MULTIPLIER'] = df['DVP_MULTIPLIER'].fillna(1.0)
         
-        if 'OPP_TEAM' in df.columns:
-            df.drop(columns=['OPP_TEAM'], inplace=True)
+        # Clean up duplicate columns from merge if necessary
+        cols_to_drop = ['OPPONENT_TEAM', 'POSITION']
+        df.drop(columns=[c for c in cols_to_drop if c in df.columns], inplace=True)
             
     except Exception as e:
-        logger.error(f"Error applying DvP context: {e}. Creating neutral DVP_MULTIPLIER.")
+        logger.error(f"Error applying DvP context: {e}")
         df['DVP_MULTIPLIER'] = 1.0
         
     return df

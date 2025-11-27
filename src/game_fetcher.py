@@ -349,7 +349,8 @@ class GameFetcher:
                             'TEAM_NAME': home_team,
                             'GAME_ID': game_id,
                             'IS_STARTER': player['PLAYER_ID'] in starters,
-                            'IS_HOME': True
+                            'IS_HOME': True,
+                            'POSITION': player['POSITION']
                         })
 
                 # Process away team roster
@@ -362,7 +363,8 @@ class GameFetcher:
                             'TEAM_NAME': away_team,
                             'GAME_ID': game_id,
                             'IS_STARTER': player['PLAYER_ID'] in starters,
-                            'IS_HOME': False
+                            'IS_HOME': False,
+                            'POSITION': player['POSITION']
                         })
 
             result_df = pd.DataFrame(all_players)

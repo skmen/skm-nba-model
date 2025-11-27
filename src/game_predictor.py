@@ -2,178 +2,168 @@ import sys
 import os
 import pandas as pd
 import re
-from datetime import datetime
 import numpy as np
+from datetime import datetime
 
 # Add project root to the Python path
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(project_root)
 
 from src.game_fetcher import GameFetcher
-from src.data_fetcher import get_opponent_defense_metrics
 from src.utils import setup_logger
 from nba_api.stats.static import teams
 
 logger = setup_logger(__name__)
 
 def find_latest_prediction_file():
-    """
-    Finds the most recent prediction file in the data/predictions directory.
-    Returns the path to the latest file, or None if no files are found.
-    """
-    search_dir = 'data/predictions'
-    prediction_files = []
+    """Finds the most recent prediction file."""
+    search_dir = 'data/predictions/'
     file_pattern = re.compile(r'predictions_(\d{8})\.csv')
 
     if not os.path.isdir(search_dir):
         logger.error(f"Predictions directory not found at '{search_dir}'")
         return None
 
+    prediction_files = []
     for filename in os.listdir(search_dir):
         match = file_pattern.match(filename)
         if match:
             date_str = match.group(1)
-            file_path = os.path.join(search_dir, filename)
-            prediction_files.append((date_str, file_path))
+            prediction_files.append((date_str, os.path.join(search_dir, filename)))
 
     if not prediction_files:
-        logger.error(f"No prediction files found in '{search_dir}' with pattern 'predictions_YYYYMMDD.csv'.")
+        logger.error("No prediction files found.")
         return None
 
-    # Sort by date descending and return the path of the newest file
-    latest_file = sorted(prediction_files, key=lambda x: x[0], reverse=True)[0]
-    return latest_file[1]
-
-def get_season_from_date(game_date: datetime):
-    """Determines the NBA season string from a date (e.g., 2023-24)."""
-    if game_date.month >= 10:
-        return f"{game_date.year}-{(game_date.year + 1) % 100:02d}"
-    else:
-        return f"{game_date.year - 1}-{game_date.year % 100:02d}"
+    # Sort by date descending
+    return sorted(prediction_files, key=lambda x: x[0], reverse=True)[0][1]
 
 def run_game_predictions(predictions_file: str):
     """
-    Analyzes a prediction sheet and combines it with game schedule data
-    to produce more realistic, adjusted game-level predictions.
+    Generates game-level predictions using player stats, Pace, Usage, and DvP.
     """
-    # 1. Parse date and determine season
-    match = re.search(r'_(\d{8})\.csv$', predictions_file)
-    if not match:
-        logger.error(f"Could not parse date from filename: {predictions_file}")
-        return
+    logger.info(f"Processing Game Predictions from: {predictions_file}")
 
-    date_str = match.group(1)
+    # 1. Load Data
     try:
-        game_date = datetime.strptime(date_str, '%Y%m%d')
-        game_date_iso = game_date.strftime('%Y-%m-%d')
-        season = get_season_from_date(game_date)
-    except ValueError:
-        logger.error(f"Invalid date format '{date_str}' in filename.")
-        return
-
-    logger.info(f"Processing predictions for date: {game_date_iso} (Season: {season})")
-
-    # 2. Load all required data
-    try:
-        predictions_df = pd.read_csv(predictions_file)
-        dvp_df = pd.read_csv('data/dvp_stats.csv')
-        defense_metrics = get_opponent_defense_metrics(season)
+        df = pd.read_csv(predictions_file)
         
-        required_cols = ['TEAM_NAME', 'PTS', 'USAGE_RATE', 'MIN', 'POSITION_GROUP']
-        if not all(col in predictions_df.columns for col in required_cols):
-            logger.error(f"Prediction file must contain: {', '.join(required_cols)}")
-            return
-    except FileNotFoundError as e:
-        logger.error(f"Required data file not found: {e}. Make sure 'dvp_stats.csv' exists.")
-        return
+        # Check for required new columns
+        required = ['TEAM_NAME', 'PTS', 'PACE', 'OPP_DvP', 'USAGE_RATE', 'MINUTES']
+        missing = [col for col in required if col not in df.columns]
+        
+        if missing:
+            logger.warning(f"Missing columns {missing}. Falling back to basic aggregation.")
+            # Create dummy cols if missing to prevent crash
+            for col in missing:
+                if col == 'PACE': df[col] = 100.0
+                elif col == 'OPP_DvP': df[col] = 1.0
+                elif col == 'USAGE_RATE': df[col] = 0.2
+                elif col == 'MINUTES': df[col] = 20.0
+                
     except Exception as e:
-        logger.error(f"Error loading auxiliary data: {e}")
+        logger.error(f"Error loading file: {e}")
         return
 
-    # 3. Fetch game schedule
+    # 2. Get Game Schedule (to identify matchups)
     try:
+        # Extract date from filename for game fetching
+        date_match = re.search(r'predictions_(\d{8})', predictions_file)
+        if date_match:
+            date_str = date_match.group(1)
+            date_iso = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:]}"
+        else:
+            date_iso = datetime.now().strftime('%Y-%m-%d')
+
         game_fetcher = GameFetcher()
-        games_on_date = game_fetcher.get_today_games(date=game_date_iso)
-        if games_on_date is None or games_on_date.empty:
-            logger.info(f"No games found for {game_date_iso}. Exiting.")
+        games_df = game_fetcher.get_today_games(date_iso)
+        
+        if games_df is None or games_df.empty:
+            logger.error("No games found for this date.")
             return
+
     except Exception as e:
-        logger.error(f"Failed to fetch games: {e}")
+        logger.error(f"Failed to fetch schedule: {e}")
         return
 
-    # 4. Prepare data for adjustments
-    team_map = {team['full_name']: team['abbreviation'] for team in teams.get_teams()}
-    all_paces = [v['PACE'] for v in defense_metrics.values() if v and not np.isnan(v['PACE'])]
-    league_avg_pace = np.mean(all_paces) if all_paces else 100.0
+    print("\n" + "="*60)
+    print(f"🏀 GAME PREDICTIONS FOR {date_iso}")
+    print("="*60 + "\n")
 
-    games_dict = {
-        game['HOME_TEAM']: {'OPPONENT': game['AWAY_TEAM']} for _, game in games_on_date.iterrows()
-    }
-    games_dict.update({
-        game['AWAY_TEAM']: {'OPPONENT': game['HOME_TEAM']} for _, game in games_on_date.iterrows()
-    })
+    # 3. Calculate Team-Level Metrics
+    # We aggregate player stats to get team totals
     
-    predictions_df['OPPONENT'] = predictions_df['TEAM_NAME'].map(lambda x: games_dict.get(x, {}).get('OPPONENT'))
-    predictions_df.dropna(subset=['OPPONENT'], inplace=True)
-
-    # 5. Apply Adjustments
-    # DvP Adjustment
-    merged_df = predictions_df.merge(dvp_df, left_on=['OPPONENT', 'POSITION_GROUP'], right_on=['OPP_TEAM', 'POSITION_GROUP'], how='left')
-    merged_df['DVP_MULTIPLIER'].fillna(1.0, inplace=True)
-    merged_df['ADJUSTED_PTS'] = merged_df['PTS'] * merged_df['DVP_MULTIPLIER']
-
-    # Usage and Minutes Weighting
-    team_stats = merged_df.groupby('TEAM_NAME').agg(TEAM_TOTAL_MIN=('MIN', 'sum')).reset_index()
-    merged_df = merged_df.merge(team_stats, on='TEAM_NAME', how='left')
-    merged_df['MINUTES_WEIGHT'] = (merged_df['MIN'] / merged_df['TEAM_TOTAL_MIN']) * len(merged_df[merged_df['MIN'] > 0]) # Crude team contribution
+    # Filter out low-impact players for team aggregates (optional, but cleaner)
+    active_df = df[df['MINUTES'] > 5].copy()
     
-    # Apply weights, capping the effect
-    merged_df['ADJUSTED_PTS'] *= merged_df['MINUTES_WEIGHT'].clip(0.75, 1.25)
+    team_stats = active_df.groupby('TEAM_NAME').agg({
+        'PTS': 'sum',                # Sum of Model Predictions
+        'OPP_ALLOW_PTS': 'sum',      # Sum of Points Opponent Allows to these positions
+        'PACE': 'mean',              # This is the Average Opponent Pace faced by players
+        'OPP_DvP': 'mean',           # Average Difficulty of Matchup ( >1.0 is easy)
+        'USAGE_RATE': 'sum'          # Total Usage (Should be around 1.0 or 100%)
+    }).reset_index()
 
-    # 6. Aggregate scores and apply pace adjustment
-    team_scores = merged_df.groupby('TEAM_NAME')['ADJUSTED_PTS'].sum().to_dict()
+    # Convert to dictionary for fast lookup
+    team_data = team_stats.set_index('TEAM_NAME').to_dict('index')
 
-    print("\n" + "="*50)
-    print(f"ADJUSTED GAME PREDICTIONS FOR {game_date_iso}")
-    print("="*50 + "\n")
+    # League Average Pace (Estimate if not calculated)
+    league_avg_pace = active_df['PACE'].mean() if not active_df.empty else 100.0
 
-    for _, game in games_on_date.iterrows():
-        home_team, away_team = game['HOME_TEAM'], game['AWAY_TEAM']
-        home_abbr, away_abbr = team_map.get(home_team), team_map.get(away_team)
+    # 4. Process Each Game
+    for _, game in games_df.iterrows():
+        home_team = game['HOME_TEAM']
+        away_team = game['AWAY_TEAM']
 
-        home_base_score = team_scores.get(home_team, 0)
-        away_base_score = team_scores.get(away_team, 0)
+        if home_team not in team_data or away_team not in team_data:
+            logger.warning(f"Skipping {away_team} @ {home_team} (Data missing)")
+            continue
+
+        h_stats = team_data[home_team]
+        a_stats = team_data[away_team]
+
+        # --- PACE CALCULATION ---
+        # Player's 'PACE' column = The Pace of the Opponent they are facing.
+        # So Home Team Pace = Away Players' Average 'PACE'
+        # And Away Team Pace = Home Players' Average 'PACE'
         
-        # Pace Adjustment
-        home_pace = defense_metrics.get(home_abbr, {}).get('PACE', league_avg_pace) if home_abbr else league_avg_pace
-        away_pace = defense_metrics.get(away_abbr, {}).get('PACE', league_avg_pace) if away_abbr else league_avg_pace
-        game_pace = (home_pace + away_pace) / 2
-        pace_adjustment = game_pace / league_avg_pace if league_avg_pace > 0 else 1.0
+        # However, relying on the 'PACE' column in the CSV (which is Opponent Pace)
+        # means h_stats['PACE'] is actually the Away Team's Pace.
+        estimated_pace = (h_stats['PACE'] + a_stats['PACE']) / 2
+        pace_factor = estimated_pace / league_avg_pace
 
-        home_final_score = home_base_score * pace_adjustment
-        away_final_score = away_base_score * pace_adjustment
+        # --- SCORE PREDICTION ---
+        
+        # Method A: Model Sum (Pure aggregation of your XGBoost/Ridge models)
+        h_model_score = h_stats['PTS']
+        a_model_score = a_stats['PTS']
 
-        game_total = home_final_score + away_final_score
-        point_spread = home_final_score - away_final_score
-        winner = home_team if point_spread > 0 else away_team
+        # Method B: Implied Defense Score (What opponents usually allow)
+        # If available, we use OPP_ALLOW_PTS
+        h_implied = h_stats.get('OPP_ALLOW_PTS', h_model_score)
+        a_implied = a_stats.get('OPP_ALLOW_PTS', a_model_score)
+        
+        # BLEND: 70% Model, 30% Defensive History
+        # We also apply the Pace Factor to the final result
+        h_final = ((h_model_score * 0.7) + (h_implied * 0.3)) * pace_factor
+        a_final = ((a_model_score * 0.7) + (a_implied * 0.3)) * pace_factor
+        
+        # Total & Spread
+        total = h_final + a_final
+        spread = h_final - a_final
+        winner = home_team if spread > 0 else away_team
 
-        print(f"{away_team} vs {home_team}")
-        print(f"Predicted Score: {away_final_score:.1f} vs {home_final_score:.1f}")
-        print(f"Predicted Winner: {winner}")
-        print(f"Game Total: {game_total:.1f}, Point Spread: {point_spread:+.1f} (Home)")
-        print("-" * 30 + "\n")
+        # --- OUTPUT ---
+        print(f"{away_team} ({a_final:.1f}) @ {home_team} ({h_final:.1f})")
+        print(f"  > Winner: {winner} ({abs(spread):.1f})")
+        print(f"  > Total:  {total:.1f}")
+        print(f"  > Pace:   {estimated_pace:.1f}")
+        print("-" * 40)
 
 def main():
-    """Main entry point for the script."""
-    latest_predictions_file = find_latest_prediction_file()
-    
-    if not latest_predictions_file:
-        logger.error("No prediction files found in '.' or 'data/predictions/'.")
-        logger.error("Please ensure a file like 'betting_sheet_predictions_YYYYMMDD.csv' exists.")
-        return
-        
-    logger.info(f"Using latest prediction file: {latest_predictions_file}")
-    run_game_predictions(latest_predictions_file)
+    latest = find_latest_prediction_file()
+    if latest:
+        run_game_predictions(latest)
 
 if __name__ == "__main__":
     main()

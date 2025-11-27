@@ -113,22 +113,25 @@ def run_predictions_for_date(target_date: datetime, output_filename: str, season
     Run complete prediction workflow for a given date.
     """
     try:
-        date_str_dmy = target_date.strftime('%d-%m-%Y')
-        date_str_ymd = target_date.strftime('%Y%m%d')
+        # 1. Format the date correctly (ISO format)
+        date_str_api = target_date.strftime('%Y-%m-%d')
         
         start_time = datetime.now()
-        print_section(f"🏀 NBA PREDICTIONS FOR {target_date.strftime('%Y-%m-%d')}")
+        print_section(f"NBA PREDICTIONS FOR {target_date.strftime('%Y-%m-%d')}")
         
+        # 2. ADD THIS MISSING LINE HERE 👇
         fetcher = GameFetcher()
-        games = fetcher.get_today_games(date_str_dmy)
+        
+        # 3. Now you can use it
+        games = fetcher.get_today_games(date_str_api)
         
         if games is None or games.empty:
-            print_result(f"❌ No games scheduled for {date_str_dmy}", True)
+            print_result(f"No games scheduled for {date_str_api}", True)
             return True
         
         print_result(f"✅ Found {len(games)} game(s)", True)
         
-        playing_today = fetcher.get_all_playing_today(date_str_dmy)
+        playing_today = fetcher.get_all_playing_today(date_str_api)
         
         if playing_today.empty:
             print_result("❌ No starting players found", True)
