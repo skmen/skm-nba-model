@@ -252,37 +252,48 @@ Finding the best parameters for a model is crucial for accuracy. This project in
 
 ### How to Run the Tuner
 
-Run the `tune_hyperparameters.py` script from your terminal, specifying which statistic you want to optimize for. The script will test many different combinations of parameters and report the best ones.
+Run the `tune_hyperparameters.py` script from your terminal. It will automatically loop through every statistic (PTS, REB, AST, etc.), test many different combinations of parameters for each one, and report the best settings.
+
+You can optionally specify a player to use as the data source for the tuning process.
 
 ```bash
-# Tune models for predicting Points (PTS)
-python tune_hyperparameters.py --stat PTS
+# Tune models using the default player (James Harden)
+python tune_hyperparameters.py
 
-# Tune models for predicting Rebounds (REB)
-python tune_hyperparameters.py --stat REB
+# Tune models using data from a different player
+python tune_hyperparameters.py --player-name "Stephen Curry"
 ```
-*Note: This process can be computationally intensive and may take several minutes to complete, as it's training hundreds of models.*
+*Note: This process is computationally intensive and may take several minutes to complete for all stats, as it's training thousands of small models.*
 
 ### Understanding the Output
 
-The script will print the best parameter combination found for both XGBoost and Ridge.
+The script will print a summary for each statistic, showing the best parameter combination found for both XGBoost and Ridge.
 
 **Example Output:**
 ```
-✅ XGBoost Tuning Complete!
-Best Parameters Found:
-{'colsample_bytree': 0.7, 'learning_rate': 0.05, 'max_depth': 2, 'n_estimators': 200, 'reg_lambda': 1.5, 'subsample': 0.9}
-Best MAE: 4.813
+============================================================
+        TUNING MODELS FOR 'PTS'
+============================================================
 
-✅ Ridge Tuning Complete!
-Best Parameters Found:
-{'alpha': 10.0, 'solver': 'svd'}
-Best MAE: 5.102
+Tuning XGBoost for PTS...
+✅ XGBoost for PTS Complete!
+  Best MAE: 4.813
+  Best Params: {'colsample_bytree': 0.7, 'learning_rate': 0.05, 'max_depth': 2, ...}
+
+Tuning Ridge for PTS...
+✅ Ridge for PTS Complete!
+  Best MAE: 5.102
+  Best Params: {'alpha': 10.0, 'solver': 'svd'}
+
+============================================================
+        TUNING MODELS FOR 'REB'
+============================================================
+...
 ```
 
 ### How to Use the Results
 
-1.  **For XGBoost:** Copy the dictionary of best parameters and paste it into the `XGBOOST_PARAMS` variable in your `src/config.py` file.
+1.  **For XGBoost:** After the script finishes, you can update the `XGBOOST_PARAMS` dictionary in `src/config.py` with the best-performing parameters for the stat you care about most.
 2.  **For Ridge:** The `alpha` and `solver` are used when the Ridge model is created. You will need to update these values in `src/model.py` where `Ridge()` is called.
 
 ---
