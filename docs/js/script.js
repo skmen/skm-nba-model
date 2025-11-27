@@ -3,7 +3,6 @@ $(document).ready(function() {
     // =========================================================
     // 1. GAME PREDICTIONS JSON LOGIC (Scoreboard)
     // =========================================================
-    // We put this first so it works even if the table fails
     $('#jsonFileInput').change(function(e) {
         var file = e.target.files[0];
         if (!file) return;
@@ -58,12 +57,11 @@ $(document).ready(function() {
             scrollX: true,
             pageLength: 25,
             columns: [
-                // Make sure these match your CSV headers EXACTLY
                 { data: 'PLAYER_NAME' },
                 { data: 'TEAM_NAME' },
                 { 
                     data: 'IS_HOME',
-                    defaultContent: "", // Prevents crash if empty
+                    defaultContent: "",
                     render: function(data) {
                         return (data === 'True' || data === true) ? '🏠 Home' : '✈️ Away';
                     }
@@ -79,14 +77,11 @@ $(document).ready(function() {
                 { data: 'BLK' },
                 { data: 'PRA' }
             ],
-            // Removed PREDICTION_TIME from columns list above
             order: [[7, 'desc']] 
         });
 
-        // Specific upload handler for Index page
-        $('#csvFileInput').change(function(e) {
-            handleCsvUpload(e, viewerTable);
-        });
+        // Use the shared helper function
+        setupCsvUpload(viewerTable, '#csvFileInput');
     }
 
     // =========================================================
@@ -101,7 +96,7 @@ $(document).ready(function() {
                 { data: 'Team' },
                 { data: 'Loc' },
                 { 
-                    data: 'Stat',
+                    data: 'Stat', 
                     render: function(data) { return `<b>${data}</b>`; }
                 },
                 { 
@@ -110,8 +105,10 @@ $(document).ready(function() {
                 },
                 { 
                     data: 'MAE',
-                    render: function(data) { return `<span class="mae-val" style="color:#666;">${data}</span>`; }
+                    render: function(data) { return `<span class="mae-val" style="color:#999; font-size:0.9em;">${data}</span>`; }
                 },
+                { data: 'Opp_Avg' },
+                { data: 'Mins' },
                 { data: 'Usg%' },
                 { data: 'Pace' },
                 { 
@@ -122,101 +119,97 @@ $(document).ready(function() {
                         return data;
                     }
                 },
-                // --- INTERACTIVE COLUMNS ---
+                // --- Interactive Columns ---
                 {
-                    data: null, // Input Column
+                    data: null, 
                     orderable: false,
-                    render: function(data, type, row) {
-                        return `<input type="number" step="0.5" class="vegas-input" placeholder="-">`;
-                    }
+                    render: function() { return `<input type="number" step="0.5" class="vegas-input" placeholder="-">`; }
                 },
                 {
-                    data: null, // Result Column
+                    data: null, 
                     orderable: false,
                     className: "rec-cell",
-                    render: function(data, type, row) {
-                        return `<span class="rec-placeholder" style="color:#ccc;">-</span>`;
-                    }
+                    render: function() { return `<span class="rec-placeholder" style="color:#ccc;">-</span>`; }
                 },
                 // ---------------------------
+                { 
+                    data: 'Trust',
+                    render: function(data) {
+                        let color = '#6c757d';
+                        if (data && data.includes('ELITE')) color = '#28a745';
+                        if (data && data.includes('HIGH')) color = '#ffc107';
+                        if (data && data.includes('MEDIUM')) color = '#fd7e14';
+                        if (data && data.includes('VOLATILE')) color = '#dc3545';
+                        return `<span style="background:${color}; color:white; padding:3px 8px; border-radius:12px; font-size:0.85em;">${data}</span>`;
+                    }
+                },
                 { data: 'Line_Over' },
                 { data: 'Line_Under' }
             ],
-            order: [[4, 'desc']] // Sort by Prediction High-to-Low
+            order: [[4, 'desc']] 
         });
 
-        // --- REAL-TIME CALCULATION LOGIC ---
+        // Use the shared helper function
+        setupCsvUpload(bettingTable, '#csvFileInput');
+
+        // --- REAL-TIME CALCULATOR LOGIC ---
         $('#bettingTable tbody').on('keyup change', '.vegas-input', function() {
             var $row = $(this).closest('tr');
             var vegasLine = parseFloat($(this).val());
             
-            // Get data from the DataTable row 
-            // (We use data() so it works even if columns are hidden/responsive)
+            // Get row data from DataTables
             var rowData = bettingTable.row($row).data();
             var prediction = parseFloat(rowData.Prediction);
-            var mae = parseFloat(rowData.MAE);
+            var mae = parseFloat(rowData.MAE); 
 
             var $recCell = $row.find('.rec-cell');
 
-            if (isNaN(vegasLine)) {
+            if (isNaN(vegasLine) || isNaN(mae)) {
                 $recCell.html('<span class="rec-placeholder" style="color:#ccc;">-</span>');
                 return;
             }
 
-            // --- THE BETTING LOGIC (Matches bet_analyzer.py) ---
             var edge = prediction - vegasLine;
             var absEdge = Math.abs(edge);
             var direction = edge > 0 ? "OVER" : "UNDER";
             
-            // Thresholds
-            var strongThreshold = mae * 1.0; // 100% of MAE
-            var leanThreshold = mae * 0.8;   // 80% of MAE
-
-            var html = "";
-
-            if (absEdge > strongThreshold) {
-                // STRONG BET (Green)
-                html = `<span class="rec-badge rec-bet">BET ${direction}</span>`;
-            } else if (absEdge > leanThreshold) {
-                // LEAN (Yellow)
-                html = `<span class="rec-badge rec-lean">LEAN ${direction}</span>`;
+            // Logic: Strong > 100% MAE, Lean > 80% MAE
+            if (absEdge > mae) {
+                $recCell.html(`<span class="rec-badge rec-bet" style="background:#28a745; color:white; padding:4px 8px; border-radius:4px; font-weight:bold;">BET ${direction}</span>`);
+            } else if (absEdge > (mae * 0.8)) {
+                $recCell.html(`<span class="rec-badge rec-lean" style="background:#ffc107; color:black; padding:4px 8px; border-radius:4px; font-weight:bold;">LEAN ${direction}</span>`);
             } else {
-                // PASS (Red)
-                html = `<span class="rec-badge rec-pass">PASS</span>`;
+                $recCell.html(`<span class="rec-badge rec-pass" style="background:#dc3545; color:white; padding:4px 8px; border-radius:4px; font-weight:bold;">PASS</span>`);
             }
-
-            // Optional: Show the edge value underneath
-            html += `<div style="font-size:0.75em; margin-top:3px; color:#555;">Edge: ${absEdge.toFixed(1)}</div>`;
-
-            $recCell.html(html);
         });
-
-        setupCsvUpload(table, '#csvFileInput');
     }
 
     // =========================================================
     // SHARED HELPER FUNCTION
     // =========================================================
-    function handleCsvUpload(e, tableInstance) {
-        var file = e.target.files[0];
-        if (!file) return;
+    function setupCsvUpload(tableInstance, inputSelector) {
+        // Remove any previous event handlers to prevent duplicates
+        $(inputSelector).off('change').on('change', function(e) {
+            var file = e.target.files[0];
+            if (!file) return;
 
-        Papa.parse(file, {
-            header: true,
-            dynamicTyping: true,
-            skipEmptyLines: true,
-            complete: function(results) {
-                tableInstance.clear();
-                if (results.data.length === 0) {
-                    alert("CSV is empty or invalid.");
-                    return;
+            Papa.parse(file, {
+                header: true,
+                dynamicTyping: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    tableInstance.clear();
+                    if (results.data.length === 0) {
+                        alert("CSV is empty or invalid.");
+                        return;
+                    }
+                    tableInstance.rows.add(results.data).draw();
+                },
+                error: function(error) {
+                    console.error("Error parsing CSV:", error);
+                    alert("Failed to load CSV file.");
                 }
-                tableInstance.rows.add(results.data).draw();
-            },
-            error: function(error) {
-                console.error("Error parsing CSV:", error);
-                alert("Failed to load CSV file.");
-            }
+            });
         });
     }
 

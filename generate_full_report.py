@@ -104,7 +104,7 @@ def generate_full_report(input_file):
     # Reorder columns for readability
     cols_order = [
         'Player', 'Team', 'Loc', 'Stat', 
-        'Prediction', 'Line_Over', 'Line_Under', 'Trust', 
+        'Prediction', 'MAE','Line_Over', 'Line_Under', 'Trust', 
         'Opp_Avg', 'Mins', 'Usg%', 'Pace', 'DvP'
     ]
     # Filter to only existing cols (in case some are missing)
