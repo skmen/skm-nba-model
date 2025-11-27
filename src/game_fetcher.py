@@ -14,14 +14,12 @@ from datetime import datetime
 import time
 
 import pandas as pd
-from nba_api.live.nba.endpoints import scoreboard
+from nba_api.stats.endpoints import scoreboardv2
 
 from src.config import API_DELAY
 from src.utils import setup_logger, DataAcquisitionError
 
 logger = setup_logger(__name__)
-
-
 class GameFetcher:
     """Fetches today's NBA games and player information."""
     
@@ -34,7 +32,7 @@ class GameFetcher:
         Fetch all NBA games scheduled for a specific date.
         
         Args:
-            date: Optional date string in DD-MM-YYYY format.
+            date: Optional date string in YYYY-MM-DD format.
         
         Returns:
             DataFrame with columns: GAME_ID, HOME_TEAM, AWAY_TEAM, GAME_STATUS
@@ -44,59 +42,42 @@ class GameFetcher:
             DataAcquisitionError: If API call fails
         """
         try:
-            logger.info("Fetching today's NBA games...")
-            
-            # Get today's date
-            if date:
-                today = datetime.strptime(date, '%d-%m-%Y').strftime('%Y-%m-%d')
-            else:
-                today = datetime.now().strftime('%Y-%m-%d')
-            
-            # Fetch scoreboard data
-            scoreboard_data = scoreboard.ScoreBoard()
-            games_dict = scoreboard_data.get_dict()
-            games = pd.json_normalize(games_dict['scoreboard']['games'])
-            
-            if games.empty:
-                logger.info("No games scheduled for today")
+            game_date = date if date else datetime.now().strftime('%Y-%m-%d')
+            logger.info(f"Fetching NBA games for {game_date}...")
+
+            # Fetch scoreboard data for the specified date
+            scoreboard_data = scoreboardv2.ScoreboardV2(game_date=game_date)
+            games_df = scoreboard_data.game_header.get_data_frame()
+
+            if games_df.empty:
+                logger.info(f"No games scheduled for {game_date}")
                 return None
-            
-            # Filter for today's games
-            games['GAME_DATE'] = pd.to_datetime(games['gameEt'], utc=True).dt.date
-            today_games = games[games['GAME_DATE'] == pd.to_datetime(today).date()]
-            
-            if today_games.empty:
-                logger.info(f"No games scheduled for {today}")
-                return None
-            
-            logger.info(f"Found {len(today_games)} game(s) for {today}")
-            
+
+            logger.info(f"Found {len(games_df)} game(s) for {game_date}")
+
             # Extract relevant columns
-            result = today_games[[
-                'gameId',
-                'homeTeam.teamId',
-                'awayTeam.teamId',
-                'gameStatus'
+            result = games_df[[
+                'GAME_ID',
+                'HOME_TEAM_ID',
+                'VISITOR_TEAM_ID',
+                'GAME_STATUS_ID'
             ]].copy()
 
             # Rename columns for consistency
             result.rename(columns={
-                'gameId': 'GAME_ID',
-                'homeTeam.teamId': 'HOME_TEAM_ID',
-                'awayTeam.teamId': 'AWAY_TEAM_ID',
-                'gameStatus': 'GAME_STATUS_ID'
+                'VISITOR_TEAM_ID': 'AWAY_TEAM_ID'
             }, inplace=True)
-            
+
             # Add team names mapping
             result['HOME_TEAM'] = result['HOME_TEAM_ID'].apply(self._get_team_name)
             result['AWAY_TEAM'] = result['AWAY_TEAM_ID'].apply(self._get_team_name)
-            
+
             logger.debug(f"Today's games:\n{result}")
             return result
-            
+
         except Exception as e:
-            logger.error(f"Error fetching today's games: {e}")
-            raise DataAcquisitionError(f"Failed to fetch today's games: {e}")
+            logger.error(f"Error fetching games for {game_date}: {e}")
+            raise DataAcquisitionError(f"Failed to fetch games for {game_date}: {e}")
     
     def get_team_roster(self, team_id: int) -> Optional[pd.DataFrame]:
         """

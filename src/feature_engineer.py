@@ -8,6 +8,7 @@ opponent context, travel distance, rest days, usage rate, and efficiency metrics
 import logging
 from math import radians, cos, sin, asin, sqrt
 from typing import Dict, Optional, Tuple
+import os
 
 import pandas as pd
 import numpy as np
@@ -127,6 +128,53 @@ def create_opponent_context_features(df: pd.DataFrame, opponent_defense: Dict[st
     except Exception as e:
         logger.error(f"Error creating opponent context features: {e}")
         raise FeatureEngineeringError(f"Failed to create opponent context: {e}")
+    
+def apply_dvp_context(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Merges local DvP (Defense vs Position) stats into the dataframe.
+    If the DvP stats file is not available, it creates a neutral
+    'DVP_MULTIPLIER' column with a default value of 1.0.
+    """
+    dvp_path = "data/dvp_stats.csv"
+    
+    try:
+        if not os.path.exists(dvp_path):
+            logger.warning(f"DvP file not found at '{dvp_path}'. Creating neutral DVP_MULTIPLIER.")
+            df['DVP_MULTIPLIER'] = 1.0
+            return df
+
+        dvp_df = pd.read_csv(dvp_path)
+        
+        # Ensure OPP_NAME exists
+        if 'OPP_NAME' not in df.columns:
+            logger.warning("Cannot apply DvP context without 'OPP_NAME' column.")
+            df['DVP_MULTIPLIER'] = 1.0
+            return df
+
+        # Use a default position if not present.
+        if 'POSITION_GROUP' not in df.columns:
+            df['POSITION_GROUP'] = 'Guard'  # Default position
+            logger.debug("No 'POSITION_GROUP' found, defaulting to 'Guard' for DvP merge.")
+        
+        # Merge DvP stats
+        df = df.merge(
+            dvp_df,
+            left_on=['OPP_NAME', 'POSITION_GROUP'],
+            right_on=['OPP_TEAM', 'POSITION_GROUP'],
+            how='left'
+        )
+        
+        # Fill missing values with a neutral 1.0 and clean up
+        df['DVP_MULTIPLIER'] = df['DVP_MULTIPLIER'].fillna(1.0)
+        
+        if 'OPP_TEAM' in df.columns:
+            df.drop(columns=['OPP_TEAM'], inplace=True)
+            
+    except Exception as e:
+        logger.error(f"Error applying DvP context: {e}. Creating neutral DVP_MULTIPLIER.")
+        df['DVP_MULTIPLIER'] = 1.0
+        
+    return df
 
 
 def create_travel_distance_feature(df: pd.DataFrame) -> pd.DataFrame:
@@ -233,6 +281,7 @@ def engineer_features(
         df = create_travel_distance_feature(df)
         df = create_rest_features(df)
         df = create_usage_rate_feature(df, usage_rate)
+        df = apply_dvp_context(df)
 
         # 2. PRA Creation (Points + Rebounds + Assists)
         # Must be done BEFORE efficiency metrics

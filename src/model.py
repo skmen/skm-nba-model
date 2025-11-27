@@ -284,6 +284,7 @@ def prepare_prediction_data(
     future_data['OPP_DEF_RATING'] = last_game['OPP_DEF_RATING']
     future_data['OPP_PACE'] = last_game['OPP_PACE']
     future_data['USAGE_RATE'] = last_game['USAGE_RATE']
+    future_data['DVP_MULTIPLIER'] = last_game['DVP_MULTIPLIER']
     # Efficiency Features
     safe_min = last_game['MIN_L5'] if last_game['MIN_L5'] > 0 else 1
     future_data['PTS_PER_MIN'] = last_game['PTS_L5'] / safe_min

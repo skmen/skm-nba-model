@@ -57,7 +57,7 @@ FEATURES = [
     'PTS_L5', 'MIN_L5', 'REB_L5', 'AST_L5',
     'STL_L5', 'BLK_L5', 'FG3M_L5', 'PRA_L5',
     'PTS_PER_MIN', 'REB_PER_MIN', 'PRA_PER_MIN',
-    'HOME_GAME',
+    'HOME_GAME', 'DVP_MULTIPLIER',
     'OPP_DEF_RATING', 'OPP_PACE',           # Opponent Context
     #'TRAVEL_DISTANCE', 'DAYS_REST', 'BACK_TO_BACK',  # Fatigue & Travel
     'USAGE_RATE'                             # Roster Context
