@@ -209,40 +209,27 @@ python scripts/automated_predictions.py --time 14:00
 python scripts/automated_predictions.py --run-once --verbose
 ```
 
----
+### Running for a Specific Date
 
-## 🔬 Model Accuracy & Validation
+To run predictions for a specific date instead of today, use the `--date` flag along with `--run-once`. This is useful for back-testing or generating predictions for a future date.
 
-This project includes a powerful script to automatically generate a daily HTML report that validates the model's performance against actual results. This back-testing is crucial for understanding model calibration, bias, and overall accuracy.
+The date must be in `YYYY-MM-DD` format.
 
-### Workflow
-
-1.  **Day 1 (e.g., Tuesday Night):** The daily automation runs (or you run it manually) and creates `data/predictions/predictions_YYYYMMDD.csv` with the model's predictions.
-2.  **Day 2 (e.g., Wednesday Morning):** After the games have finished, run the accuracy report script.
-3.  The script automatically finds yesterday's predictions, fetches the actual final scores, and generates a detailed HTML report comparing the two.
-
-### How to Run the Report
-
-After yesterday's games have concluded, run the following command from the project root:
+**Example Command:**
 
 ```bash
-python generate_accuracy_report.py
+# Generate predictions for November 26, 2025
+python scripts/automated_predictions.py --run-once --date 2025-11-26
 ```
+This will create a CSV file at `data/predictions/predictions_20251126.csv`.
 
--   The script defaults to analyzing the previous day's predictions.
--   You can also specify a date: `python generate_accuracy_report.py --date YYYY-MM-DD`
+### Automation Setup Options
 
-### Report Output
-
-This command generates a new file: `accuracy_report_YYYYMMDD.html`.
-
-This report is designed to answer three critical questions:
-
-1.  **Calibration (Trust Scorecard):** When the model predicted a stat with "Elite Confidence," was it actually more accurate? This table shows the "Win Rate" for each trust tier, where a "Win" is a prediction that fell within the model's expected margin of error (MAE).
-
-2.  **Bias (Mean Signed Error):** Is the model consistently over-optimistic or pessimistic? This table shows the average error for each stat, indicating if the model tends to predict too high (positive bias) or too low (negative bias).
-
-3.  **Bad Beats:** What were the biggest misses? This table lists the top 10 predictions where the model's prediction was furthest from the actual result, helping to identify players or situations where the model may be struggling.
+| Option | Setup | Auto-Run | Restart Needed |
+|--------|-------|----------|----------------|
+| **Cron** (Recommended) | 2 min | ✅ Yes | ✅ No |
+| **Terminal** | 1 min | ✅ Yes (while open) | Terminal must stay open |
+| **Manual** (--run-once) | 1 min | ❌ No | Run manually each time |
 
 ---
 

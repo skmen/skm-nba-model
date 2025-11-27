@@ -71,7 +71,10 @@ class BatchPredictor:
                 'PLAYER_NAME': player_name,
                 'TEAM_NAME': team_name,
                 'IS_HOME': is_home_game,
-                'PREDICTION_TIME': pd.Timestamp.now()
+                'PREDICTION_TIME': pd.Timestamp.now(),
+                'USAGE_RATE': usage_rate,
+                'MIN': game_log['MIN'].head(5).mean(),
+                'POSITION_GROUP': 'Guard'  # Default position
             }
 
             for target in TARGETS:

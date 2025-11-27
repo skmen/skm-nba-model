@@ -21,7 +21,7 @@ def find_latest_prediction_file():
     Finds the most recent prediction file in the data/predictions directory.
     Returns the path to the latest file, or None if no files are found.
     """
-    search_dir = 'data/predictions'
+    search_dir = 'data/predictions/'
     prediction_files = []
     file_pattern = re.compile(r'predictions_(\d{8})\.csv')
 
