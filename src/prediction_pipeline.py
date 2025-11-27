@@ -9,6 +9,7 @@ Usage:
 """
 
 import logging
+import json
 from typing import Optional
 
 from .config import (
@@ -118,12 +119,12 @@ def run_prediction_pipeline(
             # ====================================================================
             # STEP 5: VISUALIZE RESULTS
             # ====================================================================
-            try:
-                predictions = model.predict(X_test)
-                plot_model_results(y_test, predictions)
-            except Exception as e:
-                logger.warning(f"Visualization failed for {target}: {e}")
-                # Don't raise - visualization is optional
+            #try:
+            #    predictions = model.predict(X_test)
+            #    plot_model_results(y_test, predictions, target)
+            #except Exception as e:
+            #    logger.warning(f"Visualization failed for {target}: {e}")
+            #    # Don't raise - visualization is optional
 
             # ====================================================================
             # STEP 6: FEATURE IMPORTANCE
@@ -135,7 +136,7 @@ def run_prediction_pipeline(
                     logger.info(f"TOP 10 MOST IMPORTANT FEATURES ({target})")
                     logger.info("=" * 60)
                     for _, row in importance_df.iterrows():
-                        logger.info(f"{row['feature']:.<40} {row['importance']:.0f}")
+                        logger.info(f"{row['feature']:.<40} {row['importance']:.4f}")
             except Exception as e:
                 logger.debug(f"Could not get feature importance for {target}: {e}")
 
@@ -152,6 +153,22 @@ def run_prediction_pipeline(
 
         print_prediction(all_predictions)
 
+        try:
+            results_data={
+                'player': player_name,
+                'season': season,
+                'predictions': all_predictions,
+                'mae_scores': {},
+            }
+
+            output_file = "nba_predictions.json"
+            with open(output_file, 'w') as f:
+                json.dump(results_data, f, indent=4)
+            logger.info(f"Results saved to '{output_file}' for bet analyzer")
+
+        except Exception as e:
+            logger.error(f"Failed to save JSON results: {e}")
+
         logger.info("=" * 60)
         logger.info("PIPELINE COMPLETE")
         logger.info("=" * 60 + "\n")
@@ -162,4 +179,15 @@ def run_prediction_pipeline(
 
 # --- Main Execution ---
 if __name__ == "__main__":
-    run_prediction_pipeline()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the NBA player performance prediction pipeline.")
+    parser.add_argument(
+        "--player",
+        type=str,
+        default=DEFAULT_PLAYER_NAME,
+        help=f"Full name of the player to predict for (default: {DEFAULT_PLAYER_NAME})",
+    )
+    args = parser.parse_args()
+
+    run_prediction_pipeline(player_name=args.player)

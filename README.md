@@ -11,6 +11,8 @@ A machine learning system to predict NBA player statistics (points, rebounds, as
 - [Setup](#-setup-instructions)
 - [Manual Predictions](#-manual-predictions-single-player)
 - [Automation](#-automation-daily-predictions)
+- [Model Accuracy & Validation](#-model-accuracy--validation)
+- [Hyperparameter Tuning](#️-hyperparameter-tuning)
 - [Advanced Features](#-advanced-features)
 - [Quick Reference](#-quick-reference)
 
@@ -206,6 +208,82 @@ python scripts/automated_predictions.py --time 14:00
 ```bash
 python scripts/automated_predictions.py --run-once --verbose
 ```
+
+---
+
+## 🔬 Model Accuracy & Validation
+
+This project includes a powerful script to automatically generate a daily HTML report that validates the model's performance against actual results. This back-testing is crucial for understanding model calibration, bias, and overall accuracy.
+
+### Workflow
+
+1.  **Day 1 (e.g., Tuesday Night):** The daily automation runs (or you run it manually) and creates `data/predictions/predictions_YYYYMMDD.csv` with the model's predictions.
+2.  **Day 2 (e.g., Wednesday Morning):** After the games have finished, run the accuracy report script.
+3.  The script automatically finds yesterday's predictions, fetches the actual final scores, and generates a detailed HTML report comparing the two.
+
+### How to Run the Report
+
+After yesterday's games have concluded, run the following command from the project root:
+
+```bash
+python generate_accuracy_report.py
+```
+
+-   The script defaults to analyzing the previous day's predictions.
+-   You can also specify a date: `python generate_accuracy_report.py --date YYYY-MM-DD`
+
+### Report Output
+
+This command generates a new file: `accuracy_report_YYYYMMDD.html`.
+
+This report is designed to answer three critical questions:
+
+1.  **Calibration (Trust Scorecard):** When the model predicted a stat with "Elite Confidence," was it actually more accurate? This table shows the "Win Rate" for each trust tier, where a "Win" is a prediction that fell within the model's expected margin of error (MAE).
+
+2.  **Bias (Mean Signed Error):** Is the model consistently over-optimistic or pessimistic? This table shows the average error for each stat, indicating if the model tends to predict too high (positive bias) or too low (negative bias).
+
+3.  **Bad Beats:** What were the biggest misses? This table lists the top 10 predictions where the model's prediction was furthest from the actual result, helping to identify players or situations where the model may be struggling.
+
+---
+
+## ⚙️ Hyperparameter Tuning
+
+Finding the best parameters for a model is crucial for accuracy. This project includes a script to automatically search for the optimal settings for both XGBoost and Ridge regression using `GridSearchCV`.
+
+### How to Run the Tuner
+
+Run the `tune_hyperparameters.py` script from your terminal, specifying which statistic you want to optimize for. The script will test many different combinations of parameters and report the best ones.
+
+```bash
+# Tune models for predicting Points (PTS)
+python tune_hyperparameters.py --stat PTS
+
+# Tune models for predicting Rebounds (REB)
+python tune_hyperparameters.py --stat REB
+```
+*Note: This process can be computationally intensive and may take several minutes to complete, as it's training hundreds of models.*
+
+### Understanding the Output
+
+The script will print the best parameter combination found for both XGBoost and Ridge.
+
+**Example Output:**
+```
+✅ XGBoost Tuning Complete!
+Best Parameters Found:
+{'colsample_bytree': 0.7, 'learning_rate': 0.05, 'max_depth': 2, 'n_estimators': 200, 'reg_lambda': 1.5, 'subsample': 0.9}
+Best MAE: 4.813
+
+✅ Ridge Tuning Complete!
+Best Parameters Found:
+{'alpha': 10.0, 'solver': 'svd'}
+Best MAE: 5.102
+```
+
+### How to Use the Results
+
+1.  **For XGBoost:** Copy the dictionary of best parameters and paste it into the `XGBOOST_PARAMS` variable in your `src/config.py` file.
+2.  **For Ridge:** The `alpha` and `solver` are used when the Ridge model is created. You will need to update these values in `src/model.py` where `Ridge()` is called.
 
 ---
 
@@ -411,7 +489,7 @@ tail -f logs/automation.log
 head data/predictions/predictions_$(date +%Y%m%d).csv
 
 # Count predictions
-wc -l data/predictions/predictions_$(date +%Y%m%d).csv
+wc -l data/predictions/predictions_$(date +%Ym%d).csv
 ```
 
 ### Configuration

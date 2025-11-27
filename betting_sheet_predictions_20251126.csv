@@ -1,0 +1,1543 @@
+Player,Team,Stat,Prediction,Trust,MAE,Target_Line_Over,Target_Line_Under
+Herbert Jones,New Orleans Pelicans,STL,2.87,🟢 ELITE,0.56,2.3,3.4
+Matisse Thybulle,Portland Trail Blazers,STL,2.13,🟢 ELITE,0.56,1.6,2.7
+Scoot Henderson,Portland Trail Blazers,STL,2.08,🟢 ELITE,0.56,1.5,2.6
+Dru Smith,Miami Heat,STL,2.02,🟢 ELITE,0.56,1.5,2.6
+Dejounte Murray,New Orleans Pelicans,STL,1.96,🟢 ELITE,0.56,1.4,2.5
+Jonathan Mogbo,Toronto Raptors,STL,1.92,🟢 ELITE,0.56,1.4,2.5
+Scotty Pippen Jr.,Memphis Grizzlies,STL,1.83,🟢 ELITE,0.56,1.3,2.4
+Jaylen Clark,Minnesota Timberwolves,STL,1.8,🟢 ELITE,0.56,1.2,2.4
+Tari Eason,Houston Rockets,STL,1.79,🟢 ELITE,0.56,1.2,2.4
+Zion Williamson,New Orleans Pelicans,STL,1.76,🟢 ELITE,0.56,1.2,2.3
+Dorian Finney-Smith,Houston Rockets,STL,1.7,🟢 ELITE,0.56,1.1,2.3
+Alex Caruso,Oklahoma City Thunder,STL,1.68,🟢 ELITE,0.56,1.1,2.2
+Cason Wallace,Oklahoma City Thunder,STL,1.68,🟢 ELITE,0.56,1.1,2.2
+Jalen Williams,Oklahoma City Thunder,STL,1.64,🟢 ELITE,0.56,1.1,2.2
+Fred VanVleet,Houston Rockets,STL,1.62,🟢 ELITE,0.56,1.1,2.2
+Scottie Barnes,Toronto Raptors,STL,1.58,🟢 ELITE,0.56,1.0,2.1
+Jakob Poeltl,Toronto Raptors,STL,1.54,🟢 ELITE,0.56,1.0,2.1
+Jaden McDaniels,Minnesota Timberwolves,STL,1.54,🟢 ELITE,0.56,1.0,2.1
+Bam Adebayo,Miami Heat,STL,1.53,🟢 ELITE,0.56,1.0,2.1
+Keon Ellis,Sacramento Kings,STL,1.5,🟢 ELITE,0.56,0.9,2.1
+Mike Conley,Minnesota Timberwolves,STL,1.49,🟢 ELITE,0.56,0.9,2.0
+Kentavious Caldwell-Pope,Memphis Grizzlies,STL,1.49,🟢 ELITE,0.56,0.9,2.0
+Toumani Camara,Portland Trail Blazers,STL,1.45,🟢 ELITE,0.56,0.9,2.0
+Tyrese Haliburton,Indiana Pacers,STL,1.43,🟢 ELITE,0.56,0.9,2.0
+Draymond Green,Golden State Warriors,STL,1.41,🟢 ELITE,0.56,0.9,2.0
+Domantas Sabonis,Sacramento Kings,STL,1.39,🟢 ELITE,0.56,0.8,2.0
+Collin Gillespie,Phoenix Suns,STL,1.38,🟢 ELITE,0.56,0.8,1.9
+OG Anunoby,New York Knicks,STL,1.37,🟢 ELITE,0.56,0.8,1.9
+Ja Morant,Memphis Grizzlies,STL,1.37,🟢 ELITE,0.56,0.8,1.9
+Cade Cunningham,Detroit Pistons,STL,1.35,🟢 ELITE,0.56,0.8,1.9
+Bones Hyland,Minnesota Timberwolves,STL,1.34,🟢 ELITE,0.56,0.8,1.9
+Shai Gilgeous-Alexander,Oklahoma City Thunder,STL,1.33,🟢 ELITE,0.56,0.8,1.9
+Jose Alvarado,New Orleans Pelicans,STL,1.33,🟢 ELITE,0.56,0.8,1.9
+De'Aaron Fox,San Antonio Spurs,STL,1.33,🟢 ELITE,0.56,0.8,1.9
+Josh Hart,New York Knicks,STL,1.31,🟢 ELITE,0.56,0.8,1.9
+Obi Toppin,Indiana Pacers,STL,1.29,🟢 ELITE,0.56,0.7,1.8
+Anthony Edwards,Minnesota Timberwolves,STL,1.29,🟢 ELITE,0.56,0.7,1.9
+Victor Wembanyama,San Antonio Spurs,STL,1.29,🟢 ELITE,0.56,0.7,1.8
+Andrew Nembhard,Indiana Pacers,STL,1.28,🟢 ELITE,0.56,0.7,1.8
+Ty Jerome,Memphis Grizzlies,STL,1.27,🟢 ELITE,0.56,0.7,1.8
+Jordan Poole,New Orleans Pelicans,STL,1.26,🟢 ELITE,0.56,0.7,1.8
+Jimmy Butler III,Golden State Warriors,STL,1.25,🟢 ELITE,0.56,0.7,1.8
+Jeremiah Robinson-Earl,Indiana Pacers,STL,1.24,🟢 ELITE,0.56,0.7,1.8
+Deni Avdija,Portland Trail Blazers,STL,1.24,🟢 ELITE,0.56,0.7,1.8
+T.J. McConnell,Indiana Pacers,STL,1.21,🟢 ELITE,0.56,0.6,1.8
+Gary Payton II,Golden State Warriors,STL,1.21,🟢 ELITE,0.56,0.6,1.8
+Josh Okogie,Houston Rockets,STL,1.19,🟢 ELITE,0.56,0.6,1.7
+Brandon Miller,Charlotte Hornets,STL,1.18,🟢 ELITE,0.56,0.6,1.7
+Tobias Harris,Detroit Pistons,STL,1.17,🟢 ELITE,0.56,0.6,1.7
+Brandin Podziemski,Golden State Warriors,STL,1.17,🟢 ELITE,0.56,0.6,1.7
+Russell Westbrook,Sacramento Kings,STL,1.15,🟢 ELITE,0.56,0.6,1.7
+Donte DiVincenzo,Minnesota Timberwolves,STL,1.14,🟢 ELITE,0.56,0.6,1.7
+Jrue Holiday,Portland Trail Blazers,STL,1.13,🟢 ELITE,0.56,0.6,1.7
+Keegan Murray,Sacramento Kings,STL,1.12,🟢 ELITE,0.56,0.6,1.7
+Aaron Wiggins,Oklahoma City Thunder,STL,1.1,🟢 ELITE,0.56,0.5,1.7
+Naz Reid,Minnesota Timberwolves,STL,1.1,🟢 ELITE,0.56,0.5,1.7
+Jaren Jackson Jr.,Memphis Grizzlies,STL,1.1,🟢 ELITE,0.56,0.5,1.7
+Alperen Sengun,Houston Rockets,STL,1.1,🟢 ELITE,0.56,0.5,1.7
+Grayson Allen,Phoenix Suns,STL,1.1,🟢 ELITE,0.56,0.5,1.7
+Jaylen Brown,Boston Celtics,STL,1.08,🟢 ELITE,0.56,0.5,1.6
+Mikal Bridges,New York Knicks,STL,1.08,🟢 ELITE,0.56,0.5,1.6
+Sam Hauser,Boston Celtics,STL,1.07,🟢 ELITE,0.56,0.5,1.6
+Jayson Tatum,Boston Celtics,STL,1.06,🟢 ELITE,0.56,0.5,1.6
+Baylor Scheierman,Boston Celtics,STL,1.06,🟢 ELITE,0.56,0.5,1.6
+Malik Monk,Sacramento Kings,STL,1.06,🟢 ELITE,0.56,0.5,1.6
+Mitchell Robinson,New York Knicks,STL,1.05,🟢 ELITE,0.56,0.5,1.6
+Ajay Mitchell,Oklahoma City Thunder,STL,1.05,🟢 ELITE,0.56,0.5,1.6
+Royce O'Neale,Phoenix Suns,STL,1.05,🟢 ELITE,0.56,0.5,1.6
+Jaime Jaquez Jr.,Miami Heat,STL,1.04,🟢 ELITE,0.56,0.5,1.6
+Andrew Wiggins,Miami Heat,STL,1.04,🟢 ELITE,0.56,0.5,1.6
+Damian Lillard,Portland Trail Blazers,STL,1.04,🟢 ELITE,0.56,0.5,1.6
+Luguentz Dort,Oklahoma City Thunder,STL,1.03,🟢 ELITE,0.56,0.5,1.6
+Karl-Anthony Towns,New York Knicks,STL,1.02,🟢 ELITE,0.56,0.5,1.6
+Isaiah Hartenstein,Oklahoma City Thunder,STL,1.02,🟢 ELITE,0.56,0.5,1.6
+Devin Booker,Phoenix Suns,STL,1.02,🟢 ELITE,0.56,0.5,1.6
+Kevin Porter Jr.,Milwaukee Bucks,STL,1.0,🟢 ELITE,0.56,0.4,1.6
+Gradey Dick,Toronto Raptors,STL,1.0,🟢 ELITE,0.56,0.4,1.6
+Brandon Ingram,Toronto Raptors,STL,1.0,🟢 ELITE,0.56,0.4,1.6
+Stephen Curry,Golden State Warriors,STL,1.0,🟢 ELITE,0.56,0.4,1.6
+Javonte Green,Detroit Pistons,STL,0.98,🟢 ELITE,0.56,0.4,1.5
+RJ Barrett,Toronto Raptors,STL,0.98,🟢 ELITE,0.56,0.4,1.5
+Jalen Brunson,New York Knicks,STL,0.96,🟢 ELITE,0.56,0.4,1.5
+Stephon Castle,San Antonio Spurs,STL,0.96,🟢 ELITE,0.56,0.4,1.5
+Moussa Diabaté,Charlotte Hornets,STL,0.95,🟢 ELITE,0.56,0.4,1.5
+Derrick White,Boston Celtics,STL,0.94,🟢 ELITE,0.56,0.4,1.5
+Zach LaVine,Sacramento Kings,STL,0.94,🟢 ELITE,0.56,0.4,1.5
+Jaden Ivey,Detroit Pistons,STL,0.93,🟢 ELITE,0.56,0.4,1.5
+Amen Thompson,Houston Rockets,STL,0.93,🟢 ELITE,0.56,0.4,1.5
+Tyler Herro,Miami Heat,STL,0.89,🟢 ELITE,0.56,0.3,1.4
+Jalen Green,Phoenix Suns,STL,0.89,🟢 ELITE,0.56,0.3,1.5
+Grant Williams,Charlotte Hornets,STL,0.88,🟢 ELITE,0.56,0.3,1.4
+KJ Simpson,Charlotte Hornets,STL,0.88,🟢 ELITE,0.56,0.3,1.4
+Miles McBride,New York Knicks,STL,0.87,🟢 ELITE,0.56,0.3,1.4
+Tosan Evbuomwan,New York Knicks,STL,0.87,🟢 ELITE,0.56,0.3,1.4
+Pascal Siakam,Indiana Pacers,STL,0.87,🟢 ELITE,0.56,0.3,1.4
+Jeremy Sochan,San Antonio Spurs,STL,0.87,🟢 ELITE,0.56,0.3,1.4
+Bobby Portis,Milwaukee Bucks,STL,0.86,🟢 ELITE,0.56,0.3,1.4
+Trey Murphy III,New Orleans Pelicans,STL,0.86,🟢 ELITE,0.56,0.3,1.4
+Brandon Clarke,Memphis Grizzlies,STL,0.86,🟢 ELITE,0.56,0.3,1.4
+Payton Pritchard,Boston Celtics,STL,0.85,🟢 ELITE,0.56,0.3,1.4
+Caris LeVert,Detroit Pistons,STL,0.85,🟢 ELITE,0.56,0.3,1.4
+Myles Turner,Milwaukee Bucks,STL,0.85,🟢 ELITE,0.56,0.3,1.4
+Giannis Antetokounmpo,Milwaukee Bucks,STL,0.85,🟢 ELITE,0.56,0.3,1.4
+Taurean Prince,Milwaukee Bucks,STL,0.84,🟢 ELITE,0.56,0.3,1.4
+Santi Aldama,Memphis Grizzlies,STL,0.84,🟢 ELITE,0.56,0.3,1.4
+Blake Wesley,Portland Trail Blazers,STL,0.84,🟢 ELITE,0.56,0.3,1.4
+Davion Mitchell,Miami Heat,STL,0.83,🟢 ELITE,0.56,0.3,1.4
+Yves Missi,New Orleans Pelicans,STL,0.83,🟢 ELITE,0.56,0.3,1.4
+Kevin Durant,Houston Rockets,STL,0.83,🟢 ELITE,0.56,0.3,1.4
+Precious Achiuwa,Sacramento Kings,STL,0.83,🟢 ELITE,0.56,0.3,1.4
+Anfernee Simons,Boston Celtics,STL,0.82,🟢 ELITE,0.56,0.3,1.4
+Jalen Duren,Detroit Pistons,STL,0.81,🟢 ELITE,0.56,0.2,1.4
+Reed Sheppard,Houston Rockets,STL,0.81,🟢 ELITE,0.56,0.2,1.4
+Ochai Agbaji,Toronto Raptors,STL,0.8,🟢 ELITE,0.56,0.2,1.4
+Robert Williams III,Portland Trail Blazers,STL,0.8,🟢 ELITE,0.56,0.2,1.4
+LaMelo Ball,Charlotte Hornets,STL,0.79,🟢 ELITE,0.56,0.2,1.4
+Guerschon Yabusele,New York Knicks,STL,0.79,🟢 ELITE,0.56,0.2,1.4
+Ryan Rollins,Milwaukee Bucks,STL,0.79,🟢 ELITE,0.56,0.2,1.4
+Jarace Walker,Indiana Pacers,STL,0.78,🟢 ELITE,0.56,0.2,1.3
+Nikola Jović,Miami Heat,STL,0.76,🟢 ELITE,0.56,0.2,1.3
+Marcus Sasser,Detroit Pistons,STL,0.75,🟢 ELITE,0.56,0.2,1.3
+Jonathan Kuminga,Golden State Warriors,STL,0.75,🟢 ELITE,0.56,0.2,1.3
+Clint Capela,Houston Rockets,STL,0.75,🟢 ELITE,0.56,0.2,1.3
+Jamison Battle,Toronto Raptors,STL,0.74,🟢 ELITE,0.56,0.2,1.3
+Shaedon Sharpe,Portland Trail Blazers,STL,0.74,🟢 ELITE,0.56,0.2,1.3
+Miles Bridges,Charlotte Hornets,STL,0.72,🟢 ELITE,0.56,0.2,1.3
+Norman Powell,Miami Heat,STL,0.72,🟢 ELITE,0.56,0.2,1.3
+Cole Anthony,Milwaukee Bucks,STL,0.72,🟢 ELITE,0.56,0.2,1.3
+Ja'Kobe Walter,Toronto Raptors,STL,0.72,🟢 ELITE,0.56,0.2,1.3
+Paul Reed,Detroit Pistons,STL,0.71,🟢 ELITE,0.56,0.2,1.3
+Kel'el Ware,Miami Heat,STL,0.7,🟢 ELITE,0.56,0.1,1.3
+DeMar DeRozan,Sacramento Kings,STL,0.7,🟢 ELITE,0.56,0.1,1.3
+Mason Plumlee,Charlotte Hornets,STL,0.68,🟢 ELITE,0.56,0.1,1.2
+Amir Coffey,Milwaukee Bucks,STL,0.67,🟢 ELITE,0.56,0.1,1.2
+Ben Sheppard,Indiana Pacers,STL,0.67,🟢 ELITE,0.56,0.1,1.2
+Quenton Jackson,Indiana Pacers,STL,0.67,🟢 ELITE,0.56,0.1,1.2
+Rudy Gobert,Minnesota Timberwolves,STL,0.67,🟢 ELITE,0.56,0.1,1.2
+Julius Randle,Minnesota Timberwolves,STL,0.66,🟢 ELITE,0.56,0.1,1.2
+Bismack Biyombo,San Antonio Spurs,STL,0.66,🟢 ELITE,0.56,0.1,1.2
+Oso Ighodaro,Phoenix Suns,STL,0.66,🟢 ELITE,0.56,0.1,1.2
+Julian Champagnie,San Antonio Spurs,STL,0.65,🟢 ELITE,0.56,0.1,1.2
+Ronald Holland II,Detroit Pistons,STL,0.64,🟢 ELITE,0.56,0.1,1.2
+Garrison Mathews,Indiana Pacers,STL,0.64,🟢 ELITE,0.56,0.1,1.2
+Jay Huff,Indiana Pacers,STL,0.64,🟢 ELITE,0.56,0.1,1.2
+Bennedict Mathurin,Indiana Pacers,STL,0.63,🟢 ELITE,0.56,0.1,1.2
+Buddy Hield,Golden State Warriors,STL,0.63,🟢 ELITE,0.56,0.1,1.2
+Gui Santos,Golden State Warriors,STL,0.63,🟢 ELITE,0.56,0.1,1.2
+Garrett Temple,Toronto Raptors,STL,0.62,🟢 ELITE,0.56,0.1,1.2
+Jordan Hawkins,New Orleans Pelicans,STL,0.62,🟢 ELITE,0.56,0.1,1.2
+AJ Green,Milwaukee Bucks,STL,0.61,🟢 ELITE,0.56,0.0,1.2
+Chet Holmgren,Oklahoma City Thunder,STL,0.61,🟢 ELITE,0.56,0.1,1.2
+Chris Boucher,Boston Celtics,STL,0.6,🟢 ELITE,0.56,0.0,1.2
+Jaylin Williams,Oklahoma City Thunder,STL,0.59,🟢 ELITE,0.56,0.0,1.2
+Pat Connaughton,Charlotte Hornets,STL,0.58,🟢 ELITE,0.56,0.0,1.1
+Terry Rozier,Miami Heat,STL,0.58,🟢 ELITE,0.56,0.0,1.1
+Kyle Kuzma,Milwaukee Bucks,STL,0.58,🟢 ELITE,0.56,0.0,1.1
+Jamal Shead,Toronto Raptors,STL,0.58,🟢 ELITE,0.56,0.0,1.1
+Aaron Nesmith,Indiana Pacers,STL,0.58,🟢 ELITE,0.56,0.0,1.1
+Jordan Clarkson,New York Knicks,STL,0.56,🟢 ELITE,0.56,-0.0,1.1
+Gary Harris,Milwaukee Bucks,STL,0.56,🟢 ELITE,0.56,-0.0,1.1
+Immanuel Quickley,Toronto Raptors,STL,0.56,🟢 ELITE,0.56,0.0,1.1
+Olivier-Maxence Prosper,Memphis Grizzlies,STL,0.56,🟢 ELITE,0.56,-0.0,1.1
+Jerami Grant,Portland Trail Blazers,STL,0.56,🟢 ELITE,0.56,-0.0,1.1
+Xavier Tillman,Boston Celtics,STL,0.55,🟢 ELITE,0.56,-0.0,1.1
+Andre Jackson Jr.,Milwaukee Bucks,STL,0.55,🟢 ELITE,0.56,-0.0,1.1
+Al Horford,Golden State Warriors,STL,0.55,🟢 ELITE,0.56,-0.0,1.1
+Tidjane Salaün,Charlotte Hornets,STL,0.54,🟢 ELITE,0.56,-0.0,1.1
+Jae'Sean Tate,Houston Rockets,STL,0.54,🟢 ELITE,0.56,-0.0,1.1
+Kelly Olynyk,San Antonio Spurs,STL,0.54,🟢 ELITE,0.56,-0.0,1.1
+Duncan Robinson,Detroit Pistons,STL,0.53,🟢 ELITE,0.56,-0.0,1.1
+JD Davison,Houston Rockets,STL,0.53,🟢 ELITE,0.56,-0.0,1.1
+Kris Murray,Portland Trail Blazers,STL,0.51,🟢 ELITE,0.56,-0.1,1.1
+Keldon Johnson,San Antonio Spurs,STL,0.51,🟢 ELITE,0.56,-0.1,1.1
+Kevon Looney,New Orleans Pelicans,STL,0.5,🟢 ELITE,0.56,-0.1,1.1
+A.J. Lawson,Toronto Raptors,STL,0.49,🟢 ELITE,0.56,-0.1,1.1
+Collin Sexton,Charlotte Hornets,STL,0.48,🟢 ELITE,0.56,-0.1,1.0
+Zach Edey,Memphis Grizzlies,STL,0.48,🟢 ELITE,0.56,-0.1,1.0
+Lindy Waters III,San Antonio Spurs,STL,0.48,🟢 ELITE,0.56,-0.1,1.0
+Moses Moody,Golden State Warriors,STL,0.47,🟢 ELITE,0.56,-0.1,1.0
+Ryan Dunn,Phoenix Suns,STL,0.47,🟢 ELITE,0.56,-0.1,1.0
+Isaiah Joe,Oklahoma City Thunder,STL,0.46,🟢 ELITE,0.56,-0.1,1.0
+Karlo Matković,New Orleans Pelicans,STL,0.46,🟢 ELITE,0.56,-0.1,1.0
+Jaylen Wells,Memphis Grizzlies,STL,0.46,🟢 ELITE,0.56,-0.1,1.0
+Pat Spencer,Golden State Warriors,STL,0.46,🟢 ELITE,0.56,-0.1,1.0
+Devin Vassell,San Antonio Spurs,STL,0.46,🟢 ELITE,0.56,-0.1,1.0
+Jericho Sims,Milwaukee Bucks,STL,0.45,🟢 ELITE,0.56,-0.1,1.0
+John Konchar,Memphis Grizzlies,STL,0.45,🟢 ELITE,0.56,-0.1,1.0
+Quinten Post,Golden State Warriors,STL,0.45,🟢 ELITE,0.56,-0.1,1.0
+Jordan McLaughlin,San Antonio Spurs,STL,0.45,🟢 ELITE,0.56,-0.1,1.0
+Harrison Barnes,San Antonio Spurs,STL,0.45,🟢 ELITE,0.56,-0.1,1.0
+Jordan Walsh,Boston Celtics,STL,0.44,🟢 ELITE,0.56,-0.1,1.0
+Landry Shamet,New York Knicks,STL,0.44,🟢 ELITE,0.56,-0.1,1.0
+Simone Fontecchio,Miami Heat,STL,0.44,🟢 ELITE,0.56,-0.1,1.0
+Donovan Clingan,Portland Trail Blazers,STL,0.44,🟢 ELITE,0.56,-0.1,1.0
+Sandro Mamukelashvili,Toronto Raptors,STL,0.43,🟢 ELITE,0.56,-0.1,1.0
+Vince Williams Jr.,Memphis Grizzlies,STL,0.43,🟢 ELITE,0.56,-0.1,1.0
+Gary Trent Jr.,Milwaukee Bucks,STL,0.4,🟢 ELITE,0.56,-0.2,1.0
+Ousmane Dieng,Oklahoma City Thunder,STL,0.4,🟢 ELITE,0.56,-0.2,1.0
+Johnny Furphy,Indiana Pacers,STL,0.39,🟢 ELITE,0.56,-0.2,0.9
+Aaron Holiday,Houston Rockets,STL,0.37,🟢 ELITE,0.56,-0.2,0.9
+Josh Minott,Boston Celtics,STL,0.35,🟢 ELITE,0.56,-0.2,0.9
+Ausar Thompson,Detroit Pistons,STL,0.34,🟢 ELITE,0.56,-0.2,0.9
+Kenrich Williams,Oklahoma City Thunder,STL,0.34,🟢 ELITE,0.56,-0.2,0.9
+Cam Spencer,Memphis Grizzlies,STL,0.33,🟢 ELITE,0.56,-0.2,0.9
+GG Jackson,Memphis Grizzlies,STL,0.33,🟢 ELITE,0.56,-0.2,0.9
+Steven Adams,Houston Rockets,STL,0.32,🟢 ELITE,0.56,-0.2,0.9
+Pelle Larsson,Miami Heat,STL,0.31,🟢 ELITE,0.56,-0.3,0.9
+Drew Eubanks,Sacramento Kings,STL,0.3,🟢 ELITE,0.56,-0.3,0.9
+Neemias Queta,Boston Celtics,STL,0.29,🟢 ELITE,0.56,-0.3,0.9
+Duop Reath,Portland Trail Blazers,STL,0.29,🟢 ELITE,0.56,-0.3,0.8
+Isaiah Stewart,Detroit Pistons,STL,0.28,🟢 ELITE,0.56,-0.3,0.8
+Josh Green,Charlotte Hornets,STL,0.27,🟢 ELITE,0.56,-0.3,0.8
+Luke Kornet,San Antonio Spurs,STL,0.27,🟢 ELITE,0.56,-0.3,0.8
+Wendell Moore Jr.,Detroit Pistons,STL,0.26,🟢 ELITE,0.56,-0.3,0.8
+Jabari Smith Jr.,Houston Rockets,STL,0.26,🟢 ELITE,0.56,-0.3,0.8
+Devin Carter,Sacramento Kings,STL,0.26,🟢 ELITE,0.56,-0.3,0.8
+RayJ Dennis,Indiana Pacers,STL,0.25,🟢 ELITE,0.56,-0.3,0.8
+Trayce Jackson-Davis,Golden State Warriors,STL,0.25,🟢 ELITE,0.56,-0.3,0.8
+Doug McDermott,Sacramento Kings,STL,0.23,🟢 ELITE,0.56,-0.3,0.8
+Tyler Kolek,New York Knicks,STL,0.22,🟢 ELITE,0.56,-0.3,0.8
+Nick Richards,Phoenix Suns,STL,0.22,🟢 ELITE,0.56,-0.3,0.8
+Trey Jemison III,New York Knicks,STL,0.2,🟢 ELITE,0.56,-0.4,0.8
+DeAndre Jordan,New Orleans Pelicans,STL,0.2,🟢 ELITE,0.56,-0.4,0.8
+Jeff Green,Houston Rockets,STL,0.2,🟢 ELITE,0.56,-0.4,0.8
+Drew Peterson,Charlotte Hornets,STL,0.19,🟢 ELITE,0.56,-0.4,0.7
+Terrence Shannon Jr.,Minnesota Timberwolves,STL,0.17,🟢 ELITE,0.56,-0.4,0.7
+Branden Carlson,Oklahoma City Thunder,STL,0.15,🟢 ELITE,0.56,-0.4,0.7
+Jock Landale,Memphis Grizzlies,STL,0.15,🟢 ELITE,0.56,-0.4,0.7
+Rob Dillingham,Minnesota Timberwolves,STL,0.14,🟢 ELITE,0.56,-0.4,0.7
+Isaiah Crawford,Houston Rockets,STL,0.13,🟢 ELITE,0.56,-0.4,0.7
+Keshad Johnson,Miami Heat,STL,0.12,🟢 ELITE,0.56,-0.4,0.7
+Enrique Freeman,Minnesota Timberwolves,STL,0.08,🟢 ELITE,0.56,-0.5,0.6
+Rayan Rupert,Portland Trail Blazers,STL,0.08,🟢 ELITE,0.56,-0.5,0.6
+Sidy Cissoko,Portland Trail Blazers,STL,0.08,🟢 ELITE,0.56,-0.5,0.6
+Dennis Schröder,Sacramento Kings,STL,0.08,🟢 ELITE,0.56,-0.5,0.6
+Trey Alexander,New Orleans Pelicans,STL,0.07,🟢 ELITE,0.56,-0.5,0.6
+Luka Garza,Boston Celtics,STL,0.05,🟢 ELITE,0.56,-0.5,0.6
+Tre Mann,Charlotte Hornets,STL,0.04,🟢 ELITE,0.56,-0.5,0.6
+Daniss Jenkins,Detroit Pistons,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Bobi Klintman,Detroit Pistons,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Pacôme Dadiet,New York Knicks,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Ariel Hukporti,New York Knicks,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Jahmir Young,Miami Heat,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Pete Nance,Milwaukee Bucks,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Tony Bradley,Indiana Pacers,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Joe Ingles,Minnesota Timberwolves,STL,-0.0,🟢 ELITE,0.56,-0.6,0.6
+Leonard Miller,Minnesota Timberwolves,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Bryce McGowens,New Orleans Pelicans,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Kobe Bufkin,Memphis Grizzlies,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+De'Anthony Melton,Golden State Warriors,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Jackson Rowe,Golden State Warriors,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Daeqwon Plowden,Sacramento Kings,STL,0.0,🟢 ELITE,0.56,-0.6,0.6
+Dario Šarić,Sacramento Kings,STL,-0.07,🟢 ELITE,0.56,-0.6,0.5
+Dillon Brooks,Phoenix Suns,STL,-0.1,🟢 ELITE,0.56,-0.7,0.5
+Isaac Jones,Detroit Pistons,STL,-0.24,🟢 ELITE,0.56,-0.8,0.3
+Johnny Juzang,Minnesota Timberwolves,STL,-0.79,🟢 ELITE,0.56,-1.4,-0.2
+Antonio Reeves,Charlotte Hornets,STL,-0.8,🟢 ELITE,0.56,-1.4,-0.2
+Domantas Sabonis,Sacramento Kings,REB,15.7,🟡 HIGH,3.1,12.6,18.8
+Karl-Anthony Towns,New York Knicks,REB,13.37,🟡 HIGH,3.1,10.3,16.5
+Giannis Antetokounmpo,Milwaukee Bucks,REB,12.23,🟡 HIGH,3.1,9.1,15.3
+Kel'el Ware,Miami Heat,REB,10.86,🟡 HIGH,3.1,7.8,14.0
+Victor Wembanyama,San Antonio Spurs,REB,10.73,🟡 HIGH,3.1,7.6,13.8
+Bam Adebayo,Miami Heat,REB,10.63,🟡 HIGH,3.1,7.5,13.7
+Alperen Sengun,Houston Rockets,REB,10.12,🟡 HIGH,3.1,7.0,13.2
+Donovan Clingan,Portland Trail Blazers,REB,9.73,🟡 HIGH,3.1,6.6,12.8
+Rudy Gobert,Minnesota Timberwolves,REB,9.7,🟡 HIGH,3.1,6.6,12.8
+Josh Hart,New York Knicks,REB,9.54,🟡 HIGH,3.1,6.4,12.6
+Jakob Poeltl,Toronto Raptors,REB,9.49,🟡 HIGH,3.1,6.4,12.6
+Clint Capela,Houston Rockets,REB,9.36,🟡 HIGH,3.1,6.3,12.5
+Jayson Tatum,Boston Celtics,REB,8.99,🟡 HIGH,3.1,5.9,12.1
+Zach Edey,Memphis Grizzlies,REB,8.55,🟡 HIGH,3.1,5.5,11.7
+Yves Missi,New Orleans Pelicans,REB,8.54,🟡 HIGH,3.1,5.4,11.6
+Tony Bradley,Indiana Pacers,REB,8.43,🟡 HIGH,3.1,5.3,11.5
+Pascal Siakam,Indiana Pacers,REB,8.13,🟡 HIGH,3.1,5.0,11.2
+Miles Bridges,Charlotte Hornets,REB,8.02,🟡 HIGH,3.1,4.9,11.1
+Chet Holmgren,Oklahoma City Thunder,REB,8.02,🟡 HIGH,3.1,4.9,11.1
+Bobby Portis,Milwaukee Bucks,REB,7.96,🟡 HIGH,3.1,4.9,11.1
+Scottie Barnes,Toronto Raptors,REB,7.88,🟡 HIGH,3.1,4.8,11.0
+Jalen Duren,Detroit Pistons,REB,7.83,🟡 HIGH,3.1,4.7,10.9
+Mitchell Robinson,New York Knicks,REB,7.72,🟡 HIGH,3.1,4.6,10.8
+Santi Aldama,Memphis Grizzlies,REB,7.6,🟡 HIGH,3.1,4.5,10.7
+Amen Thompson,Houston Rockets,REB,7.57,🟡 HIGH,3.1,4.5,10.7
+Keegan Murray,Sacramento Kings,REB,7.48,🟡 HIGH,3.1,4.4,10.6
+Al Horford,Golden State Warriors,REB,7.07,🟡 HIGH,3.1,4.0,10.2
+Nick Richards,Phoenix Suns,REB,7.01,🟡 HIGH,3.1,3.9,10.1
+Bennedict Mathurin,Indiana Pacers,REB,6.78,🟡 HIGH,3.1,3.7,9.9
+Jeremy Sochan,San Antonio Spurs,REB,6.76,🟡 HIGH,3.1,3.7,9.9
+Tari Eason,Houston Rockets,REB,6.62,🟡 HIGH,3.1,3.5,9.7
+Myles Turner,Milwaukee Bucks,REB,6.59,🟡 HIGH,3.1,3.5,9.7
+Dejounte Murray,New Orleans Pelicans,REB,6.4,🟡 HIGH,3.1,3.3,9.5
+Jonathan Mogbo,Toronto Raptors,REB,6.38,🟡 HIGH,3.1,3.3,9.5
+Deni Avdija,Portland Trail Blazers,REB,6.33,🟡 HIGH,3.1,3.2,9.4
+Mason Plumlee,Charlotte Hornets,REB,6.32,🟡 HIGH,3.1,3.2,9.4
+Toumani Camara,Portland Trail Blazers,REB,6.31,🟡 HIGH,3.1,3.2,9.4
+Julius Randle,Minnesota Timberwolves,REB,6.29,🟡 HIGH,3.1,3.2,9.4
+Jabari Smith Jr.,Houston Rockets,REB,6.27,🟡 HIGH,3.1,3.2,9.4
+Draymond Green,Golden State Warriors,REB,6.21,🟡 HIGH,3.1,3.1,9.3
+Cade Cunningham,Detroit Pistons,REB,6.2,🟡 HIGH,3.1,3.1,9.3
+Kyle Kuzma,Milwaukee Bucks,REB,6.19,🟡 HIGH,3.1,3.1,9.3
+Kevin Durant,Houston Rockets,REB,6.13,🟡 HIGH,3.1,3.0,9.2
+Naz Reid,Minnesota Timberwolves,REB,6.11,🟡 HIGH,3.1,3.0,9.2
+Moussa Diabaté,Charlotte Hornets,REB,6.07,🟡 HIGH,3.1,3.0,9.2
+RJ Barrett,Toronto Raptors,REB,6.07,🟡 HIGH,3.1,3.0,9.2
+Jaylin Williams,Oklahoma City Thunder,REB,6.06,🟡 HIGH,3.1,3.0,9.2
+Anthony Edwards,Minnesota Timberwolves,REB,5.99,🟡 HIGH,3.1,2.9,9.1
+Jaylen Brown,Boston Celtics,REB,5.97,🟡 HIGH,3.1,2.9,9.1
+Derrick White,Boston Celtics,REB,5.97,🟡 HIGH,3.1,2.9,9.1
+Grant Williams,Charlotte Hornets,REB,5.77,🟡 HIGH,3.1,2.7,8.9
+Guerschon Yabusele,New York Knicks,REB,5.75,🟡 HIGH,3.1,2.7,8.9
+Isaiah Hartenstein,Oklahoma City Thunder,REB,5.72,🟡 HIGH,3.1,2.6,8.8
+Tobias Harris,Detroit Pistons,REB,5.68,🟡 HIGH,3.1,2.6,8.8
+Steven Adams,Houston Rockets,REB,5.66,🟡 HIGH,3.1,2.6,8.8
+Jimmy Butler III,Golden State Warriors,REB,5.63,🟡 HIGH,3.1,2.5,8.7
+Precious Achiuwa,Sacramento Kings,REB,5.61,🟡 HIGH,3.1,2.5,8.7
+A.J. Lawson,Toronto Raptors,REB,5.53,🟡 HIGH,3.1,2.4,8.6
+Vince Williams Jr.,Memphis Grizzlies,REB,5.47,🟡 HIGH,3.1,2.4,8.6
+Keldon Johnson,San Antonio Spurs,REB,5.46,🟡 HIGH,3.1,2.4,8.6
+Isaiah Stewart,Detroit Pistons,REB,5.44,🟡 HIGH,3.1,2.3,8.5
+Karlo Matković,New Orleans Pelicans,REB,5.41,🟡 HIGH,3.1,2.3,8.5
+Jalen Williams,Oklahoma City Thunder,REB,5.33,🟡 HIGH,3.1,2.2,8.4
+Shai Gilgeous-Alexander,Oklahoma City Thunder,REB,5.3,🟡 HIGH,3.1,2.2,8.4
+Tyler Herro,Miami Heat,REB,5.29,🟡 HIGH,3.1,2.2,8.4
+Harrison Barnes,San Antonio Spurs,REB,5.29,🟡 HIGH,3.1,2.2,8.4
+Russell Westbrook,Sacramento Kings,REB,5.28,🟡 HIGH,3.1,2.2,8.4
+Royce O'Neale,Phoenix Suns,REB,5.26,🟡 HIGH,3.1,2.2,8.4
+Ausar Thompson,Detroit Pistons,REB,5.23,🟡 HIGH,3.1,2.1,8.3
+Trey Murphy III,New Orleans Pelicans,REB,5.17,🟡 HIGH,3.1,2.1,8.3
+Robert Williams III,Portland Trail Blazers,REB,5.17,🟡 HIGH,3.1,2.1,8.3
+Bismack Biyombo,San Antonio Spurs,REB,5.16,🟡 HIGH,3.1,2.1,8.3
+LaMelo Ball,Charlotte Hornets,REB,5.14,🟡 HIGH,3.1,2.0,8.2
+Luke Kornet,San Antonio Spurs,REB,5.11,🟡 HIGH,3.1,2.0,8.2
+De'Aaron Fox,San Antonio Spurs,REB,5.08,🟡 HIGH,3.1,2.0,8.2
+Grayson Allen,Phoenix Suns,REB,5.04,🟡 HIGH,3.1,1.9,8.1
+Zion Williamson,New Orleans Pelicans,REB,4.98,🟡 HIGH,3.1,1.9,8.1
+OG Anunoby,New York Knicks,REB,4.83,🟡 HIGH,3.1,1.7,7.9
+Brandin Podziemski,Golden State Warriors,REB,4.82,🟡 HIGH,3.1,1.7,7.9
+Julian Champagnie,San Antonio Spurs,REB,4.72,🟡 HIGH,3.1,1.6,7.8
+Kevon Looney,New Orleans Pelicans,REB,4.69,🟡 HIGH,3.1,1.6,7.8
+Andrew Wiggins,Miami Heat,REB,4.67,🟡 HIGH,3.1,1.6,7.8
+Jeremiah Robinson-Earl,Indiana Pacers,REB,4.66,🟡 HIGH,3.1,1.6,7.8
+Jerami Grant,Portland Trail Blazers,REB,4.66,🟡 HIGH,3.1,1.6,7.8
+Aaron Wiggins,Oklahoma City Thunder,REB,4.64,🟡 HIGH,3.1,1.5,7.7
+DeAndre Jordan,New Orleans Pelicans,REB,4.56,🟡 HIGH,3.1,1.5,7.7
+Tosan Evbuomwan,New York Knicks,REB,4.53,🟡 HIGH,3.1,1.4,7.6
+Tyrese Haliburton,Indiana Pacers,REB,4.52,🟡 HIGH,3.1,1.4,7.6
+Jaren Jackson Jr.,Memphis Grizzlies,REB,4.5,🟡 HIGH,3.1,1.4,7.6
+Tidjane Salaün,Charlotte Hornets,REB,4.42,🟡 HIGH,3.1,1.3,7.5
+Oso Ighodaro,Phoenix Suns,REB,4.42,🟡 HIGH,3.1,1.3,7.5
+Brandon Ingram,Toronto Raptors,REB,4.41,🟡 HIGH,3.1,1.3,7.5
+Quinten Post,Golden State Warriors,REB,4.4,🟡 HIGH,3.1,1.3,7.5
+Chris Boucher,Boston Celtics,REB,4.39,🟡 HIGH,3.1,1.3,7.5
+Payton Pritchard,Boston Celtics,REB,4.36,🟡 HIGH,3.1,1.3,7.5
+Jalen Green,Phoenix Suns,REB,4.35,🟡 HIGH,3.1,1.3,7.5
+Jonathan Kuminga,Golden State Warriors,REB,4.29,🟡 HIGH,3.1,1.2,7.4
+Stephen Curry,Golden State Warriors,REB,4.26,🟡 HIGH,3.1,1.2,7.4
+Luguentz Dort,Oklahoma City Thunder,REB,4.25,🟡 HIGH,3.1,1.1,7.3
+Jaden McDaniels,Minnesota Timberwolves,REB,4.24,🟡 HIGH,3.1,1.1,7.3
+Jaime Jaquez Jr.,Miami Heat,REB,4.23,🟡 HIGH,3.1,1.1,7.3
+Branden Carlson,Oklahoma City Thunder,REB,4.21,🟡 HIGH,3.1,1.1,7.3
+Drew Eubanks,Sacramento Kings,REB,4.19,🟡 HIGH,3.1,1.1,7.3
+John Konchar,Memphis Grizzlies,REB,4.18,🟡 HIGH,3.1,1.1,7.3
+Jarace Walker,Indiana Pacers,REB,4.17,🟡 HIGH,3.1,1.1,7.3
+Obi Toppin,Indiana Pacers,REB,4.11,🟡 HIGH,3.1,1.0,7.2
+Brandon Miller,Charlotte Hornets,REB,4.09,🟡 HIGH,3.1,1.0,7.2
+Devin Vassell,San Antonio Spurs,REB,4.09,🟡 HIGH,3.1,1.0,7.2
+Devin Booker,Phoenix Suns,REB,4.07,🟡 HIGH,3.1,1.0,7.2
+Shaedon Sharpe,Portland Trail Blazers,REB,4.06,🟡 HIGH,3.1,1.0,7.2
+Jaylen Wells,Memphis Grizzlies,REB,4.01,🟡 HIGH,3.1,0.9,7.1
+Herbert Jones,New Orleans Pelicans,REB,3.98,🟡 HIGH,3.1,0.9,7.1
+Trey Jemison III,New York Knicks,REB,3.92,🟡 HIGH,3.1,0.8,7.0
+Fred VanVleet,Houston Rockets,REB,3.92,🟡 HIGH,3.1,0.8,7.0
+Jock Landale,Memphis Grizzlies,REB,3.9,🟡 HIGH,3.1,0.8,7.0
+DeMar DeRozan,Sacramento Kings,REB,3.89,🟡 HIGH,3.1,0.8,7.0
+Damian Lillard,Portland Trail Blazers,REB,3.88,🟡 HIGH,3.1,0.8,7.0
+Dillon Brooks,Phoenix Suns,REB,3.87,🟡 HIGH,3.1,0.8,7.0
+Neemias Queta,Boston Celtics,REB,3.83,🟡 HIGH,3.1,0.7,6.9
+Dorian Finney-Smith,Houston Rockets,REB,3.81,🟡 HIGH,3.1,0.7,6.9
+Terry Rozier,Miami Heat,REB,3.8,🟡 HIGH,3.1,0.7,6.9
+Gradey Dick,Toronto Raptors,REB,3.7,🟡 HIGH,3.1,0.6,6.8
+Javonte Green,Detroit Pistons,REB,3.69,🟡 HIGH,3.1,0.6,6.8
+Donte DiVincenzo,Minnesota Timberwolves,REB,3.69,🟡 HIGH,3.1,0.6,6.8
+Aaron Nesmith,Indiana Pacers,REB,3.6,🟡 HIGH,3.1,0.5,6.7
+Jordan Poole,New Orleans Pelicans,REB,3.56,🟡 HIGH,3.1,0.5,6.7
+Kevin Porter Jr.,Milwaukee Bucks,REB,3.53,🟡 HIGH,3.1,0.4,6.6
+Kenrich Williams,Oklahoma City Thunder,REB,3.53,🟡 HIGH,3.1,0.4,6.6
+Norman Powell,Miami Heat,REB,3.49,🟡 HIGH,3.1,0.4,6.6
+Ochai Agbaji,Toronto Raptors,REB,3.49,🟡 HIGH,3.1,0.4,6.6
+Jordan Clarkson,New York Knicks,REB,3.42,🟡 HIGH,3.1,0.3,6.5
+Scotty Pippen Jr.,Memphis Grizzlies,REB,3.4,🟡 HIGH,3.1,0.3,6.5
+Gui Santos,Golden State Warriors,REB,3.4,🟡 HIGH,3.1,0.3,6.5
+Jaden Ivey,Detroit Pistons,REB,3.38,🟡 HIGH,3.1,0.3,6.5
+Cason Wallace,Oklahoma City Thunder,REB,3.35,🟡 HIGH,3.1,0.3,6.5
+KJ Simpson,Charlotte Hornets,REB,3.33,🟡 HIGH,3.1,0.2,6.4
+Isaiah Joe,Oklahoma City Thunder,REB,3.29,🟡 HIGH,3.1,0.2,6.4
+Johnny Juzang,Minnesota Timberwolves,REB,3.26,🟡 HIGH,3.1,0.2,6.4
+Stephon Castle,San Antonio Spurs,REB,3.24,🟡 HIGH,3.1,0.1,6.3
+Caris LeVert,Detroit Pistons,REB,3.23,🟡 HIGH,3.1,0.1,6.3
+Jericho Sims,Milwaukee Bucks,REB,3.23,🟡 HIGH,3.1,0.1,6.3
+Malik Monk,Sacramento Kings,REB,3.23,🟡 HIGH,3.1,0.1,6.3
+Brandon Clarke,Memphis Grizzlies,REB,3.22,🟡 HIGH,3.1,0.1,6.3
+Andre Jackson Jr.,Milwaukee Bucks,REB,3.2,🟡 HIGH,3.1,0.1,6.3
+Kelly Olynyk,San Antonio Spurs,REB,3.19,🟡 HIGH,3.1,0.1,6.3
+Immanuel Quickley,Toronto Raptors,REB,3.16,🟡 HIGH,3.1,0.1,6.3
+Sam Hauser,Boston Celtics,REB,3.15,🟡 HIGH,3.1,0.1,6.3
+Collin Sexton,Charlotte Hornets,REB,3.13,🟡 HIGH,3.1,0.0,6.2
+Buddy Hield,Golden State Warriors,REB,3.13,🟡 HIGH,3.1,0.0,6.2
+Matisse Thybulle,Portland Trail Blazers,REB,3.12,🟡 HIGH,3.1,0.0,6.2
+Sandro Mamukelashvili,Toronto Raptors,REB,3.08,🟡 HIGH,3.1,-0.0,6.2
+Wendell Moore Jr.,Detroit Pistons,REB,3.07,🟡 HIGH,3.1,-0.0,6.2
+Duop Reath,Portland Trail Blazers,REB,3.07,🟡 HIGH,3.1,-0.0,6.2
+Jrue Holiday,Portland Trail Blazers,REB,3.06,🟡 HIGH,3.1,-0.0,6.2
+GG Jackson,Memphis Grizzlies,REB,3.03,🟡 HIGH,3.1,-0.1,6.1
+Anfernee Simons,Boston Celtics,REB,2.93,🟡 HIGH,3.1,-0.2,6.0
+Ben Sheppard,Indiana Pacers,REB,2.93,🟡 HIGH,3.1,-0.2,6.0
+Dario Šarić,Sacramento Kings,REB,2.92,🟡 HIGH,3.1,-0.2,6.0
+Jalen Brunson,New York Knicks,REB,2.9,🟡 HIGH,3.1,-0.2,6.0
+Gary Payton II,Golden State Warriors,REB,2.88,🟡 HIGH,3.1,-0.2,6.0
+Simone Fontecchio,Miami Heat,REB,2.86,🟡 HIGH,3.1,-0.2,6.0
+Mikal Bridges,New York Knicks,REB,2.8,🟡 HIGH,3.1,-0.3,5.9
+Ty Jerome,Memphis Grizzlies,REB,2.78,🟡 HIGH,3.1,-0.3,5.9
+Olivier-Maxence Prosper,Memphis Grizzlies,REB,2.77,🟡 HIGH,3.1,-0.3,5.9
+Ja Morant,Memphis Grizzlies,REB,2.72,🟡 HIGH,3.1,-0.4,5.8
+Josh Okogie,Houston Rockets,REB,2.67,🟡 HIGH,3.1,-0.4,5.8
+Dennis Schröder,Sacramento Kings,REB,2.64,🟡 HIGH,3.1,-0.5,5.7
+Ronald Holland II,Detroit Pistons,REB,2.58,🟡 HIGH,3.1,-0.5,5.7
+Duncan Robinson,Detroit Pistons,REB,2.58,🟡 HIGH,3.1,-0.5,5.7
+Moses Moody,Golden State Warriors,REB,2.56,🟡 HIGH,3.1,-0.5,5.7
+Nikola Jović,Miami Heat,REB,2.55,🟡 HIGH,3.1,-0.5,5.7
+Ja'Kobe Walter,Toronto Raptors,REB,2.55,🟡 HIGH,3.1,-0.5,5.7
+Jose Alvarado,New Orleans Pelicans,REB,2.55,🟡 HIGH,3.1,-0.6,5.6
+Mike Conley,Minnesota Timberwolves,REB,2.54,🟡 HIGH,3.1,-0.6,5.6
+Dru Smith,Miami Heat,REB,2.5,🟡 HIGH,3.1,-0.6,5.6
+Amir Coffey,Milwaukee Bucks,REB,2.49,🟡 HIGH,3.1,-0.6,5.6
+Miles McBride,New York Knicks,REB,2.47,🟡 HIGH,3.1,-0.6,5.6
+Andrew Nembhard,Indiana Pacers,REB,2.47,🟡 HIGH,3.1,-0.6,5.6
+Jordan Walsh,Boston Celtics,REB,2.44,🟡 HIGH,3.1,-0.7,5.5
+Jordan Hawkins,New Orleans Pelicans,REB,2.44,🟡 HIGH,3.1,-0.7,5.5
+Ryan Dunn,Phoenix Suns,REB,2.44,🟡 HIGH,3.1,-0.7,5.5
+Josh Green,Charlotte Hornets,REB,2.41,🟡 HIGH,3.1,-0.7,5.5
+Scoot Henderson,Portland Trail Blazers,REB,2.41,🟡 HIGH,3.1,-0.7,5.5
+AJ Green,Milwaukee Bucks,REB,2.39,🟡 HIGH,3.1,-0.7,5.5
+T.J. McConnell,Indiana Pacers,REB,2.36,🟡 HIGH,3.1,-0.7,5.5
+Pat Connaughton,Charlotte Hornets,REB,2.35,🟡 HIGH,3.1,-0.8,5.4
+Gary Trent Jr.,Milwaukee Bucks,REB,2.35,🟡 HIGH,3.1,-0.7,5.5
+Tre Mann,Charlotte Hornets,REB,2.34,🟡 HIGH,3.1,-0.8,5.4
+Paul Reed,Detroit Pistons,REB,2.29,🟡 HIGH,3.1,-0.8,5.4
+Kris Murray,Portland Trail Blazers,REB,2.28,🟡 HIGH,3.1,-0.8,5.4
+Collin Gillespie,Phoenix Suns,REB,2.27,🟡 HIGH,3.1,-0.8,5.4
+Kentavious Caldwell-Pope,Memphis Grizzlies,REB,2.21,🟡 HIGH,3.1,-0.9,5.3
+Jae'Sean Tate,Houston Rockets,REB,2.19,🟡 HIGH,3.1,-0.9,5.3
+Baylor Scheierman,Boston Celtics,REB,2.16,🟡 HIGH,3.1,-0.9,5.3
+Ariel Hukporti,New York Knicks,REB,2.15,🟡 HIGH,3.1,-0.9,5.3
+Alex Caruso,Oklahoma City Thunder,REB,2.15,🟡 HIGH,3.1,-1.0,5.2
+Davion Mitchell,Miami Heat,REB,2.11,🟡 HIGH,3.1,-1.0,5.2
+Jeff Green,Houston Rockets,REB,2.09,🟡 HIGH,3.1,-1.0,5.2
+Zach LaVine,Sacramento Kings,REB,2.08,🟡 HIGH,3.1,-1.0,5.2
+Jay Huff,Indiana Pacers,REB,2.03,🟡 HIGH,3.1,-1.1,5.1
+Jamison Battle,Toronto Raptors,REB,2.02,🟡 HIGH,3.1,-1.1,5.1
+Keon Ellis,Sacramento Kings,REB,2.02,🟡 HIGH,3.1,-1.1,5.1
+Enrique Freeman,Minnesota Timberwolves,REB,2.0,🟡 HIGH,3.1,-1.1,5.1
+Cam Spencer,Memphis Grizzlies,REB,2.0,🟡 HIGH,3.1,-1.1,5.1
+Ajay Mitchell,Oklahoma City Thunder,REB,1.96,🟡 HIGH,3.1,-1.1,5.1
+Blake Wesley,Portland Trail Blazers,REB,1.96,🟡 HIGH,3.1,-1.1,5.1
+Kobe Bufkin,Memphis Grizzlies,REB,1.94,🟡 HIGH,3.1,-1.2,5.0
+Taurean Prince,Milwaukee Bucks,REB,1.92,🟡 HIGH,3.1,-1.2,5.0
+Antonio Reeves,Charlotte Hornets,REB,1.89,🟡 HIGH,3.1,-1.2,5.0
+Quenton Jackson,Indiana Pacers,REB,1.83,🟡 HIGH,3.1,-1.3,4.9
+Reed Sheppard,Houston Rockets,REB,1.75,🟡 HIGH,3.1,-1.3,4.9
+Isaac Jones,Detroit Pistons,REB,1.69,🟡 HIGH,3.1,-1.4,4.8
+Terrence Shannon Jr.,Minnesota Timberwolves,REB,1.69,🟡 HIGH,3.1,-1.4,4.8
+Garrison Mathews,Indiana Pacers,REB,1.66,🟡 HIGH,3.1,-1.4,4.8
+Ryan Rollins,Milwaukee Bucks,REB,1.65,🟡 HIGH,3.1,-1.4,4.8
+Devin Carter,Sacramento Kings,REB,1.64,🟡 HIGH,3.1,-1.5,4.7
+Pelle Larsson,Miami Heat,REB,1.58,🟡 HIGH,3.1,-1.5,4.7
+Jaylen Clark,Minnesota Timberwolves,REB,1.47,🟡 HIGH,3.1,-1.6,4.6
+Keshad Johnson,Miami Heat,REB,1.45,🟡 HIGH,3.1,-1.6,4.6
+Pat Spencer,Golden State Warriors,REB,1.45,🟡 HIGH,3.1,-1.7,4.5
+Bones Hyland,Minnesota Timberwolves,REB,1.4,🟡 HIGH,3.1,-1.7,4.5
+Aaron Holiday,Houston Rockets,REB,1.39,🟡 HIGH,3.1,-1.7,4.5
+Jamal Shead,Toronto Raptors,REB,1.36,🟡 HIGH,3.1,-1.7,4.5
+Luka Garza,Boston Celtics,REB,1.3,🟡 HIGH,3.1,-1.8,4.4
+Lindy Waters III,San Antonio Spurs,REB,1.28,🟡 HIGH,3.1,-1.8,4.4
+Gary Harris,Milwaukee Bucks,REB,1.25,🟡 HIGH,3.1,-1.8,4.4
+Rob Dillingham,Minnesota Timberwolves,REB,1.25,🟡 HIGH,3.1,-1.9,4.3
+Johnny Furphy,Indiana Pacers,REB,1.2,🟡 HIGH,3.1,-1.9,4.3
+Joe Ingles,Minnesota Timberwolves,REB,1.19,🟡 HIGH,3.1,-1.9,4.3
+Marcus Sasser,Detroit Pistons,REB,1.15,🟡 HIGH,3.1,-2.0,4.2
+Drew Peterson,Charlotte Hornets,REB,1.14,🟡 HIGH,3.1,-2.0,4.2
+Garrett Temple,Toronto Raptors,REB,1.05,🟡 HIGH,3.1,-2.0,4.2
+Josh Minott,Boston Celtics,REB,1.0,🟡 HIGH,3.1,-2.1,4.1
+Landry Shamet,New York Knicks,REB,0.95,🟡 HIGH,3.1,-2.2,4.0
+Rayan Rupert,Portland Trail Blazers,REB,0.95,🟡 HIGH,3.1,-2.1,4.1
+Tyler Kolek,New York Knicks,REB,0.75,🟡 HIGH,3.1,-2.3,3.9
+RayJ Dennis,Indiana Pacers,REB,0.75,🟡 HIGH,3.1,-2.4,3.8
+JD Davison,Houston Rockets,REB,0.75,🟡 HIGH,3.1,-2.4,3.8
+Pacôme Dadiet,New York Knicks,REB,0.6,🟡 HIGH,3.1,-2.5,3.7
+Jordan McLaughlin,San Antonio Spurs,REB,0.56,🟡 HIGH,3.1,-2.5,3.7
+Pete Nance,Milwaukee Bucks,REB,0.52,🟡 HIGH,3.1,-2.6,3.6
+Bobi Klintman,Detroit Pistons,REB,0.5,🟡 HIGH,3.1,-2.6,3.6
+Trey Alexander,New Orleans Pelicans,REB,0.5,🟡 HIGH,3.1,-2.6,3.6
+Doug McDermott,Sacramento Kings,REB,0.48,🟡 HIGH,3.1,-2.6,3.6
+Xavier Tillman,Boston Celtics,REB,0.44,🟡 HIGH,3.1,-2.7,3.5
+Isaiah Crawford,Houston Rockets,REB,0.38,🟡 HIGH,3.1,-2.7,3.5
+Trayce Jackson-Davis,Golden State Warriors,REB,0.37,🟡 HIGH,3.1,-2.7,3.5
+Cole Anthony,Milwaukee Bucks,REB,0.17,🟡 HIGH,3.1,-2.9,3.3
+Bryce McGowens,New Orleans Pelicans,REB,0.17,🟡 HIGH,3.1,-2.9,3.3
+Daniss Jenkins,Detroit Pistons,REB,0.0,🟡 HIGH,3.1,-3.1,3.1
+Jahmir Young,Miami Heat,REB,0.0,🟡 HIGH,3.1,-3.1,3.1
+De'Anthony Melton,Golden State Warriors,REB,0.0,🟡 HIGH,3.1,-3.1,3.1
+Jackson Rowe,Golden State Warriors,REB,0.0,🟡 HIGH,3.1,-3.1,3.1
+Daeqwon Plowden,Sacramento Kings,REB,0.0,🟡 HIGH,3.1,-3.1,3.1
+Sidy Cissoko,Portland Trail Blazers,REB,-0.02,🟡 HIGH,3.1,-3.1,3.1
+Leonard Miller,Minnesota Timberwolves,REB,-0.41,🟡 HIGH,3.1,-3.5,2.7
+Ousmane Dieng,Oklahoma City Thunder,REB,-1.43,🟡 HIGH,3.1,-4.5,1.7
+Karl-Anthony Towns,New York Knicks,PRA,47.92,🟠 MEDIUM,6.88,41.0,54.8
+Giannis Antetokounmpo,Milwaukee Bucks,PRA,47.54,🟠 MEDIUM,6.88,40.7,54.4
+Shai Gilgeous-Alexander,Oklahoma City Thunder,PRA,44.32,🟠 MEDIUM,6.88,37.4,51.2
+Jayson Tatum,Boston Celtics,PRA,41.69,🟠 MEDIUM,6.88,34.8,48.6
+Cade Cunningham,Detroit Pistons,PRA,40.96,🟠 MEDIUM,6.88,34.1,47.8
+Domantas Sabonis,Sacramento Kings,PRA,40.94,🟠 MEDIUM,6.88,34.1,47.8
+Damian Lillard,Portland Trail Blazers,PRA,38.46,🟠 MEDIUM,6.88,31.6,45.3
+Anthony Edwards,Minnesota Timberwolves,PRA,38.44,🟠 MEDIUM,6.88,31.6,45.3
+Zion Williamson,New Orleans Pelicans,PRA,38.0,🟠 MEDIUM,6.88,31.1,44.9
+De'Aaron Fox,San Antonio Spurs,PRA,36.73,🟠 MEDIUM,6.88,29.8,43.6
+Devin Booker,Phoenix Suns,PRA,36.39,🟠 MEDIUM,6.88,29.5,43.3
+Stephen Curry,Golden State Warriors,PRA,35.24,🟠 MEDIUM,6.88,28.4,42.1
+LaMelo Ball,Charlotte Hornets,PRA,35.23,🟠 MEDIUM,6.88,28.4,42.1
+Tyler Herro,Miami Heat,PRA,34.9,🟠 MEDIUM,6.88,28.0,41.8
+Alperen Sengun,Houston Rockets,PRA,34.89,🟠 MEDIUM,6.88,28.0,41.8
+Ja Morant,Memphis Grizzlies,PRA,33.97,🟠 MEDIUM,6.88,27.1,40.9
+Miles Bridges,Charlotte Hornets,PRA,33.9,🟠 MEDIUM,6.88,27.0,40.8
+Jaylen Brown,Boston Celtics,PRA,33.81,🟠 MEDIUM,6.88,26.9,40.7
+RJ Barrett,Toronto Raptors,PRA,33.39,🟠 MEDIUM,6.88,26.5,40.3
+Kevin Durant,Houston Rockets,PRA,33.08,🟠 MEDIUM,6.88,26.2,40.0
+Bam Adebayo,Miami Heat,PRA,32.66,🟠 MEDIUM,6.88,25.8,39.5
+Zach LaVine,Sacramento Kings,PRA,32.27,🟠 MEDIUM,6.88,25.4,39.2
+Scottie Barnes,Toronto Raptors,PRA,32.17,🟠 MEDIUM,6.88,25.3,39.0
+Dejounte Murray,New Orleans Pelicans,PRA,32.05,🟠 MEDIUM,6.88,25.2,38.9
+Jalen Williams,Oklahoma City Thunder,PRA,31.79,🟠 MEDIUM,6.88,24.9,38.7
+Jaren Jackson Jr.,Memphis Grizzlies,PRA,31.39,🟠 MEDIUM,6.88,24.5,38.3
+Tyrese Haliburton,Indiana Pacers,PRA,31.19,🟠 MEDIUM,6.88,24.3,38.1
+Jalen Brunson,New York Knicks,PRA,30.89,🟠 MEDIUM,6.88,24.0,37.8
+Pascal Siakam,Indiana Pacers,PRA,30.74,🟠 MEDIUM,6.88,23.9,37.6
+Brandon Miller,Charlotte Hornets,PRA,30.43,🟠 MEDIUM,6.88,23.6,37.3
+DeMar DeRozan,Sacramento Kings,PRA,30.21,🟠 MEDIUM,6.88,23.3,37.1
+Jordan Poole,New Orleans Pelicans,PRA,30.1,🟠 MEDIUM,6.88,23.2,37.0
+Josh Hart,New York Knicks,PRA,29.78,🟠 MEDIUM,6.88,22.9,36.7
+Trey Murphy III,New Orleans Pelicans,PRA,29.51,🟠 MEDIUM,6.88,22.6,36.4
+Jimmy Butler III,Golden State Warriors,PRA,28.57,🟠 MEDIUM,6.88,21.7,35.5
+Jalen Green,Phoenix Suns,PRA,28.41,🟠 MEDIUM,6.88,21.5,35.3
+Fred VanVleet,Houston Rockets,PRA,27.66,🟠 MEDIUM,6.88,20.8,34.5
+Derrick White,Boston Celtics,PRA,27.25,🟠 MEDIUM,6.88,20.4,34.1
+Jakob Poeltl,Toronto Raptors,PRA,27.06,🟠 MEDIUM,6.88,20.2,33.9
+Anfernee Simons,Boston Celtics,PRA,27.05,🟠 MEDIUM,6.88,20.2,33.9
+Brandon Ingram,Toronto Raptors,PRA,27.05,🟠 MEDIUM,6.88,20.2,33.9
+Immanuel Quickley,Toronto Raptors,PRA,26.88,🟠 MEDIUM,6.88,20.0,33.8
+Collin Sexton,Charlotte Hornets,PRA,26.07,🟠 MEDIUM,6.88,19.2,32.9
+Malik Monk,Sacramento Kings,PRA,25.53,🟠 MEDIUM,6.88,18.6,32.4
+Julius Randle,Minnesota Timberwolves,PRA,25.49,🟠 MEDIUM,6.88,18.6,32.4
+Amen Thompson,Houston Rockets,PRA,25.41,🟠 MEDIUM,6.88,18.5,32.3
+Andrew Wiggins,Miami Heat,PRA,25.37,🟠 MEDIUM,6.88,18.5,32.2
+Russell Westbrook,Sacramento Kings,PRA,25.14,🟠 MEDIUM,6.88,18.3,32.0
+Terry Rozier,Miami Heat,PRA,25.05,🟠 MEDIUM,6.88,18.2,31.9
+Jabari Smith Jr.,Houston Rockets,PRA,25.04,🟠 MEDIUM,6.88,18.2,31.9
+Tari Eason,Houston Rockets,PRA,24.91,🟠 MEDIUM,6.88,18.0,31.8
+Shaedon Sharpe,Portland Trail Blazers,PRA,24.83,🟠 MEDIUM,6.88,17.9,31.7
+Norman Powell,Miami Heat,PRA,24.56,🟠 MEDIUM,6.88,17.7,31.4
+Jordan Clarkson,New York Knicks,PRA,24.39,🟠 MEDIUM,6.88,17.5,31.3
+Chet Holmgren,Oklahoma City Thunder,PRA,24.32,🟠 MEDIUM,6.88,17.4,31.2
+Deni Avdija,Portland Trail Blazers,PRA,24.19,🟠 MEDIUM,6.88,17.3,31.1
+Jalen Duren,Detroit Pistons,PRA,24.08,🟠 MEDIUM,6.88,17.2,31.0
+OG Anunoby,New York Knicks,PRA,24.08,🟠 MEDIUM,6.88,17.2,31.0
+Stephon Castle,San Antonio Spurs,PRA,24.03,🟠 MEDIUM,6.88,17.1,30.9
+Aaron Wiggins,Oklahoma City Thunder,PRA,23.8,🟠 MEDIUM,6.88,16.9,30.7
+Kyle Kuzma,Milwaukee Bucks,PRA,23.63,🟠 MEDIUM,6.88,16.7,30.5
+Rudy Gobert,Minnesota Timberwolves,PRA,23.58,🟠 MEDIUM,6.88,16.7,30.5
+Naz Reid,Minnesota Timberwolves,PRA,23.56,🟠 MEDIUM,6.88,16.7,30.4
+Bennedict Mathurin,Indiana Pacers,PRA,23.43,🟠 MEDIUM,6.88,16.5,30.3
+Jaden Ivey,Detroit Pistons,PRA,23.28,🟠 MEDIUM,6.88,16.4,30.2
+Davion Mitchell,Miami Heat,PRA,23.27,🟠 MEDIUM,6.88,16.4,30.1
+Al Horford,Golden State Warriors,PRA,23.25,🟠 MEDIUM,6.88,16.4,30.1
+Myles Turner,Milwaukee Bucks,PRA,23.21,🟠 MEDIUM,6.88,16.3,30.1
+Bobby Portis,Milwaukee Bucks,PRA,22.88,🟠 MEDIUM,6.88,16.0,29.8
+Victor Wembanyama,San Antonio Spurs,PRA,22.54,🟠 MEDIUM,6.88,15.7,29.4
+Scoot Henderson,Portland Trail Blazers,PRA,22.28,🟠 MEDIUM,6.88,15.4,29.2
+Mikal Bridges,New York Knicks,PRA,22.19,🟠 MEDIUM,6.88,15.3,29.1
+Tony Bradley,Indiana Pacers,PRA,21.92,🟠 MEDIUM,6.88,15.0,28.8
+Tobias Harris,Detroit Pistons,PRA,21.88,🟠 MEDIUM,6.88,15.0,28.8
+Draymond Green,Golden State Warriors,PRA,21.58,🟠 MEDIUM,6.88,14.7,28.5
+Isaiah Joe,Oklahoma City Thunder,PRA,21.39,🟠 MEDIUM,6.88,14.5,28.3
+Devin Vassell,San Antonio Spurs,PRA,21.38,🟠 MEDIUM,6.88,14.5,28.3
+Payton Pritchard,Boston Celtics,PRA,21.27,🟠 MEDIUM,6.88,14.4,28.1
+Jerami Grant,Portland Trail Blazers,PRA,21.23,🟠 MEDIUM,6.88,14.4,28.1
+Gradey Dick,Toronto Raptors,PRA,20.85,🟠 MEDIUM,6.88,14.0,27.7
+Keldon Johnson,San Antonio Spurs,PRA,20.78,🟠 MEDIUM,6.88,13.9,27.7
+Jeremy Sochan,San Antonio Spurs,PRA,20.48,🟠 MEDIUM,6.88,13.6,27.4
+Keegan Murray,Sacramento Kings,PRA,20.2,🟠 MEDIUM,6.88,13.3,27.1
+Clint Capela,Houston Rockets,PRA,20.16,🟠 MEDIUM,6.88,13.3,27.0
+Dennis Schröder,Sacramento Kings,PRA,20.08,🟠 MEDIUM,6.88,13.2,27.0
+Karlo Matković,New Orleans Pelicans,PRA,20.03,🟠 MEDIUM,6.88,13.2,26.9
+Grant Williams,Charlotte Hornets,PRA,20.01,🟠 MEDIUM,6.88,13.1,26.9
+Donte DiVincenzo,Minnesota Timberwolves,PRA,19.8,🟠 MEDIUM,6.88,12.9,26.7
+Toumani Camara,Portland Trail Blazers,PRA,19.45,🟠 MEDIUM,6.88,12.6,26.3
+Dillon Brooks,Phoenix Suns,PRA,19.27,🟠 MEDIUM,6.88,12.4,26.2
+Kel'el Ware,Miami Heat,PRA,19.16,🟠 MEDIUM,6.88,12.3,26.0
+Grayson Allen,Phoenix Suns,PRA,19.08,🟠 MEDIUM,6.88,12.2,26.0
+Isaiah Hartenstein,Oklahoma City Thunder,PRA,19.07,🟠 MEDIUM,6.88,12.2,26.0
+Ty Jerome,Memphis Grizzlies,PRA,19.03,🟠 MEDIUM,6.88,12.1,25.9
+Jonathan Kuminga,Golden State Warriors,PRA,18.93,🟠 MEDIUM,6.88,12.1,25.8
+Brandin Podziemski,Golden State Warriors,PRA,18.85,🟠 MEDIUM,6.88,12.0,25.7
+Santi Aldama,Memphis Grizzlies,PRA,18.7,🟠 MEDIUM,6.88,11.8,25.6
+Guerschon Yabusele,New York Knicks,PRA,18.65,🟠 MEDIUM,6.88,11.8,25.5
+Yves Missi,New Orleans Pelicans,PRA,18.64,🟠 MEDIUM,6.88,11.8,25.5
+Caris LeVert,Detroit Pistons,PRA,18.5,🟠 MEDIUM,6.88,11.6,25.4
+A.J. Lawson,Toronto Raptors,PRA,18.39,🟠 MEDIUM,6.88,11.5,25.3
+Branden Carlson,Oklahoma City Thunder,PRA,18.27,🟠 MEDIUM,6.88,11.4,25.2
+Jrue Holiday,Portland Trail Blazers,PRA,18.14,🟠 MEDIUM,6.88,11.3,25.0
+Andrew Nembhard,Indiana Pacers,PRA,17.95,🟠 MEDIUM,6.88,11.1,24.8
+Nikola Jović,Miami Heat,PRA,17.88,🟠 MEDIUM,6.88,11.0,24.8
+Zach Edey,Memphis Grizzlies,PRA,17.81,🟠 MEDIUM,6.88,10.9,24.7
+Ja'Kobe Walter,Toronto Raptors,PRA,17.54,🟠 MEDIUM,6.88,10.7,24.4
+Ausar Thompson,Detroit Pistons,PRA,17.4,🟠 MEDIUM,6.88,10.5,24.3
+Jose Alvarado,New Orleans Pelicans,PRA,17.22,🟠 MEDIUM,6.88,10.3,24.1
+Scotty Pippen Jr.,Memphis Grizzlies,PRA,17.21,🟠 MEDIUM,6.88,10.3,24.1
+Duncan Robinson,Detroit Pistons,PRA,17.09,🟠 MEDIUM,6.88,10.2,24.0
+Harrison Barnes,San Antonio Spurs,PRA,17.01,🟠 MEDIUM,6.88,10.1,23.9
+Aaron Nesmith,Indiana Pacers,PRA,16.91,🟠 MEDIUM,6.88,10.0,23.8
+Kevin Porter Jr.,Milwaukee Bucks,PRA,16.9,🟠 MEDIUM,6.88,10.0,23.8
+Quinten Post,Golden State Warriors,PRA,16.85,🟠 MEDIUM,6.88,10.0,23.7
+T.J. McConnell,Indiana Pacers,PRA,16.5,🟠 MEDIUM,6.88,9.6,23.4
+Vince Williams Jr.,Memphis Grizzlies,PRA,16.5,🟠 MEDIUM,6.88,9.6,23.4
+Herbert Jones,New Orleans Pelicans,PRA,16.49,🟠 MEDIUM,6.88,9.6,23.4
+Nick Richards,Phoenix Suns,PRA,16.06,🟠 MEDIUM,6.88,9.2,22.9
+Collin Gillespie,Phoenix Suns,PRA,15.96,🟠 MEDIUM,6.88,9.1,22.8
+Cam Spencer,Memphis Grizzlies,PRA,15.84,🟠 MEDIUM,6.88,9.0,22.7
+Chris Boucher,Boston Celtics,PRA,15.82,🟠 MEDIUM,6.88,8.9,22.7
+Buddy Hield,Golden State Warriors,PRA,15.82,🟠 MEDIUM,6.88,8.9,22.7
+Obi Toppin,Indiana Pacers,PRA,15.72,🟠 MEDIUM,6.88,8.8,22.6
+Julian Champagnie,San Antonio Spurs,PRA,15.53,🟠 MEDIUM,6.88,8.6,22.4
+Luguentz Dort,Oklahoma City Thunder,PRA,15.51,🟠 MEDIUM,6.88,8.6,22.4
+Donovan Clingan,Portland Trail Blazers,PRA,15.42,🟠 MEDIUM,6.88,8.5,22.3
+Dorian Finney-Smith,Houston Rockets,PRA,15.41,🟠 MEDIUM,6.88,8.5,22.3
+Mike Conley,Minnesota Timberwolves,PRA,15.32,🟠 MEDIUM,6.88,8.4,22.2
+Royce O'Neale,Phoenix Suns,PRA,15.02,🟠 MEDIUM,6.88,8.1,21.9
+Jaylen Wells,Memphis Grizzlies,PRA,14.96,🟠 MEDIUM,6.88,8.1,21.8
+Brandon Clarke,Memphis Grizzlies,PRA,14.83,🟠 MEDIUM,6.88,7.9,21.7
+Jeremiah Robinson-Earl,Indiana Pacers,PRA,14.78,🟠 MEDIUM,6.88,7.9,21.7
+Mitchell Robinson,New York Knicks,PRA,14.7,🟠 MEDIUM,6.88,7.8,21.6
+Ochai Agbaji,Toronto Raptors,PRA,14.64,🟠 MEDIUM,6.88,7.8,21.5
+Moses Moody,Golden State Warriors,PRA,14.64,🟠 MEDIUM,6.88,7.8,21.5
+Jaden McDaniels,Minnesota Timberwolves,PRA,14.62,🟠 MEDIUM,6.88,7.7,21.5
+Tosan Evbuomwan,New York Knicks,PRA,14.61,🟠 MEDIUM,6.88,7.7,21.5
+Amir Coffey,Milwaukee Bucks,PRA,14.4,🟠 MEDIUM,6.88,7.5,21.3
+Gary Trent Jr.,Milwaukee Bucks,PRA,14.14,🟠 MEDIUM,6.88,7.3,21.0
+KJ Simpson,Charlotte Hornets,PRA,13.89,🟠 MEDIUM,6.88,7.0,20.8
+Cason Wallace,Oklahoma City Thunder,PRA,13.88,🟠 MEDIUM,6.88,7.0,20.8
+Jordan Hawkins,New Orleans Pelicans,PRA,13.86,🟠 MEDIUM,6.88,7.0,20.7
+Tre Mann,Charlotte Hornets,PRA,13.84,🟠 MEDIUM,6.88,7.0,20.7
+Taurean Prince,Milwaukee Bucks,PRA,13.59,🟠 MEDIUM,6.88,6.7,20.5
+Kelly Olynyk,San Antonio Spurs,PRA,13.53,🟠 MEDIUM,6.88,6.6,20.4
+Kentavious Caldwell-Pope,Memphis Grizzlies,PRA,13.13,🟠 MEDIUM,6.88,6.3,20.0
+Marcus Sasser,Detroit Pistons,PRA,13.1,🟠 MEDIUM,6.88,6.2,20.0
+Isaiah Stewart,Detroit Pistons,PRA,13.1,🟠 MEDIUM,6.88,6.2,20.0
+Jaylin Williams,Oklahoma City Thunder,PRA,13.09,🟠 MEDIUM,6.88,6.2,20.0
+Matisse Thybulle,Portland Trail Blazers,PRA,13.07,🟠 MEDIUM,6.88,6.2,20.0
+Precious Achiuwa,Sacramento Kings,PRA,13.06,🟠 MEDIUM,6.88,6.2,19.9
+Kevon Looney,New Orleans Pelicans,PRA,13.05,🟠 MEDIUM,6.88,6.2,19.9
+Wendell Moore Jr.,Detroit Pistons,PRA,13.03,🟠 MEDIUM,6.88,6.2,19.9
+Keon Ellis,Sacramento Kings,PRA,12.73,🟠 MEDIUM,6.88,5.8,19.6
+Moussa Diabaté,Charlotte Hornets,PRA,12.61,🟠 MEDIUM,6.88,5.7,19.5
+Jamal Shead,Toronto Raptors,PRA,12.58,🟠 MEDIUM,6.88,5.7,19.5
+Jarace Walker,Indiana Pacers,PRA,12.57,🟠 MEDIUM,6.88,5.7,19.4
+Jaime Jaquez Jr.,Miami Heat,PRA,12.54,🟠 MEDIUM,6.88,5.7,19.4
+Miles McBride,New York Knicks,PRA,12.24,🟠 MEDIUM,6.88,5.4,19.1
+Alex Caruso,Oklahoma City Thunder,PRA,12.18,🟠 MEDIUM,6.88,5.3,19.1
+Luke Kornet,San Antonio Spurs,PRA,12.18,🟠 MEDIUM,6.88,5.3,19.1
+Javonte Green,Detroit Pistons,PRA,12.09,🟠 MEDIUM,6.88,5.2,19.0
+Quenton Jackson,Indiana Pacers,PRA,12.04,🟠 MEDIUM,6.88,5.2,18.9
+Johnny Juzang,Minnesota Timberwolves,PRA,11.74,🟠 MEDIUM,6.88,4.9,18.6
+AJ Green,Milwaukee Bucks,PRA,11.73,🟠 MEDIUM,6.88,4.8,18.6
+Oso Ighodaro,Phoenix Suns,PRA,11.6,🟠 MEDIUM,6.88,4.7,18.5
+Bismack Biyombo,San Antonio Spurs,PRA,11.5,🟠 MEDIUM,6.88,4.6,18.4
+Bones Hyland,Minnesota Timberwolves,PRA,11.46,🟠 MEDIUM,6.88,4.6,18.3
+Sam Hauser,Boston Celtics,PRA,11.37,🟠 MEDIUM,6.88,4.5,18.3
+Josh Green,Charlotte Hornets,PRA,11.32,🟠 MEDIUM,6.88,4.4,18.2
+Cole Anthony,Milwaukee Bucks,PRA,11.22,🟠 MEDIUM,6.88,4.3,18.1
+Jonathan Mogbo,Toronto Raptors,PRA,11.05,🟠 MEDIUM,6.88,4.2,17.9
+Tidjane Salaün,Charlotte Hornets,PRA,10.95,🟠 MEDIUM,6.88,4.1,17.8
+Sandro Mamukelashvili,Toronto Raptors,PRA,10.92,🟠 MEDIUM,6.88,4.0,17.8
+Simone Fontecchio,Miami Heat,PRA,10.68,🟠 MEDIUM,6.88,3.8,17.6
+Steven Adams,Houston Rockets,PRA,10.6,🟠 MEDIUM,6.88,3.7,17.5
+Ben Sheppard,Indiana Pacers,PRA,10.59,🟠 MEDIUM,6.88,3.7,17.5
+Kenrich Williams,Oklahoma City Thunder,PRA,10.58,🟠 MEDIUM,6.88,3.7,17.5
+Gary Payton II,Golden State Warriors,PRA,10.45,🟠 MEDIUM,6.88,3.6,17.3
+Jock Landale,Memphis Grizzlies,PRA,10.41,🟠 MEDIUM,6.88,3.5,17.3
+Ajay Mitchell,Oklahoma City Thunder,PRA,10.15,🟠 MEDIUM,6.88,3.3,17.0
+Baylor Scheierman,Boston Celtics,PRA,9.99,🟠 MEDIUM,6.88,3.1,16.9
+Garrison Mathews,Indiana Pacers,PRA,9.97,🟠 MEDIUM,6.88,3.1,16.9
+GG Jackson,Memphis Grizzlies,PRA,9.89,🟠 MEDIUM,6.88,3.0,16.8
+Ronald Holland II,Detroit Pistons,PRA,9.84,🟠 MEDIUM,6.88,3.0,16.7
+Gui Santos,Golden State Warriors,PRA,9.57,🟠 MEDIUM,6.88,2.7,16.4
+Jay Huff,Indiana Pacers,PRA,9.51,🟠 MEDIUM,6.88,2.6,16.4
+Ryan Dunn,Phoenix Suns,PRA,9.44,🟠 MEDIUM,6.88,2.6,16.3
+Rob Dillingham,Minnesota Timberwolves,PRA,9.41,🟠 MEDIUM,6.88,2.5,16.3
+Robert Williams III,Portland Trail Blazers,PRA,9.33,🟠 MEDIUM,6.88,2.4,16.2
+Josh Okogie,Houston Rockets,PRA,9.29,🟠 MEDIUM,6.88,2.4,16.2
+Neemias Queta,Boston Celtics,PRA,9.25,🟠 MEDIUM,6.88,2.4,16.1
+Mason Plumlee,Charlotte Hornets,PRA,9.16,🟠 MEDIUM,6.88,2.3,16.0
+Ryan Rollins,Milwaukee Bucks,PRA,9.03,🟠 MEDIUM,6.88,2.2,15.9
+Jamison Battle,Toronto Raptors,PRA,8.98,🟠 MEDIUM,6.88,2.1,15.9
+Paul Reed,Detroit Pistons,PRA,8.85,🟠 MEDIUM,6.88,2.0,15.7
+DeAndre Jordan,New Orleans Pelicans,PRA,8.7,🟠 MEDIUM,6.88,1.8,15.6
+Jeff Green,Houston Rockets,PRA,8.52,🟠 MEDIUM,6.88,1.6,15.4
+Landry Shamet,New York Knicks,PRA,8.51,🟠 MEDIUM,6.88,1.6,15.4
+John Konchar,Memphis Grizzlies,PRA,8.32,🟠 MEDIUM,6.88,1.4,15.2
+Trey Jemison III,New York Knicks,PRA,8.26,🟠 MEDIUM,6.88,1.4,15.1
+Pat Connaughton,Charlotte Hornets,PRA,8.07,🟠 MEDIUM,6.88,1.2,15.0
+Terrence Shannon Jr.,Minnesota Timberwolves,PRA,8.01,🟠 MEDIUM,6.88,1.1,14.9
+Olivier-Maxence Prosper,Memphis Grizzlies,PRA,7.97,🟠 MEDIUM,6.88,1.1,14.8
+Andre Jackson Jr.,Milwaukee Bucks,PRA,7.81,🟠 MEDIUM,6.88,0.9,14.7
+Jaylen Clark,Minnesota Timberwolves,PRA,7.54,🟠 MEDIUM,6.88,0.7,14.4
+Aaron Holiday,Houston Rockets,PRA,7.51,🟠 MEDIUM,6.88,0.6,14.4
+Blake Wesley,Portland Trail Blazers,PRA,7.42,🟠 MEDIUM,6.88,0.5,14.3
+Duop Reath,Portland Trail Blazers,PRA,7.41,🟠 MEDIUM,6.88,0.5,14.3
+Lindy Waters III,San Antonio Spurs,PRA,7.34,🟠 MEDIUM,6.88,0.5,14.2
+Antonio Reeves,Charlotte Hornets,PRA,7.23,🟠 MEDIUM,6.88,0.4,14.1
+Johnny Furphy,Indiana Pacers,PRA,7.21,🟠 MEDIUM,6.88,0.3,14.1
+Kris Murray,Portland Trail Blazers,PRA,6.98,🟠 MEDIUM,6.88,0.1,13.9
+Drew Eubanks,Sacramento Kings,PRA,6.52,🟠 MEDIUM,6.88,-0.4,13.4
+Ousmane Dieng,Oklahoma City Thunder,PRA,6.4,🟠 MEDIUM,6.88,-0.5,13.3
+Reed Sheppard,Houston Rockets,PRA,6.08,🟠 MEDIUM,6.88,-0.8,13.0
+Kobe Bufkin,Memphis Grizzlies,PRA,6.0,🟠 MEDIUM,6.88,-0.9,12.9
+Jae'Sean Tate,Houston Rockets,PRA,5.87,🟠 MEDIUM,6.88,-1.0,12.8
+Pelle Larsson,Miami Heat,PRA,5.86,🟠 MEDIUM,6.88,-1.0,12.7
+Devin Carter,Sacramento Kings,PRA,5.68,🟠 MEDIUM,6.88,-1.2,12.6
+Jericho Sims,Milwaukee Bucks,PRA,5.4,🟠 MEDIUM,6.88,-1.5,12.3
+Garrett Temple,Toronto Raptors,PRA,5.31,🟠 MEDIUM,6.88,-1.6,12.2
+Luka Garza,Boston Celtics,PRA,5.18,🟠 MEDIUM,6.88,-1.7,12.1
+Daniss Jenkins,Detroit Pistons,PRA,5.0,🟠 MEDIUM,6.88,-1.9,11.9
+Pat Spencer,Golden State Warriors,PRA,4.97,🟠 MEDIUM,6.88,-1.9,11.8
+Jordan McLaughlin,San Antonio Spurs,PRA,4.8,🟠 MEDIUM,6.88,-2.1,11.7
+Jordan Walsh,Boston Celtics,PRA,4.65,🟠 MEDIUM,6.88,-2.2,11.5
+Ariel Hukporti,New York Knicks,PRA,4.6,🟠 MEDIUM,6.88,-2.3,11.5
+Dru Smith,Miami Heat,PRA,4.55,🟠 MEDIUM,6.88,-2.3,11.4
+Enrique Freeman,Minnesota Timberwolves,PRA,4.54,🟠 MEDIUM,6.88,-2.3,11.4
+Dario Šarić,Sacramento Kings,PRA,4.23,🟠 MEDIUM,6.88,-2.6,11.1
+Josh Minott,Boston Celtics,PRA,4.13,🟠 MEDIUM,6.88,-2.7,11.0
+Victor Wembanyama,San Antonio Spurs,BLK,4.04,🟠 MEDIUM,0.67,3.4,4.7
+Doug McDermott,Sacramento Kings,PRA,3.71,🟠 MEDIUM,6.88,-3.2,10.6
+Drew Peterson,Charlotte Hornets,PRA,3.62,🟠 MEDIUM,6.88,-3.3,10.5
+Gary Harris,Milwaukee Bucks,PRA,3.5,🟠 MEDIUM,6.88,-3.4,10.4
+Keshad Johnson,Miami Heat,PRA,3.45,🟠 MEDIUM,6.88,-3.4,10.3
+JD Davison,Houston Rockets,PRA,3.36,🟠 MEDIUM,6.88,-3.5,10.2
+Trayce Jackson-Davis,Golden State Warriors,PRA,3.15,🟠 MEDIUM,6.88,-3.7,10.0
+RayJ Dennis,Indiana Pacers,PRA,2.99,🟠 MEDIUM,6.88,-3.9,9.9
+Rayan Rupert,Portland Trail Blazers,PRA,2.71,🟠 MEDIUM,6.88,-4.2,9.6
+Pacôme Dadiet,New York Knicks,PRA,2.58,🟠 MEDIUM,6.88,-4.3,9.5
+Robert Williams III,Portland Trail Blazers,BLK,2.54,🟠 MEDIUM,0.67,1.9,3.2
+Trey Alexander,New Orleans Pelicans,PRA,2.1,🟠 MEDIUM,6.88,-4.8,9.0
+Chet Holmgren,Oklahoma City Thunder,BLK,2.0,🟠 MEDIUM,0.67,1.3,2.7
+Myles Turner,Milwaukee Bucks,BLK,1.84,🟠 MEDIUM,0.67,1.2,2.5
+Tony Bradley,Indiana Pacers,BLK,1.81,🟠 MEDIUM,0.67,1.1,2.5
+Brandon Ingram,Toronto Raptors,BLK,1.66,🟠 MEDIUM,0.67,1.0,2.3
+Donovan Clingan,Portland Trail Blazers,BLK,1.64,🟠 MEDIUM,0.67,1.0,2.3
+Jakob Poeltl,Toronto Raptors,BLK,1.6,🟠 MEDIUM,0.67,0.9,2.3
+Amen Thompson,Houston Rockets,BLK,1.6,🟠 MEDIUM,0.67,0.9,2.3
+Rudy Gobert,Minnesota Timberwolves,BLK,1.54,🟠 MEDIUM,0.67,0.9,2.2
+Isaiah Crawford,Houston Rockets,PRA,1.52,🟠 MEDIUM,6.88,-5.4,8.4
+Isaiah Stewart,Detroit Pistons,BLK,1.46,🟠 MEDIUM,0.67,0.8,2.1
+Kevin Durant,Houston Rockets,BLK,1.42,🟠 MEDIUM,0.67,0.8,2.1
+Zach Edey,Memphis Grizzlies,BLK,1.35,🟠 MEDIUM,0.67,0.7,2.0
+Giannis Antetokounmpo,Milwaukee Bucks,BLK,1.32,🟠 MEDIUM,0.67,0.6,2.0
+Yves Missi,New Orleans Pelicans,BLK,1.31,🟠 MEDIUM,0.67,0.6,2.0
+Tyler Kolek,New York Knicks,PRA,1.19,🟠 MEDIUM,6.88,-5.7,8.1
+Mitchell Robinson,New York Knicks,BLK,1.17,🟠 MEDIUM,0.67,0.5,1.8
+Kel'el Ware,Miami Heat,BLK,1.16,🟠 MEDIUM,0.67,0.5,1.8
+Shai Gilgeous-Alexander,Oklahoma City Thunder,BLK,1.13,🟠 MEDIUM,0.67,0.5,1.8
+Jonathan Mogbo,Toronto Raptors,BLK,1.11,🟠 MEDIUM,0.67,0.4,1.8
+Keon Ellis,Sacramento Kings,BLK,1.08,🟠 MEDIUM,0.67,0.4,1.8
+Xavier Tillman,Boston Celtics,PRA,1.06,🟠 MEDIUM,6.88,-5.8,7.9
+Jaden McDaniels,Minnesota Timberwolves,BLK,1.06,🟠 MEDIUM,0.67,0.4,1.7
+Draymond Green,Golden State Warriors,BLK,1.05,🟠 MEDIUM,0.67,0.4,1.7
+Luke Kornet,San Antonio Spurs,BLK,1.05,🟠 MEDIUM,0.67,0.4,1.7
+Ja'Kobe Walter,Toronto Raptors,BLK,1.04,🟠 MEDIUM,0.67,0.4,1.7
+Branden Carlson,Oklahoma City Thunder,BLK,1.04,🟠 MEDIUM,0.67,0.4,1.7
+Keegan Murray,Sacramento Kings,BLK,1.03,🟠 MEDIUM,0.67,0.4,1.7
+Grant Williams,Charlotte Hornets,BLK,1.0,🟠 MEDIUM,0.67,0.3,1.7
+Bryce McGowens,New Orleans Pelicans,PRA,1.0,🟠 MEDIUM,6.88,-5.9,7.9
+Karlo Matković,New Orleans Pelicans,BLK,1.0,🟠 MEDIUM,0.67,0.3,1.7
+Matisse Thybulle,Portland Trail Blazers,BLK,1.0,🟠 MEDIUM,0.67,0.3,1.7
+Mason Plumlee,Charlotte Hornets,BLK,0.99,🟠 MEDIUM,0.67,0.3,1.7
+Isaac Jones,Detroit Pistons,PRA,0.97,🟠 MEDIUM,6.88,-5.9,7.9
+Jerami Grant,Portland Trail Blazers,BLK,0.97,🟠 MEDIUM,0.67,0.3,1.6
+Isaiah Hartenstein,Oklahoma City Thunder,BLK,0.94,🟠 MEDIUM,0.67,0.3,1.6
+OG Anunoby,New York Knicks,BLK,0.92,🟠 MEDIUM,0.67,0.3,1.6
+Naz Reid,Minnesota Timberwolves,BLK,0.92,🟠 MEDIUM,0.67,0.2,1.6
+Tari Eason,Houston Rockets,BLK,0.92,🟠 MEDIUM,0.67,0.2,1.6
+Malik Monk,Sacramento Kings,BLK,0.91,🟠 MEDIUM,0.67,0.2,1.6
+Nick Richards,Phoenix Suns,BLK,0.91,🟠 MEDIUM,0.67,0.2,1.6
+Al Horford,Golden State Warriors,BLK,0.9,🟠 MEDIUM,0.67,0.2,1.6
+Josh Okogie,Houston Rockets,BLK,0.89,🟠 MEDIUM,0.67,0.2,1.6
+Jalen Duren,Detroit Pistons,BLK,0.87,🟠 MEDIUM,0.67,0.2,1.5
+Trey Murphy III,New Orleans Pelicans,BLK,0.83,🟠 MEDIUM,0.67,0.2,1.5
+Kris Murray,Portland Trail Blazers,BLK,0.83,🟠 MEDIUM,0.67,0.2,1.5
+Bismack Biyombo,San Antonio Spurs,BLK,0.83,🟠 MEDIUM,0.67,0.2,1.5
+Brandon Miller,Charlotte Hornets,BLK,0.81,🟠 MEDIUM,0.67,0.1,1.5
+Miles Bridges,Charlotte Hornets,BLK,0.79,🟠 MEDIUM,0.67,0.1,1.5
+Andrew Wiggins,Miami Heat,BLK,0.79,🟠 MEDIUM,0.67,0.1,1.5
+Sidy Cissoko,Portland Trail Blazers,PRA,0.79,🟠 MEDIUM,6.88,-6.1,7.7
+DeMar DeRozan,Sacramento Kings,BLK,0.78,🟠 MEDIUM,0.67,0.1,1.4
+Joe Ingles,Minnesota Timberwolves,PRA,0.75,🟠 MEDIUM,6.88,-6.1,7.6
+Cade Cunningham,Detroit Pistons,BLK,0.74,🟠 MEDIUM,0.67,0.1,1.4
+Alperen Sengun,Houston Rockets,BLK,0.74,🟠 MEDIUM,0.67,0.1,1.4
+Karl-Anthony Towns,New York Knicks,BLK,0.72,🟠 MEDIUM,0.67,0.1,1.4
+Herbert Jones,New Orleans Pelicans,BLK,0.71,🟠 MEDIUM,0.67,0.0,1.4
+Jaylin Williams,Oklahoma City Thunder,BLK,0.7,🟠 MEDIUM,0.67,0.0,1.4
+Drew Eubanks,Sacramento Kings,BLK,0.7,🟠 MEDIUM,0.67,0.0,1.4
+Neemias Queta,Boston Celtics,BLK,0.68,🟠 MEDIUM,0.67,0.0,1.3
+Precious Achiuwa,Sacramento Kings,BLK,0.65,🟠 MEDIUM,0.67,-0.0,1.3
+Tobias Harris,Detroit Pistons,BLK,0.64,🟠 MEDIUM,0.67,-0.0,1.3
+Caris LeVert,Detroit Pistons,BLK,0.63,🟠 MEDIUM,0.67,-0.0,1.3
+Tyrese Haliburton,Indiana Pacers,BLK,0.62,🟠 MEDIUM,0.67,-0.1,1.3
+Anthony Edwards,Minnesota Timberwolves,BLK,0.62,🟠 MEDIUM,0.67,-0.1,1.3
+Trey Jemison III,New York Knicks,BLK,0.6,🟠 MEDIUM,0.67,-0.1,1.3
+Scottie Barnes,Toronto Raptors,BLK,0.6,🟠 MEDIUM,0.67,-0.1,1.3
+Brandon Clarke,Memphis Grizzlies,BLK,0.6,🟠 MEDIUM,0.67,-0.1,1.3
+Quinten Post,Golden State Warriors,BLK,0.59,🟠 MEDIUM,0.67,-0.1,1.3
+Paul Reed,Detroit Pistons,BLK,0.57,🟠 MEDIUM,0.67,-0.1,1.2
+Bam Adebayo,Miami Heat,BLK,0.57,🟠 MEDIUM,0.67,-0.1,1.2
+Devin Booker,Phoenix Suns,BLK,0.57,🟠 MEDIUM,0.67,-0.1,1.2
+Cason Wallace,Oklahoma City Thunder,BLK,0.55,🟠 MEDIUM,0.67,-0.1,1.2
+Moussa Diabaté,Charlotte Hornets,BLK,0.54,🟠 MEDIUM,0.67,-0.1,1.2
+Toumani Camara,Portland Trail Blazers,BLK,0.53,🟠 MEDIUM,0.67,-0.1,1.2
+Garrison Mathews,Indiana Pacers,BLK,0.52,🟠 MEDIUM,0.67,-0.1,1.2
+Steven Adams,Houston Rockets,BLK,0.52,🟠 MEDIUM,0.67,-0.1,1.2
+Devin Vassell,San Antonio Spurs,BLK,0.51,🟠 MEDIUM,0.67,-0.2,1.2
+Bobi Klintman,Detroit Pistons,PRA,0.5,🟠 MEDIUM,6.88,-6.4,7.4
+Ariel Hukporti,New York Knicks,BLK,0.5,🟠 MEDIUM,0.67,-0.2,1.2
+Pete Nance,Milwaukee Bucks,PRA,0.5,🟠 MEDIUM,6.88,-6.4,7.4
+Isaiah Crawford,Houston Rockets,BLK,0.5,🟠 MEDIUM,0.67,-0.2,1.2
+Chris Boucher,Boston Celtics,BLK,0.48,🟠 MEDIUM,0.67,-0.2,1.1
+Luguentz Dort,Oklahoma City Thunder,BLK,0.48,🟠 MEDIUM,0.67,-0.2,1.1
+Santi Aldama,Memphis Grizzlies,BLK,0.48,🟠 MEDIUM,0.67,-0.2,1.2
+Jarace Walker,Indiana Pacers,BLK,0.47,🟠 MEDIUM,0.67,-0.2,1.1
+Javonte Green,Detroit Pistons,BLK,0.46,🟠 MEDIUM,0.67,-0.2,1.1
+Mikal Bridges,New York Knicks,BLK,0.46,🟠 MEDIUM,0.67,-0.2,1.1
+Jay Huff,Indiana Pacers,BLK,0.46,🟠 MEDIUM,0.67,-0.2,1.1
+Dejounte Murray,New Orleans Pelicans,BLK,0.46,🟠 MEDIUM,0.67,-0.2,1.1
+DeAndre Jordan,New Orleans Pelicans,BLK,0.46,🟠 MEDIUM,0.67,-0.2,1.1
+Jayson Tatum,Boston Celtics,BLK,0.45,🟠 MEDIUM,0.67,-0.2,1.1
+Alex Caruso,Oklahoma City Thunder,BLK,0.45,🟠 MEDIUM,0.67,-0.2,1.1
+Kelly Olynyk,San Antonio Spurs,BLK,0.45,🟠 MEDIUM,0.67,-0.2,1.1
+Oso Ighodaro,Phoenix Suns,BLK,0.45,🟠 MEDIUM,0.67,-0.2,1.1
+Moses Moody,Golden State Warriors,BLK,0.44,🟠 MEDIUM,0.67,-0.2,1.1
+Ryan Dunn,Phoenix Suns,BLK,0.44,🟠 MEDIUM,0.67,-0.2,1.1
+Kentavious Caldwell-Pope,Memphis Grizzlies,BLK,0.43,🟠 MEDIUM,0.67,-0.2,1.1
+Pascal Siakam,Indiana Pacers,BLK,0.42,🟠 MEDIUM,0.67,-0.2,1.1
+Kevon Looney,New Orleans Pelicans,BLK,0.42,🟠 MEDIUM,0.67,-0.2,1.1
+Jalen Green,Phoenix Suns,BLK,0.42,🟠 MEDIUM,0.67,-0.3,1.1
+Jaren Jackson Jr.,Memphis Grizzlies,BLK,0.41,🟠 MEDIUM,0.67,-0.3,1.1
+Julian Champagnie,San Antonio Spurs,BLK,0.41,🟠 MEDIUM,0.67,-0.3,1.1
+Jalen Williams,Oklahoma City Thunder,BLK,0.4,🟠 MEDIUM,0.67,-0.3,1.1
+Stephen Curry,Golden State Warriors,BLK,0.4,🟠 MEDIUM,0.67,-0.3,1.1
+Jeremy Sochan,San Antonio Spurs,BLK,0.4,🟠 MEDIUM,0.67,-0.3,1.1
+Jrue Holiday,Portland Trail Blazers,BLK,0.39,🟠 MEDIUM,0.67,-0.3,1.1
+Domantas Sabonis,Sacramento Kings,BLK,0.39,🟠 MEDIUM,0.67,-0.3,1.1
+Guerschon Yabusele,New York Knicks,BLK,0.38,🟠 MEDIUM,0.67,-0.3,1.0
+Reed Sheppard,Houston Rockets,BLK,0.38,🟠 MEDIUM,0.67,-0.3,1.0
+Duop Reath,Portland Trail Blazers,BLK,0.38,🟠 MEDIUM,0.67,-0.3,1.1
+Ochai Agbaji,Toronto Raptors,BLK,0.36,🟠 MEDIUM,0.67,-0.3,1.0
+Jaden Ivey,Detroit Pistons,BLK,0.35,🟠 MEDIUM,0.67,-0.3,1.0
+Obi Toppin,Indiana Pacers,BLK,0.35,🟠 MEDIUM,0.67,-0.3,1.0
+Stephon Castle,San Antonio Spurs,BLK,0.34,🟠 MEDIUM,0.67,-0.3,1.0
+Ausar Thompson,Detroit Pistons,BLK,0.32,🟠 MEDIUM,0.67,-0.4,1.0
+Jordan Hawkins,New Orleans Pelicans,BLK,0.32,🟠 MEDIUM,0.67,-0.3,1.0
+Jimmy Butler III,Golden State Warriors,BLK,0.32,🟠 MEDIUM,0.67,-0.3,1.0
+Jonathan Kuminga,Golden State Warriors,BLK,0.31,🟠 MEDIUM,0.67,-0.4,1.0
+Trayce Jackson-Davis,Golden State Warriors,BLK,0.31,🟠 MEDIUM,0.67,-0.4,1.0
+Clint Capela,Houston Rockets,BLK,0.31,🟠 MEDIUM,0.67,-0.4,1.0
+Josh Minott,Boston Celtics,BLK,0.3,🟠 MEDIUM,0.67,-0.4,1.0
+RJ Barrett,Toronto Raptors,BLK,0.3,🟠 MEDIUM,0.67,-0.4,1.0
+T.J. McConnell,Indiana Pacers,BLK,0.3,🟠 MEDIUM,0.67,-0.4,1.0
+Buddy Hield,Golden State Warriors,BLK,0.3,🟠 MEDIUM,0.67,-0.4,1.0
+Russell Westbrook,Sacramento Kings,BLK,0.3,🟠 MEDIUM,0.67,-0.4,1.0
+Royce O'Neale,Phoenix Suns,BLK,0.3,🟠 MEDIUM,0.67,-0.4,1.0
+Josh Hart,New York Knicks,BLK,0.29,🟠 MEDIUM,0.67,-0.4,1.0
+Dru Smith,Miami Heat,BLK,0.29,🟠 MEDIUM,0.67,-0.4,1.0
+Donte DiVincenzo,Minnesota Timberwolves,BLK,0.29,🟠 MEDIUM,0.67,-0.4,1.0
+Gary Payton II,Golden State Warriors,BLK,0.29,🟠 MEDIUM,0.67,-0.4,1.0
+Sandro Mamukelashvili,Toronto Raptors,BLK,0.28,🟠 MEDIUM,0.67,-0.4,1.0
+Scotty Pippen Jr.,Memphis Grizzlies,BLK,0.28,🟠 MEDIUM,0.67,-0.4,0.9
+GG Jackson,Memphis Grizzlies,BLK,0.28,🟠 MEDIUM,0.67,-0.4,1.0
+Jordan Walsh,Boston Celtics,BLK,0.27,🟠 MEDIUM,0.67,-0.4,0.9
+Pat Connaughton,Charlotte Hornets,BLK,0.27,🟠 MEDIUM,0.67,-0.4,0.9
+Keldon Johnson,San Antonio Spurs,BLK,0.27,🟠 MEDIUM,0.67,-0.4,0.9
+Grayson Allen,Phoenix Suns,BLK,0.27,🟠 MEDIUM,0.67,-0.4,0.9
+Jaylen Brown,Boston Celtics,BLK,0.26,🟠 MEDIUM,0.67,-0.4,0.9
+LaMelo Ball,Charlotte Hornets,BLK,0.26,🟠 MEDIUM,0.67,-0.4,0.9
+Tidjane Salaün,Charlotte Hornets,BLK,0.26,🟠 MEDIUM,0.67,-0.4,0.9
+Jordan Clarkson,New York Knicks,BLK,0.26,🟠 MEDIUM,0.67,-0.4,0.9
+Terry Rozier,Miami Heat,BLK,0.26,🟠 MEDIUM,0.67,-0.4,0.9
+Andre Jackson Jr.,Milwaukee Bucks,BLK,0.26,🟠 MEDIUM,0.67,-0.4,0.9
+Jock Landale,Memphis Grizzlies,BLK,0.26,🟠 MEDIUM,0.67,-0.4,0.9
+Payton Pritchard,Boston Celtics,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Xavier Tillman,Boston Celtics,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Isaac Jones,Detroit Pistons,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Tosan Evbuomwan,New York Knicks,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Tyler Herro,Miami Heat,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Bobby Portis,Milwaukee Bucks,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+A.J. Lawson,Toronto Raptors,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Enrique Freeman,Minnesota Timberwolves,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Julius Randle,Minnesota Timberwolves,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+John Konchar,Memphis Grizzlies,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Shaedon Sharpe,Portland Trail Blazers,BLK,0.25,🟠 MEDIUM,0.67,-0.4,0.9
+Miles McBride,New York Knicks,BLK,0.24,🟠 MEDIUM,0.67,-0.4,0.9
+Kevin Porter Jr.,Milwaukee Bucks,BLK,0.23,🟠 MEDIUM,0.67,-0.4,0.9
+Gary Harris,Milwaukee Bucks,BLK,0.23,🟠 MEDIUM,0.67,-0.4,0.9
+Bennedict Mathurin,Indiana Pacers,BLK,0.23,🟠 MEDIUM,0.67,-0.4,0.9
+Johnny Furphy,Indiana Pacers,BLK,0.23,🟠 MEDIUM,0.67,-0.4,0.9
+Gui Santos,Golden State Warriors,BLK,0.23,🟠 MEDIUM,0.67,-0.4,0.9
+Dorian Finney-Smith,Houston Rockets,BLK,0.23,🟠 MEDIUM,0.67,-0.4,0.9
+Deni Avdija,Portland Trail Blazers,BLK,0.23,🟠 MEDIUM,0.67,-0.4,0.9
+Josh Green,Charlotte Hornets,BLK,0.22,🟠 MEDIUM,0.67,-0.5,0.9
+Cole Anthony,Milwaukee Bucks,BLK,0.22,🟠 MEDIUM,0.67,-0.4,0.9
+Andrew Nembhard,Indiana Pacers,BLK,0.22,🟠 MEDIUM,0.67,-0.5,0.9
+Aaron Nesmith,Indiana Pacers,BLK,0.22,🟠 MEDIUM,0.67,-0.5,0.9
+Zion Williamson,New Orleans Pelicans,BLK,0.22,🟠 MEDIUM,0.67,-0.4,0.9
+Jabari Smith Jr.,Houston Rockets,BLK,0.22,🟠 MEDIUM,0.67,-0.5,0.9
+Wendell Moore Jr.,Detroit Pistons,BLK,0.21,🟠 MEDIUM,0.67,-0.5,0.9
+Taurean Prince,Milwaukee Bucks,BLK,0.21,🟠 MEDIUM,0.67,-0.5,0.9
+Quenton Jackson,Indiana Pacers,BLK,0.21,🟠 MEDIUM,0.67,-0.5,0.9
+Ben Sheppard,Indiana Pacers,BLK,0.2,🟠 MEDIUM,0.67,-0.5,0.9
+Jordan Poole,New Orleans Pelicans,BLK,0.2,🟠 MEDIUM,0.67,-0.5,0.9
+Jeff Green,Houston Rockets,BLK,0.2,🟠 MEDIUM,0.67,-0.5,0.9
+Tyler Kolek,New York Knicks,BLK,0.19,🟠 MEDIUM,0.67,-0.5,0.9
+Simone Fontecchio,Miami Heat,BLK,0.19,🟠 MEDIUM,0.67,-0.5,0.9
+Vince Williams Jr.,Memphis Grizzlies,BLK,0.19,🟠 MEDIUM,0.67,-0.5,0.9
+Dennis Schröder,Sacramento Kings,BLK,0.19,🟠 MEDIUM,0.67,-0.5,0.9
+Derrick White,Boston Celtics,BLK,0.18,🟠 MEDIUM,0.67,-0.5,0.8
+Jaime Jaquez Jr.,Miami Heat,BLK,0.18,🟠 MEDIUM,0.67,-0.5,0.8
+Kyle Kuzma,Milwaukee Bucks,BLK,0.18,🟠 MEDIUM,0.67,-0.5,0.8
+Mike Conley,Minnesota Timberwolves,BLK,0.18,🟠 MEDIUM,0.67,-0.5,0.8
+Damian Lillard,Portland Trail Blazers,BLK,0.18,🟠 MEDIUM,0.67,-0.5,0.8
+Aaron Holiday,Houston Rockets,BLK,0.17,🟠 MEDIUM,0.67,-0.5,0.8
+Zach LaVine,Sacramento Kings,BLK,0.17,🟠 MEDIUM,0.67,-0.5,0.8
+Dillon Brooks,Phoenix Suns,BLK,0.17,🟠 MEDIUM,0.67,-0.5,0.8
+Ja Morant,Memphis Grizzlies,BLK,0.16,🟠 MEDIUM,0.67,-0.5,0.8
+Brandin Podziemski,Golden State Warriors,BLK,0.16,🟠 MEDIUM,0.67,-0.5,0.8
+Harrison Barnes,San Antonio Spurs,BLK,0.16,🟠 MEDIUM,0.67,-0.5,0.8
+Jamal Shead,Toronto Raptors,BLK,0.15,🟠 MEDIUM,0.67,-0.5,0.8
+Immanuel Quickley,Toronto Raptors,BLK,0.14,🟠 MEDIUM,0.67,-0.5,0.8
+Jamison Battle,Toronto Raptors,BLK,0.14,🟠 MEDIUM,0.67,-0.5,0.8
+Aaron Wiggins,Oklahoma City Thunder,BLK,0.14,🟠 MEDIUM,0.67,-0.5,0.8
+Jose Alvarado,New Orleans Pelicans,BLK,0.14,🟠 MEDIUM,0.67,-0.5,0.8
+Fred VanVleet,Houston Rockets,BLK,0.14,🟠 MEDIUM,0.67,-0.5,0.8
+Collin Gillespie,Phoenix Suns,BLK,0.14,🟠 MEDIUM,0.67,-0.5,0.8
+Ronald Holland II,Detroit Pistons,BLK,0.13,🟠 MEDIUM,0.67,-0.5,0.8
+Ryan Rollins,Milwaukee Bucks,BLK,0.13,🟠 MEDIUM,0.67,-0.5,0.8
+Jeremiah Robinson-Earl,Indiana Pacers,BLK,0.13,🟠 MEDIUM,0.67,-0.5,0.8
+JD Davison,Houston Rockets,BLK,0.13,🟠 MEDIUM,0.67,-0.5,0.8
+Norman Powell,Miami Heat,BLK,0.12,🟠 MEDIUM,0.67,-0.6,0.8
+Olivier-Maxence Prosper,Memphis Grizzlies,BLK,0.12,🟠 MEDIUM,0.67,-0.5,0.8
+Sam Hauser,Boston Celtics,BLK,0.11,🟠 MEDIUM,0.67,-0.6,0.8
+AJ Green,Milwaukee Bucks,BLK,0.11,🟠 MEDIUM,0.67,-0.6,0.8
+Anfernee Simons,Boston Celtics,BLK,0.1,🟠 MEDIUM,0.67,-0.6,0.8
+Antonio Reeves,Charlotte Hornets,BLK,0.1,🟠 MEDIUM,0.67,-0.6,0.8
+Pelle Larsson,Miami Heat,BLK,0.1,🟠 MEDIUM,0.67,-0.6,0.8
+Terrence Shannon Jr.,Minnesota Timberwolves,BLK,0.1,🟠 MEDIUM,0.67,-0.6,0.8
+Scoot Henderson,Portland Trail Blazers,BLK,0.1,🟠 MEDIUM,0.67,-0.6,0.8
+Lindy Waters III,San Antonio Spurs,BLK,0.1,🟠 MEDIUM,0.67,-0.6,0.8
+Nikola Jović,Miami Heat,BLK,0.09,🟠 MEDIUM,0.67,-0.6,0.8
+Ajay Mitchell,Oklahoma City Thunder,BLK,0.09,🟠 MEDIUM,0.67,-0.6,0.8
+Johnny Juzang,Minnesota Timberwolves,BLK,0.09,🟠 MEDIUM,0.67,-0.6,0.8
+Jae'Sean Tate,Houston Rockets,BLK,0.09,🟠 MEDIUM,0.67,-0.6,0.8
+Jalen Brunson,New York Knicks,BLK,0.08,🟠 MEDIUM,0.67,-0.6,0.8
+Blake Wesley,Portland Trail Blazers,BLK,0.08,🟠 MEDIUM,0.67,-0.6,0.7
+Marcus Sasser,Detroit Pistons,BLK,0.07,🟠 MEDIUM,0.67,-0.6,0.7
+Jaylen Clark,Minnesota Timberwolves,BLK,0.07,🟠 MEDIUM,0.67,-0.6,0.7
+Leonard Miller,Minnesota Timberwolves,PRA,0.07,🟠 MEDIUM,6.88,-6.8,7.0
+Doug McDermott,Sacramento Kings,BLK,0.07,🟠 MEDIUM,0.67,-0.6,0.7
+Collin Sexton,Charlotte Hornets,BLK,0.06,🟠 MEDIUM,0.67,-0.6,0.7
+Jericho Sims,Milwaukee Bucks,BLK,0.06,🟠 MEDIUM,0.67,-0.6,0.7
+Gary Trent Jr.,Milwaukee Bucks,BLK,0.06,🟠 MEDIUM,0.67,-0.6,0.7
+Isaiah Joe,Oklahoma City Thunder,BLK,0.06,🟠 MEDIUM,0.67,-0.6,0.7
+Kenrich Williams,Oklahoma City Thunder,BLK,0.06,🟠 MEDIUM,0.67,-0.6,0.7
+Jaylen Wells,Memphis Grizzlies,BLK,0.06,🟠 MEDIUM,0.67,-0.6,0.7
+Davion Mitchell,Miami Heat,BLK,0.05,🟠 MEDIUM,0.67,-0.6,0.7
+De'Aaron Fox,San Antonio Spurs,BLK,0.04,🟠 MEDIUM,0.67,-0.6,0.7
+Devin Carter,Sacramento Kings,BLK,0.04,🟠 MEDIUM,0.67,-0.6,0.7
+Rayan Rupert,Portland Trail Blazers,BLK,0.03,🟠 MEDIUM,0.67,-0.6,0.7
+Duncan Robinson,Detroit Pistons,BLK,0.02,🟠 MEDIUM,0.67,-0.6,0.7
+Ty Jerome,Memphis Grizzlies,BLK,0.02,🟠 MEDIUM,0.67,-0.7,0.7
+Amir Coffey,Milwaukee Bucks,BLK,0.01,🟠 MEDIUM,0.67,-0.7,0.7
+Pat Spencer,Golden State Warriors,BLK,0.01,🟠 MEDIUM,0.67,-0.7,0.7
+Luka Garza,Boston Celtics,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Baylor Scheierman,Boston Celtics,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Daniss Jenkins,Detroit Pistons,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Bobi Klintman,Detroit Pistons,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Drew Peterson,Charlotte Hornets,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Tre Mann,Charlotte Hornets,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Pacôme Dadiet,New York Knicks,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Landry Shamet,New York Knicks,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Keshad Johnson,Miami Heat,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Jahmir Young,Miami Heat,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Jahmir Young,Miami Heat,PRA,0.0,🟠 MEDIUM,6.88,-6.9,6.9
+Pete Nance,Milwaukee Bucks,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Garrett Temple,Toronto Raptors,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+RayJ Dennis,Indiana Pacers,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Rob Dillingham,Minnesota Timberwolves,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Joe Ingles,Minnesota Timberwolves,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Bones Hyland,Minnesota Timberwolves,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Leonard Miller,Minnesota Timberwolves,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Bryce McGowens,New Orleans Pelicans,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Trey Alexander,New Orleans Pelicans,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Cam Spencer,Memphis Grizzlies,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Kobe Bufkin,Memphis Grizzlies,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+De'Anthony Melton,Golden State Warriors,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+De'Anthony Melton,Golden State Warriors,PRA,0.0,🟠 MEDIUM,6.88,-6.9,6.9
+Jackson Rowe,Golden State Warriors,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Jackson Rowe,Golden State Warriors,PRA,0.0,🟠 MEDIUM,6.88,-6.9,6.9
+Sidy Cissoko,Portland Trail Blazers,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Jordan McLaughlin,San Antonio Spurs,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Dario Šarić,Sacramento Kings,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Daeqwon Plowden,Sacramento Kings,BLK,0.0,🟠 MEDIUM,0.67,-0.7,0.7
+Daeqwon Plowden,Sacramento Kings,PRA,0.0,🟠 MEDIUM,6.88,-6.9,6.9
+Ousmane Dieng,Oklahoma City Thunder,BLK,-0.01,🟠 MEDIUM,0.67,-0.7,0.7
+Gradey Dick,Toronto Raptors,BLK,-0.02,🟠 MEDIUM,0.67,-0.7,0.6
+KJ Simpson,Charlotte Hornets,BLK,-0.04,🟠 MEDIUM,0.67,-0.7,0.6
+Devin Booker,Phoenix Suns,PTS,31.83,🔴 VOLATILE,5.73,26.1,37.6
+Giannis Antetokounmpo,Milwaukee Bucks,PTS,30.45,🔴 VOLATILE,5.73,24.7,36.2
+Shai Gilgeous-Alexander,Oklahoma City Thunder,PTS,29.38,🔴 VOLATILE,5.73,23.7,35.1
+Anthony Edwards,Minnesota Timberwolves,PTS,27.82,🔴 VOLATILE,5.73,22.1,33.6
+Zion Williamson,New Orleans Pelicans,PTS,27.33,🔴 VOLATILE,5.73,21.6,33.1
+Jayson Tatum,Boston Celtics,PTS,26.84,🔴 VOLATILE,5.73,21.1,32.6
+Karl-Anthony Towns,New York Knicks,PTS,26.61,🔴 VOLATILE,5.73,20.9,32.3
+Damian Lillard,Portland Trail Blazers,PTS,26.11,🔴 VOLATILE,5.73,20.4,31.8
+Tyler Herro,Miami Heat,PTS,25.51,🔴 VOLATILE,5.73,19.8,31.2
+Kevin Durant,Houston Rockets,PTS,25.11,🔴 VOLATILE,5.73,19.4,30.8
+Stephen Curry,Golden State Warriors,PTS,24.92,🔴 VOLATILE,5.73,19.2,30.6
+Jaylen Brown,Boston Celtics,PTS,24.81,🔴 VOLATILE,5.73,19.1,30.5
+Cade Cunningham,Detroit Pistons,PTS,24.78,🔴 VOLATILE,5.73,19.0,30.5
+De'Aaron Fox,San Antonio Spurs,PTS,24.11,🔴 VOLATILE,5.73,18.4,29.8
+Jalen Brunson,New York Knicks,PTS,23.99,🔴 VOLATILE,5.73,18.3,29.7
+Jaren Jackson Jr.,Memphis Grizzlies,PTS,23.5,🔴 VOLATILE,5.73,17.8,29.2
+Zach LaVine,Sacramento Kings,PTS,23.38,🔴 VOLATILE,5.73,17.7,29.1
+Trey Murphy III,New Orleans Pelicans,PTS,22.89,🔴 VOLATILE,5.73,17.2,28.6
+LaMelo Ball,Charlotte Hornets,PTS,22.43,🔴 VOLATILE,5.73,16.7,28.2
+Victor Wembanyama,San Antonio Spurs,PTS,22.07,🔴 VOLATILE,5.73,16.3,27.8
+RJ Barrett,Toronto Raptors,PTS,21.44,🔴 VOLATILE,5.73,15.7,27.2
+Jalen Williams,Oklahoma City Thunder,PTS,21.3,🔴 VOLATILE,5.73,15.6,27.0
+Jordan Poole,New Orleans Pelicans,PTS,21.25,🔴 VOLATILE,5.73,15.5,27.0
+DeMar DeRozan,Sacramento Kings,PTS,21.16,🔴 VOLATILE,5.73,15.4,26.9
+Jalen Green,Phoenix Suns,PTS,20.71,🔴 VOLATILE,5.73,15.0,26.4
+Pascal Siakam,Indiana Pacers,PTS,20.64,🔴 VOLATILE,5.73,14.9,26.4
+Ja Morant,Memphis Grizzlies,PTS,20.47,🔴 VOLATILE,5.73,14.7,26.2
+Norman Powell,Miami Heat,PTS,20.35,🔴 VOLATILE,5.73,14.6,26.1
+Alperen Sengun,Houston Rockets,PTS,19.87,🔴 VOLATILE,5.73,14.1,25.6
+Bam Adebayo,Miami Heat,PTS,19.36,🔴 VOLATILE,5.73,13.6,25.1
+Anfernee Simons,Boston Celtics,PTS,19.17,🔴 VOLATILE,5.73,13.4,24.9
+Brandon Miller,Charlotte Hornets,PTS,18.9,🔴 VOLATILE,5.73,13.2,24.6
+Miles Bridges,Charlotte Hornets,PTS,18.88,🔴 VOLATILE,5.73,13.1,24.6
+Tyrese Haliburton,Indiana Pacers,PTS,18.66,🔴 VOLATILE,5.73,12.9,24.4
+Domantas Sabonis,Sacramento Kings,PTS,18.64,🔴 VOLATILE,5.73,12.9,24.4
+Scottie Barnes,Toronto Raptors,PTS,18.6,🔴 VOLATILE,5.73,12.9,24.3
+Jordan Clarkson,New York Knicks,PTS,18.46,🔴 VOLATILE,5.73,12.7,24.2
+Andrew Wiggins,Miami Heat,PTS,18.1,🔴 VOLATILE,5.73,12.4,23.8
+Jimmy Butler III,Golden State Warriors,PTS,18.0,🔴 VOLATILE,5.73,12.3,23.7
+Dejounte Murray,New Orleans Pelicans,PTS,17.98,🔴 VOLATILE,5.73,12.3,23.7
+Malik Monk,Sacramento Kings,PTS,17.92,🔴 VOLATILE,5.73,12.2,23.7
+Shaedon Sharpe,Portland Trail Blazers,PTS,17.89,🔴 VOLATILE,5.73,12.2,23.6
+Immanuel Quickley,Toronto Raptors,PTS,17.47,🔴 VOLATILE,5.73,11.7,23.2
+Mikal Bridges,New York Knicks,PTS,17.4,🔴 VOLATILE,5.73,11.7,23.1
+OG Anunoby,New York Knicks,PTS,17.11,🔴 VOLATILE,5.73,11.4,22.8
+Caris LeVert,Detroit Pistons,PTS,16.87,🔴 VOLATILE,5.73,11.1,22.6
+Julius Randle,Minnesota Timberwolves,PTS,16.8,🔴 VOLATILE,5.73,11.1,22.5
+Jose Alvarado,New Orleans Pelicans,PTS,16.57,🔴 VOLATILE,5.73,10.8,22.3
+Devin Vassell,San Antonio Spurs,PTS,16.5,🔴 VOLATILE,5.73,10.8,22.2
+Jaden Ivey,Detroit Pistons,PTS,16.43,🔴 VOLATILE,5.73,10.7,22.2
+Derrick White,Boston Celtics,PTS,16.24,🔴 VOLATILE,5.73,10.5,22.0
+Bennedict Mathurin,Indiana Pacers,PTS,16.0,🔴 VOLATILE,5.73,10.3,21.7
+Isaiah Joe,Oklahoma City Thunder,PTS,15.8,🔴 VOLATILE,5.73,10.1,21.5
+Stephon Castle,San Antonio Spurs,PTS,15.4,🔴 VOLATILE,5.73,9.7,21.1
+Fred VanVleet,Houston Rockets,PTS,15.31,🔴 VOLATILE,5.73,9.6,21.0
+Deni Avdija,Portland Trail Blazers,PTS,15.23,🔴 VOLATILE,5.73,9.5,21.0
+Brandon Ingram,Toronto Raptors,PTS,15.21,🔴 VOLATILE,5.73,9.5,20.9
+Naz Reid,Minnesota Timberwolves,PTS,15.17,🔴 VOLATILE,5.73,9.4,20.9
+Kyle Kuzma,Milwaukee Bucks,PTS,15.11,🔴 VOLATILE,5.73,9.4,20.8
+Gradey Dick,Toronto Raptors,PTS,15.11,🔴 VOLATILE,5.73,9.4,20.8
+Payton Pritchard,Boston Celtics,PTS,15.06,🔴 VOLATILE,5.73,9.3,20.8
+Scoot Henderson,Portland Trail Blazers,PTS,14.96,🔴 VOLATILE,5.73,9.2,20.7
+Josh Hart,New York Knicks,PTS,14.51,🔴 VOLATILE,5.73,8.8,20.2
+Jakob Poeltl,Toronto Raptors,PTS,14.39,🔴 VOLATILE,5.73,8.7,20.1
+Ja'Kobe Walter,Toronto Raptors,PTS,14.3,🔴 VOLATILE,5.73,8.6,20.0
+Chet Holmgren,Oklahoma City Thunder,PTS,14.25,🔴 VOLATILE,5.73,8.5,20.0
+Jerami Grant,Portland Trail Blazers,PTS,14.1,🔴 VOLATILE,5.73,8.4,19.8
+Dillon Brooks,Phoenix Suns,PTS,13.74,🔴 VOLATILE,5.73,8.0,19.5
+Collin Sexton,Charlotte Hornets,PTS,13.59,🔴 VOLATILE,5.73,7.9,19.3
+Keldon Johnson,San Antonio Spurs,PTS,13.52,🔴 VOLATILE,5.73,7.8,19.3
+Amen Thompson,Houston Rockets,PTS,13.48,🔴 VOLATILE,5.73,7.8,19.2
+Cam Spencer,Memphis Grizzlies,PTS,13.43,🔴 VOLATILE,5.73,7.7,19.2
+Russell Westbrook,Sacramento Kings,PTS,13.35,🔴 VOLATILE,5.73,7.6,19.1
+Tobias Harris,Detroit Pistons,PTS,13.27,🔴 VOLATILE,5.73,7.5,19.0
+Jaden McDaniels,Minnesota Timberwolves,PTS,13.03,🔴 VOLATILE,5.73,7.3,18.8
+Kevin Porter Jr.,Milwaukee Bucks,PTS,12.82,🔴 VOLATILE,5.73,7.1,18.5
+Jalen Duren,Detroit Pistons,PTS,12.76,🔴 VOLATILE,5.73,7.0,18.5
+Jonathan Kuminga,Golden State Warriors,PTS,12.75,🔴 VOLATILE,5.73,7.0,18.5
+Tari Eason,Houston Rockets,PTS,12.67,🔴 VOLATILE,5.73,6.9,18.4
+Keegan Murray,Sacramento Kings,PTS,12.57,🔴 VOLATILE,5.73,6.8,18.3
+Quinten Post,Golden State Warriors,PTS,12.56,🔴 VOLATILE,5.73,6.8,18.3
+Duncan Robinson,Detroit Pistons,PTS,12.51,🔴 VOLATILE,5.73,6.8,18.2
+Dennis Schröder,Sacramento Kings,PTS,12.46,🔴 VOLATILE,5.73,6.7,18.2
+A.J. Lawson,Toronto Raptors,PTS,12.38,🔴 VOLATILE,5.73,6.6,18.1
+Donte DiVincenzo,Minnesota Timberwolves,PTS,12.23,🔴 VOLATILE,5.73,6.5,18.0
+Jabari Smith Jr.,Houston Rockets,PTS,12.01,🔴 VOLATILE,5.73,6.3,17.7
+Aaron Nesmith,Indiana Pacers,PTS,11.95,🔴 VOLATILE,5.73,6.2,17.7
+Grant Williams,Charlotte Hornets,PTS,11.86,🔴 VOLATILE,5.73,6.1,17.6
+Nikola Jović,Miami Heat,PTS,11.77,🔴 VOLATILE,5.73,6.0,17.5
+Aaron Wiggins,Oklahoma City Thunder,PTS,11.66,🔴 VOLATILE,5.73,5.9,17.4
+Andrew Nembhard,Indiana Pacers,PTS,11.62,🔴 VOLATILE,5.73,5.9,17.3
+Ty Jerome,Memphis Grizzlies,PTS,11.59,🔴 VOLATILE,5.73,5.9,17.3
+Jock Landale,Memphis Grizzlies,PTS,11.51,🔴 VOLATILE,5.73,5.8,17.2
+Isaiah Hartenstein,Oklahoma City Thunder,PTS,11.32,🔴 VOLATILE,5.73,5.6,17.1
+Chris Boucher,Boston Celtics,PTS,11.2,🔴 VOLATILE,5.73,5.5,16.9
+Rudy Gobert,Minnesota Timberwolves,PTS,11.19,🔴 VOLATILE,5.73,5.5,16.9
+Jrue Holiday,Portland Trail Blazers,PTS,11.19,🔴 VOLATILE,5.73,5.5,16.9
+Terry Rozier,Miami Heat,PTS,11.08,🔴 VOLATILE,5.73,5.4,16.8
+Toumani Camara,Portland Trail Blazers,PTS,11.02,🔴 VOLATILE,5.73,5.3,16.7
+Jeremy Sochan,San Antonio Spurs,PTS,11.0,🔴 VOLATILE,5.73,5.3,16.7
+Tre Mann,Charlotte Hornets,PTS,10.94,🔴 VOLATILE,5.73,5.2,16.7
+Buddy Hield,Golden State Warriors,PTS,10.89,🔴 VOLATILE,5.73,5.2,16.6
+Bobby Portis,Milwaukee Bucks,PTS,10.86,🔴 VOLATILE,5.73,5.1,16.6
+Guerschon Yabusele,New York Knicks,PTS,10.78,🔴 VOLATILE,5.73,5.0,16.5
+Amir Coffey,Milwaukee Bucks,PTS,10.69,🔴 VOLATILE,5.73,5.0,16.4
+Grayson Allen,Phoenix Suns,PTS,10.62,🔴 VOLATILE,5.73,4.9,16.3
+Gary Trent Jr.,Milwaukee Bucks,PTS,10.58,🔴 VOLATILE,5.73,4.8,16.3
+Brandin Podziemski,Golden State Warriors,PTS,10.54,🔴 VOLATILE,5.73,4.8,16.3
+Jordan Hawkins,New Orleans Pelicans,PTS,10.28,🔴 VOLATILE,5.73,4.6,16.0
+Obi Toppin,Indiana Pacers,PTS,10.16,🔴 VOLATILE,5.73,4.4,15.9
+Scotty Pippen Jr.,Memphis Grizzlies,PTS,10.11,🔴 VOLATILE,5.73,4.4,15.8
+Moses Moody,Golden State Warriors,PTS,10.01,🔴 VOLATILE,5.73,4.3,15.7
+Karlo Matković,New Orleans Pelicans,PTS,9.91,🔴 VOLATILE,5.73,4.2,15.6
+Quenton Jackson,Indiana Pacers,PTS,9.87,🔴 VOLATILE,5.73,4.1,15.6
+Ausar Thompson,Detroit Pistons,PTS,9.72,🔴 VOLATILE,5.73,4.0,15.4
+Ochai Agbaji,Toronto Raptors,PTS,9.72,🔴 VOLATILE,5.73,4.0,15.5
+Herbert Jones,New Orleans Pelicans,PTS,9.69,🔴 VOLATILE,5.73,4.0,15.4
+Cade Cunningham,Detroit Pistons,AST,9.67,🔴 VOLATILE,1.88,7.8,11.5
+Myles Turner,Milwaukee Bucks,PTS,9.67,🔴 VOLATILE,5.73,3.9,15.4
+Harrison Barnes,San Antonio Spurs,PTS,9.65,🔴 VOLATILE,5.73,3.9,15.4
+Jaylen Wells,Memphis Grizzlies,PTS,9.6,🔴 VOLATILE,5.73,3.9,15.3
+T.J. McConnell,Indiana Pacers,PTS,9.58,🔴 VOLATILE,5.73,3.8,15.3
+Clint Capela,Houston Rockets,PTS,9.58,🔴 VOLATILE,5.73,3.9,15.3
+Julian Champagnie,San Antonio Spurs,PTS,9.55,🔴 VOLATILE,5.73,3.8,15.3
+Kel'el Ware,Miami Heat,PTS,9.5,🔴 VOLATILE,5.73,3.8,15.2
+Luguentz Dort,Oklahoma City Thunder,PTS,9.36,🔴 VOLATILE,5.73,3.6,15.1
+Marcus Sasser,Detroit Pistons,PTS,9.35,🔴 VOLATILE,5.73,3.6,15.1
+Al Horford,Golden State Warriors,PTS,9.34,🔴 VOLATILE,5.73,3.6,15.1
+Vince Williams Jr.,Memphis Grizzlies,PTS,9.24,🔴 VOLATILE,5.73,3.5,15.0
+Kentavious Caldwell-Pope,Memphis Grizzlies,PTS,9.13,🔴 VOLATILE,5.73,3.4,14.9
+Draymond Green,Golden State Warriors,PTS,9.04,🔴 VOLATILE,5.73,3.3,14.8
+Yves Missi,New Orleans Pelicans,PTS,8.95,🔴 VOLATILE,5.73,3.2,14.7
+Keon Ellis,Sacramento Kings,PTS,8.7,🔴 VOLATILE,5.73,3.0,14.4
+Jaime Jaquez Jr.,Miami Heat,PTS,8.68,🔴 VOLATILE,5.73,3.0,14.4
+Brandon Clarke,Memphis Grizzlies,PTS,8.55,🔴 VOLATILE,5.73,2.8,14.3
+Dorian Finney-Smith,Houston Rockets,PTS,8.48,🔴 VOLATILE,5.73,2.8,14.2
+De'Aaron Fox,San Antonio Spurs,AST,8.45,🔴 VOLATILE,1.88,6.6,10.3
+Cole Anthony,Milwaukee Bucks,PTS,8.44,🔴 VOLATILE,5.73,2.7,14.2
+Branden Carlson,Oklahoma City Thunder,PTS,8.36,🔴 VOLATILE,5.73,2.6,14.1
+Davion Mitchell,Miami Heat,PTS,8.34,🔴 VOLATILE,5.73,2.6,14.1
+Damian Lillard,Portland Trail Blazers,AST,8.23,🔴 VOLATILE,1.88,6.4,10.1
+Mike Conley,Minnesota Timberwolves,PTS,8.21,🔴 VOLATILE,5.73,2.5,13.9
+Bones Hyland,Minnesota Timberwolves,PTS,8.14,🔴 VOLATILE,5.73,2.4,13.9
+Alex Caruso,Oklahoma City Thunder,PTS,7.99,🔴 VOLATILE,5.73,2.3,13.7
+Jeremiah Robinson-Earl,Indiana Pacers,PTS,7.92,🔴 VOLATILE,5.73,2.2,13.6
+Cason Wallace,Oklahoma City Thunder,PTS,7.85,🔴 VOLATILE,5.73,2.1,13.6
+Landry Shamet,New York Knicks,PTS,7.84,🔴 VOLATILE,5.73,2.1,13.6
+Tyrese Haliburton,Indiana Pacers,AST,7.79,🔴 VOLATILE,1.88,5.9,9.7
+AJ Green,Milwaukee Bucks,PTS,7.77,🔴 VOLATILE,5.73,2.0,13.5
+Johnny Juzang,Minnesota Timberwolves,PTS,7.77,🔴 VOLATILE,5.73,2.0,13.5
+Nick Richards,Phoenix Suns,PTS,7.65,🔴 VOLATILE,5.73,1.9,13.4
+Josh Green,Charlotte Hornets,PTS,7.6,🔴 VOLATILE,5.73,1.9,13.3
+Jamison Battle,Toronto Raptors,PTS,7.6,🔴 VOLATILE,5.73,1.9,13.3
+Miles McBride,New York Knicks,PTS,7.55,🔴 VOLATILE,5.73,1.8,13.3
+Sam Hauser,Boston Celtics,PTS,7.51,🔴 VOLATILE,5.73,1.8,13.2
+Javonte Green,Detroit Pistons,PTS,7.51,🔴 VOLATILE,5.73,1.8,13.2
+Santi Aldama,Memphis Grizzlies,PTS,7.5,🔴 VOLATILE,5.73,1.8,13.2
+Jarace Walker,Indiana Pacers,PTS,7.4,🔴 VOLATILE,5.73,1.7,13.1
+Matisse Thybulle,Portland Trail Blazers,PTS,7.34,🔴 VOLATILE,5.73,1.6,13.1
+Taurean Prince,Milwaukee Bucks,PTS,7.27,🔴 VOLATILE,5.73,1.5,13.0
+LaMelo Ball,Charlotte Hornets,AST,7.09,🔴 VOLATILE,1.88,5.2,9.0
+Garrison Mathews,Indiana Pacers,PTS,6.94,🔴 VOLATILE,5.73,1.2,12.7
+Moussa Diabaté,Charlotte Hornets,PTS,6.9,🔴 VOLATILE,5.73,1.2,12.6
+Domantas Sabonis,Sacramento Kings,AST,6.82,🔴 VOLATILE,1.88,4.9,8.7
+Devin Booker,Phoenix Suns,AST,6.82,🔴 VOLATILE,1.88,4.9,8.7
+Gary Payton II,Golden State Warriors,PTS,6.66,🔴 VOLATILE,5.73,0.9,12.4
+Kelly Olynyk,San Antonio Spurs,PTS,6.65,🔴 VOLATILE,5.73,0.9,12.4
+Ja Morant,Memphis Grizzlies,AST,6.64,🔴 VOLATILE,1.88,4.8,8.5
+Precious Achiuwa,Sacramento Kings,PTS,6.59,🔴 VOLATILE,5.73,0.9,12.3
+Pat Connaughton,Charlotte Hornets,PTS,6.55,🔴 VOLATILE,5.73,0.8,12.3
+KJ Simpson,Charlotte Hornets,PTS,6.51,🔴 VOLATILE,5.73,0.8,12.2
+Ajay Mitchell,Oklahoma City Thunder,PTS,6.5,🔴 VOLATILE,5.73,0.8,12.2
+Shai Gilgeous-Alexander,Oklahoma City Thunder,AST,6.37,🔴 VOLATILE,1.88,4.5,8.2
+Mitchell Robinson,New York Knicks,PTS,6.3,🔴 VOLATILE,5.73,0.6,12.0
+Simone Fontecchio,Miami Heat,PTS,6.28,🔴 VOLATILE,5.73,0.5,12.0
+Russell Westbrook,Sacramento Kings,AST,6.23,🔴 VOLATILE,1.88,4.3,8.1
+Sandro Mamukelashvili,Toronto Raptors,PTS,6.21,🔴 VOLATILE,5.73,0.5,11.9
+Giannis Antetokounmpo,Milwaukee Bucks,AST,6.19,🔴 VOLATILE,1.88,4.3,8.1
+Jamal Shead,Toronto Raptors,PTS,6.17,🔴 VOLATILE,5.73,0.4,11.9
+Ronald Holland II,Detroit Pistons,PTS,6.07,🔴 VOLATILE,5.73,0.3,11.8
+Isaiah Stewart,Detroit Pistons,PTS,6.06,🔴 VOLATILE,5.73,0.3,11.8
+Stephen Curry,Golden State Warriors,AST,6.06,🔴 VOLATILE,1.88,4.2,7.9
+Ben Sheppard,Indiana Pacers,PTS,6.0,🔴 VOLATILE,5.73,0.3,11.7
+Jalen Brunson,New York Knicks,AST,5.94,🔴 VOLATILE,1.88,4.1,7.8
+Dejounte Murray,New Orleans Pelicans,AST,5.93,🔴 VOLATILE,1.88,4.0,7.8
+Jay Huff,Indiana Pacers,PTS,5.92,🔴 VOLATILE,5.73,0.2,11.6
+Donovan Clingan,Portland Trail Blazers,PTS,5.92,🔴 VOLATILE,5.73,0.2,11.7
+Scottie Barnes,Toronto Raptors,AST,5.88,🔴 VOLATILE,1.88,4.0,7.8
+Jayson Tatum,Boston Celtics,AST,5.8,🔴 VOLATILE,1.88,3.9,7.7
+Tyler Herro,Miami Heat,AST,5.79,🔴 VOLATILE,1.88,3.9,7.7
+Draymond Green,Golden State Warriors,AST,5.79,🔴 VOLATILE,1.88,3.9,7.7
+Wendell Moore Jr.,Detroit Pistons,PTS,5.77,🔴 VOLATILE,5.73,0.0,11.5
+Josh Hart,New York Knicks,AST,5.77,🔴 VOLATILE,1.88,3.9,7.6
+Kenrich Williams,Oklahoma City Thunder,PTS,5.75,🔴 VOLATILE,5.73,0.0,11.5
+Zion Williamson,New Orleans Pelicans,AST,5.75,🔴 VOLATILE,1.88,3.9,7.6
+Jeff Green,Houston Rockets,PTS,5.7,🔴 VOLATILE,5.73,-0.0,11.4
+Ryan Dunn,Phoenix Suns,PTS,5.69,🔴 VOLATILE,5.73,-0.0,11.4
+Davion Mitchell,Miami Heat,AST,5.66,🔴 VOLATILE,1.88,3.8,7.5
+Johnny Furphy,Indiana Pacers,PTS,5.64,🔴 VOLATILE,5.73,-0.1,11.4
+Rob Dillingham,Minnesota Timberwolves,PTS,5.61,🔴 VOLATILE,5.73,-0.1,11.3
+Royce O'Neale,Phoenix Suns,PTS,5.58,🔴 VOLATILE,5.73,-0.1,11.3
+Jimmy Butler III,Golden State Warriors,AST,5.55,🔴 VOLATILE,1.88,3.7,7.4
+Tidjane Salaün,Charlotte Hornets,PTS,5.48,🔴 VOLATILE,5.73,-0.3,11.2
+Ryan Rollins,Milwaukee Bucks,PTS,5.47,🔴 VOLATILE,5.73,-0.3,11.2
+Luke Kornet,San Antonio Spurs,PTS,5.47,🔴 VOLATILE,5.73,-0.3,11.2
+Fred VanVleet,Houston Rockets,AST,5.46,🔴 VOLATILE,1.88,3.6,7.3
+Collin Gillespie,Phoenix Suns,PTS,5.42,🔴 VOLATILE,5.73,-0.3,11.2
+Zach Edey,Memphis Grizzlies,PTS,5.41,🔴 VOLATILE,5.73,-0.3,11.1
+Jaylen Clark,Minnesota Timberwolves,PTS,5.39,🔴 VOLATILE,5.73,-0.3,11.1
+Antonio Reeves,Charlotte Hornets,PTS,5.38,🔴 VOLATILE,5.73,-0.4,11.1
+Miles Bridges,Charlotte Hornets,AST,5.3,🔴 VOLATILE,1.88,3.4,7.2
+Jaylin Williams,Oklahoma City Thunder,PTS,5.26,🔴 VOLATILE,5.73,-0.5,11.0
+Scoot Henderson,Portland Trail Blazers,AST,5.25,🔴 VOLATILE,1.88,3.4,7.1
+Jaylen Brown,Boston Celtics,AST,5.1,🔴 VOLATILE,1.88,3.2,7.0
+Jonathan Mogbo,Toronto Raptors,PTS,5.1,🔴 VOLATILE,5.73,-0.6,10.8
+Josh Okogie,Houston Rockets,PTS,5.09,🔴 VOLATILE,5.73,-0.6,10.8
+Andrew Nembhard,Indiana Pacers,AST,5.08,🔴 VOLATILE,1.88,3.2,7.0
+Herbert Jones,New Orleans Pelicans,AST,5.05,🔴 VOLATILE,1.88,3.2,6.9
+Daniss Jenkins,Detroit Pistons,PTS,5.0,🔴 VOLATILE,5.73,-0.7,10.7
+Immanuel Quickley,Toronto Raptors,AST,4.99,🔴 VOLATILE,1.88,3.1,6.9
+Dennis Schröder,Sacramento Kings,AST,4.98,🔴 VOLATILE,1.88,3.1,6.9
+Anfernee Simons,Boston Celtics,AST,4.97,🔴 VOLATILE,1.88,3.1,6.9
+Alperen Sengun,Houston Rockets,AST,4.94,🔴 VOLATILE,1.88,3.1,6.8
+Anthony Edwards,Minnesota Timberwolves,AST,4.93,🔴 VOLATILE,1.88,3.0,6.8
+Kevon Looney,New Orleans Pelicans,PTS,4.9,🔴 VOLATILE,5.73,-0.8,10.6
+Trey Jemison III,New York Knicks,PTS,4.89,🔴 VOLATILE,5.73,-0.8,10.6
+RJ Barrett,Toronto Raptors,AST,4.82,🔴 VOLATILE,1.88,2.9,6.7
+Neemias Queta,Boston Celtics,PTS,4.75,🔴 VOLATILE,5.73,-1.0,10.5
+T.J. McConnell,Indiana Pacers,AST,4.71,🔴 VOLATILE,1.88,2.8,6.6
+Julius Randle,Minnesota Timberwolves,AST,4.71,🔴 VOLATILE,1.88,2.8,6.6
+Gui Santos,Golden State Warriors,PTS,4.69,🔴 VOLATILE,5.73,-1.0,10.4
+Malik Monk,Sacramento Kings,AST,4.67,🔴 VOLATILE,1.88,2.8,6.6
+Collin Sexton,Charlotte Hornets,AST,4.66,🔴 VOLATILE,1.88,2.8,6.5
+Dario Šarić,Sacramento Kings,PTS,4.66,🔴 VOLATILE,5.73,-1.1,10.4
+Derrick White,Boston Celtics,AST,4.64,🔴 VOLATILE,1.88,2.8,6.5
+Jose Alvarado,New Orleans Pelicans,AST,4.63,🔴 VOLATILE,1.88,2.7,6.5
+Lindy Waters III,San Antonio Spurs,PTS,4.63,🔴 VOLATILE,5.73,-1.1,10.4
+Mike Conley,Minnesota Timberwolves,AST,4.57,🔴 VOLATILE,1.88,2.7,6.4
+Jordan Poole,New Orleans Pelicans,AST,4.56,🔴 VOLATILE,1.88,2.7,6.4
+Drew Eubanks,Sacramento Kings,PTS,4.56,🔴 VOLATILE,5.73,-1.2,10.3
+Blake Wesley,Portland Trail Blazers,PTS,4.55,🔴 VOLATILE,5.73,-1.2,10.3
+Zach LaVine,Sacramento Kings,AST,4.53,🔴 VOLATILE,1.88,2.7,6.4
+Tosan Evbuomwan,New York Knicks,PTS,4.49,🔴 VOLATILE,5.73,-1.2,10.2
+Tony Bradley,Indiana Pacers,PTS,4.43,🔴 VOLATILE,5.73,-1.3,10.2
+Scotty Pippen Jr.,Memphis Grizzlies,AST,4.43,🔴 VOLATILE,1.88,2.6,6.3
+Josh Minott,Boston Celtics,PTS,4.42,🔴 VOLATILE,5.73,-1.3,10.2
+Aaron Holiday,Houston Rockets,PTS,4.37,🔴 VOLATILE,5.73,-1.4,10.1
+Bam Adebayo,Miami Heat,AST,4.35,🔴 VOLATILE,1.88,2.5,6.2
+Duop Reath,Portland Trail Blazers,PTS,4.22,🔴 VOLATILE,5.73,-1.5,10.0
+Olivier-Maxence Prosper,Memphis Grizzlies,PTS,4.15,🔴 VOLATILE,5.73,-1.6,9.9
+Amen Thompson,Houston Rockets,AST,4.14,🔴 VOLATILE,1.88,2.3,6.0
+Jordan Clarkson,New York Knicks,AST,4.09,🔴 VOLATILE,1.88,2.2,6.0
+Kobe Bufkin,Memphis Grizzlies,PTS,4.0,🔴 VOLATILE,5.73,-1.7,9.7
+Mason Plumlee,Charlotte Hornets,PTS,3.99,🔴 VOLATILE,5.73,-1.7,9.7
+Al Horford,Golden State Warriors,AST,3.95,🔴 VOLATILE,1.88,2.1,5.8
+Grayson Allen,Phoenix Suns,AST,3.93,🔴 VOLATILE,1.88,2.1,5.8
+Kris Murray,Portland Trail Blazers,PTS,3.92,🔴 VOLATILE,5.73,-1.8,9.6
+Dru Smith,Miami Heat,PTS,3.91,🔴 VOLATILE,5.73,-1.8,9.6
+Caris LeVert,Detroit Pistons,AST,3.89,🔴 VOLATILE,1.88,2.0,5.8
+Deni Avdija,Portland Trail Blazers,AST,3.88,🔴 VOLATILE,1.88,2.0,5.8
+Oso Ighodaro,Phoenix Suns,PTS,3.85,🔴 VOLATILE,5.73,-1.9,9.6
+Andre Jackson Jr.,Milwaukee Bucks,PTS,3.8,🔴 VOLATILE,5.73,-1.9,9.5
+Reed Sheppard,Houston Rockets,PTS,3.79,🔴 VOLATILE,5.73,-1.9,9.5
+Victor Wembanyama,San Antonio Spurs,AST,3.79,🔴 VOLATILE,1.88,1.9,5.7
+Bismack Biyombo,San Antonio Spurs,PTS,3.78,🔴 VOLATILE,5.73,-2.0,9.5
+Jaden Ivey,Detroit Pistons,AST,3.75,🔴 VOLATILE,1.88,1.9,5.6
+Jalen Williams,Oklahoma City Thunder,AST,3.71,🔴 VOLATILE,1.88,1.8,5.6
+Rob Dillingham,Minnesota Timberwolves,AST,3.71,🔴 VOLATILE,1.88,1.8,5.6
+Baylor Scheierman,Boston Celtics,PTS,3.68,🔴 VOLATILE,5.73,-2.0,9.4
+Steven Adams,Houston Rockets,PTS,3.68,🔴 VOLATILE,5.73,-2.0,9.4
+Stephon Castle,San Antonio Spurs,AST,3.67,🔴 VOLATILE,1.88,1.8,5.5
+Marcus Sasser,Detroit Pistons,AST,3.63,🔴 VOLATILE,1.88,1.7,5.5
+Kevin Durant,Houston Rockets,AST,3.63,🔴 VOLATILE,1.88,1.8,5.5
+DeMar DeRozan,Sacramento Kings,AST,3.62,🔴 VOLATILE,1.88,1.7,5.5
+Robert Williams III,Portland Trail Blazers,PTS,3.61,🔴 VOLATILE,5.73,-2.1,9.3
+Luka Garza,Boston Celtics,PTS,3.56,🔴 VOLATILE,5.73,-2.2,9.3
+Jamal Shead,Toronto Raptors,AST,3.56,🔴 VOLATILE,1.88,1.7,5.4
+Paul Reed,Detroit Pistons,PTS,3.55,🔴 VOLATILE,5.73,-2.2,9.3
+Terrence Shannon Jr.,Minnesota Timberwolves,PTS,3.55,🔴 VOLATILE,5.73,-2.2,9.3
+Payton Pritchard,Boston Celtics,AST,3.52,🔴 VOLATILE,1.88,1.6,5.4
+Pelle Larsson,Miami Heat,PTS,3.51,🔴 VOLATILE,5.73,-2.2,9.2
+Isaiah Hartenstein,Oklahoma City Thunder,AST,3.49,🔴 VOLATILE,1.88,1.6,5.4
+Jalen Green,Phoenix Suns,AST,3.47,🔴 VOLATILE,1.88,1.6,5.4
+Jarace Walker,Indiana Pacers,AST,3.46,🔴 VOLATILE,1.88,1.6,5.3
+Brandon Miller,Charlotte Hornets,AST,3.41,🔴 VOLATILE,1.88,1.5,5.3
+Donte DiVincenzo,Minnesota Timberwolves,AST,3.41,🔴 VOLATILE,1.88,1.5,5.3
+Ousmane Dieng,Oklahoma City Thunder,PTS,3.38,🔴 VOLATILE,5.73,-2.4,9.1
+DeAndre Jordan,New Orleans Pelicans,PTS,3.37,🔴 VOLATILE,5.73,-2.4,9.1
+Brandin Podziemski,Golden State Warriors,AST,3.36,🔴 VOLATILE,1.88,1.5,5.2
+Kevin Porter Jr.,Milwaukee Bucks,AST,3.31,🔴 VOLATILE,1.88,1.4,5.2
+Jrue Holiday,Portland Trail Blazers,AST,3.29,🔴 VOLATILE,1.88,1.4,5.2
+Andrew Wiggins,Miami Heat,AST,3.24,🔴 VOLATILE,1.88,1.4,5.1
+Drew Peterson,Charlotte Hornets,PTS,3.21,🔴 VOLATILE,5.73,-2.5,8.9
+GG Jackson,Memphis Grizzlies,PTS,3.2,🔴 VOLATILE,5.73,-2.5,8.9
+Ty Jerome,Memphis Grizzlies,AST,3.16,🔴 VOLATILE,1.88,1.3,5.0
+Devin Vassell,San Antonio Spurs,AST,3.15,🔴 VOLATILE,1.88,1.3,5.0
+Karl-Anthony Towns,New York Knicks,AST,3.13,🔴 VOLATILE,1.88,1.2,5.0
+Collin Gillespie,Phoenix Suns,AST,3.06,🔴 VOLATILE,1.88,1.2,4.9
+Jeremiah Robinson-Earl,Indiana Pacers,AST,3.01,🔴 VOLATILE,1.88,1.1,4.9
+Pascal Siakam,Indiana Pacers,AST,2.99,🔴 VOLATILE,1.88,1.1,4.9
+Cole Anthony,Milwaukee Bucks,AST,2.97,🔴 VOLATILE,1.88,1.1,4.8
+Kelly Olynyk,San Antonio Spurs,AST,2.95,🔴 VOLATILE,1.88,1.1,4.8
+Devin Carter,Sacramento Kings,PTS,2.93,🔴 VOLATILE,5.73,-2.8,8.7
+Jeremy Sochan,San Antonio Spurs,AST,2.92,🔴 VOLATILE,1.88,1.0,4.8
+Cam Spencer,Memphis Grizzlies,AST,2.84,🔴 VOLATILE,1.88,1.0,4.7
+KJ Simpson,Charlotte Hornets,AST,2.81,🔴 VOLATILE,1.88,0.9,4.7
+GG Jackson,Memphis Grizzlies,AST,2.79,🔴 VOLATILE,1.88,0.9,4.7
+Shaedon Sharpe,Portland Trail Blazers,AST,2.75,🔴 VOLATILE,1.88,0.9,4.6
+Aaron Wiggins,Oklahoma City Thunder,AST,2.74,🔴 VOLATILE,1.88,0.9,4.6
+Jakob Poeltl,Toronto Raptors,AST,2.68,🔴 VOLATILE,1.88,0.8,4.6
+Nikola Jović,Miami Heat,AST,2.66,🔴 VOLATILE,1.88,0.8,4.5
+Santi Aldama,Memphis Grizzlies,AST,2.66,🔴 VOLATILE,1.88,0.8,4.5
+Mikal Bridges,New York Knicks,AST,2.58,🔴 VOLATILE,1.88,0.7,4.5
+Quenton Jackson,Indiana Pacers,AST,2.53,🔴 VOLATILE,1.88,0.7,4.4
+Pat Spencer,Golden State Warriors,PTS,2.52,🔴 VOLATILE,5.73,-3.2,8.2
+Kyle Kuzma,Milwaukee Bucks,AST,2.51,🔴 VOLATILE,1.88,0.6,4.4
+Trayce Jackson-Davis,Golden State Warriors,PTS,2.5,🔴 VOLATILE,5.73,-3.2,8.2
+Tre Mann,Charlotte Hornets,AST,2.48,🔴 VOLATILE,1.88,0.6,4.4
+Ausar Thompson,Detroit Pistons,AST,2.42,🔴 VOLATILE,1.88,0.5,4.3
+Gary Harris,Milwaukee Bucks,PTS,2.41,🔴 VOLATILE,5.73,-3.3,8.1
+Alex Caruso,Oklahoma City Thunder,AST,2.35,🔴 VOLATILE,1.88,0.5,4.2
+Doug McDermott,Sacramento Kings,PTS,2.34,🔴 VOLATILE,5.73,-3.4,8.1
+Grant Williams,Charlotte Hornets,AST,2.33,🔴 VOLATILE,1.88,0.5,4.2
+Oso Ighodaro,Phoenix Suns,AST,2.32,🔴 VOLATILE,1.88,0.4,4.2
+Jaylin Williams,Oklahoma City Thunder,AST,2.3,🔴 VOLATILE,1.88,0.4,4.2
+Jerami Grant,Portland Trail Blazers,AST,2.3,🔴 VOLATILE,1.88,0.4,4.2
+John Konchar,Memphis Grizzlies,PTS,2.26,🔴 VOLATILE,5.73,-3.5,8.0
+Tobias Harris,Detroit Pistons,AST,2.25,🔴 VOLATILE,1.88,0.4,4.1
+Ben Sheppard,Indiana Pacers,AST,2.23,🔴 VOLATILE,1.88,0.4,4.1
+Naz Reid,Minnesota Timberwolves,AST,2.23,🔴 VOLATILE,1.88,0.4,4.1
+Terry Rozier,Miami Heat,AST,2.21,🔴 VOLATILE,1.88,0.3,4.1
+Jonathan Kuminga,Golden State Warriors,AST,2.21,🔴 VOLATILE,1.88,0.3,4.1
+Mason Plumlee,Charlotte Hornets,AST,2.2,🔴 VOLATILE,1.88,0.3,4.1
+Jordan McLaughlin,San Antonio Spurs,PTS,2.19,🔴 VOLATILE,5.73,-3.5,7.9
+Royce O'Neale,Phoenix Suns,AST,2.19,🔴 VOLATILE,1.88,0.3,4.1
+OG Anunoby,New York Knicks,AST,2.16,🔴 VOLATILE,1.88,0.3,4.0
+Jaren Jackson Jr.,Memphis Grizzlies,AST,2.16,🔴 VOLATILE,1.88,0.3,4.0
+Enrique Freeman,Minnesota Timberwolves,PTS,2.14,🔴 VOLATILE,5.73,-3.6,7.9
+Ariel Hukporti,New York Knicks,PTS,2.12,🔴 VOLATILE,5.73,-3.6,7.8
+Trey Murphy III,New Orleans Pelicans,AST,2.07,🔴 VOLATILE,1.88,0.2,3.9
+Toumani Camara,Portland Trail Blazers,AST,2.06,🔴 VOLATILE,1.88,0.2,3.9
+Jalen Duren,Detroit Pistons,AST,2.05,🔴 VOLATILE,1.88,0.2,3.9
+Guerschon Yabusele,New York Knicks,AST,2.03,🔴 VOLATILE,1.88,0.1,3.9
+Bennedict Mathurin,Indiana Pacers,AST,2.02,🔴 VOLATILE,1.88,0.1,3.9
+Taurean Prince,Milwaukee Bucks,AST,2.01,🔴 VOLATILE,1.88,0.1,3.9
+Keshad Johnson,Miami Heat,PTS,1.99,🔴 VOLATILE,5.73,-3.7,7.7
+JD Davison,Houston Rockets,PTS,1.99,🔴 VOLATILE,5.73,-3.7,7.7
+Blake Wesley,Portland Trail Blazers,AST,1.97,🔴 VOLATILE,1.88,0.1,3.9
+Donovan Clingan,Portland Trail Blazers,AST,1.97,🔴 VOLATILE,1.88,0.1,3.8
+Miles McBride,New York Knicks,AST,1.95,🔴 VOLATILE,1.88,0.1,3.8
+Josh Green,Charlotte Hornets,AST,1.88,🔴 VOLATILE,1.88,-0.0,3.8
+Bones Hyland,Minnesota Timberwolves,AST,1.87,🔴 VOLATILE,1.88,-0.0,3.7
+Vince Williams Jr.,Memphis Grizzlies,AST,1.86,🔴 VOLATILE,1.88,-0.0,3.7
+Ajay Mitchell,Oklahoma City Thunder,AST,1.85,🔴 VOLATILE,1.88,-0.0,3.7
+Tosan Evbuomwan,New York Knicks,AST,1.8,🔴 VOLATILE,1.88,-0.1,3.7
+Kentavious Caldwell-Pope,Memphis Grizzlies,AST,1.78,🔴 VOLATILE,1.88,-0.1,3.7
+Precious Achiuwa,Sacramento Kings,AST,1.76,🔴 VOLATILE,1.88,-0.1,3.6
+Rudy Gobert,Minnesota Timberwolves,AST,1.75,🔴 VOLATILE,1.88,-0.1,3.6
+Dorian Finney-Smith,Houston Rockets,AST,1.75,🔴 VOLATILE,1.88,-0.1,3.6
+Sandro Mamukelashvili,Toronto Raptors,AST,1.74,🔴 VOLATILE,1.88,-0.1,3.6
+Buddy Hield,Golden State Warriors,AST,1.74,🔴 VOLATILE,1.88,-0.1,3.6
+Gui Santos,Golden State Warriors,AST,1.74,🔴 VOLATILE,1.88,-0.1,3.6
+Pat Connaughton,Charlotte Hornets,AST,1.69,🔴 VOLATILE,1.88,-0.2,3.6
+Luguentz Dort,Oklahoma City Thunder,AST,1.69,🔴 VOLATILE,1.88,-0.2,3.6
+Leonard Miller,Minnesota Timberwolves,PTS,1.68,🔴 VOLATILE,5.73,-4.1,7.4
+Jaylen Wells,Memphis Grizzlies,AST,1.68,🔴 VOLATILE,1.88,-0.2,3.6
+Chet Holmgren,Oklahoma City Thunder,AST,1.66,🔴 VOLATILE,1.88,-0.2,3.5
+Rayan Rupert,Portland Trail Blazers,PTS,1.64,🔴 VOLATILE,5.73,-4.1,7.4
+Luke Kornet,San Antonio Spurs,AST,1.64,🔴 VOLATILE,1.88,-0.2,3.5
+Gradey Dick,Toronto Raptors,AST,1.63,🔴 VOLATILE,1.88,-0.2,3.5
+Cason Wallace,Oklahoma City Thunder,AST,1.63,🔴 VOLATILE,1.88,-0.3,3.5
+Harrison Barnes,San Antonio Spurs,AST,1.62,🔴 VOLATILE,1.88,-0.3,3.5
+Dillon Brooks,Phoenix Suns,AST,1.6,🔴 VOLATILE,1.88,-0.3,3.5
+Jericho Sims,Milwaukee Bucks,PTS,1.58,🔴 VOLATILE,5.73,-4.2,7.3
+Jonathan Mogbo,Toronto Raptors,AST,1.58,🔴 VOLATILE,1.88,-0.3,3.5
+Garrison Mathews,Indiana Pacers,AST,1.58,🔴 VOLATILE,1.88,-0.3,3.5
+Quinten Post,Golden State Warriors,AST,1.51,🔴 VOLATILE,1.88,-0.4,3.4
+Olivier-Maxence Prosper,Memphis Grizzlies,AST,1.5,🔴 VOLATILE,1.88,-0.4,3.4
+Ryan Rollins,Milwaukee Bucks,AST,1.49,🔴 VOLATILE,1.88,-0.4,3.4
+Isaiah Joe,Oklahoma City Thunder,AST,1.49,🔴 VOLATILE,1.88,-0.4,3.4
+Myles Turner,Milwaukee Bucks,AST,1.47,🔴 VOLATILE,1.88,-0.4,3.3
+Kris Murray,Portland Trail Blazers,AST,1.47,🔴 VOLATILE,1.88,-0.4,3.3
+Jaime Jaquez Jr.,Miami Heat,AST,1.46,🔴 VOLATILE,1.88,-0.4,3.3
+Kobe Bufkin,Memphis Grizzlies,AST,1.46,🔴 VOLATILE,1.88,-0.4,3.3
+Obi Toppin,Indiana Pacers,AST,1.45,🔴 VOLATILE,1.88,-0.4,3.3
+Jordan Walsh,Boston Celtics,PTS,1.44,🔴 VOLATILE,5.73,-4.3,7.2
+Andre Jackson Jr.,Milwaukee Bucks,AST,1.43,🔴 VOLATILE,1.88,-0.4,3.3
+Jaden McDaniels,Minnesota Timberwolves,AST,1.43,🔴 VOLATILE,1.88,-0.5,3.3
+Ochai Agbaji,Toronto Raptors,AST,1.39,🔴 VOLATILE,1.88,-0.5,3.3
+Bismack Biyombo,San Antonio Spurs,AST,1.37,🔴 VOLATILE,1.88,-0.5,3.2
+Keon Ellis,Sacramento Kings,AST,1.37,🔴 VOLATILE,1.88,-0.5,3.2
+Pelle Larsson,Miami Heat,AST,1.36,🔴 VOLATILE,1.88,-0.5,3.2
+Kevon Looney,New Orleans Pelicans,AST,1.36,🔴 VOLATILE,1.88,-0.5,3.2
+Tyler Kolek,New York Knicks,PTS,1.34,🔴 VOLATILE,5.73,-4.4,7.1
+AJ Green,Milwaukee Bucks,AST,1.34,🔴 VOLATILE,1.88,-0.5,3.2
+Pacôme Dadiet,New York Knicks,PTS,1.33,🔴 VOLATILE,5.73,-4.4,7.1
+Matisse Thybulle,Portland Trail Blazers,AST,1.32,🔴 VOLATILE,1.88,-0.6,3.2
+Baylor Scheierman,Boston Celtics,AST,1.3,🔴 VOLATILE,1.88,-0.6,3.2
+Tari Eason,Houston Rockets,AST,1.29,🔴 VOLATILE,1.88,-0.6,3.2
+Julian Champagnie,San Antonio Spurs,AST,1.29,🔴 VOLATILE,1.88,-0.6,3.2
+John Konchar,Memphis Grizzlies,AST,1.28,🔴 VOLATILE,1.88,-0.6,3.2
+Moses Moody,Golden State Warriors,AST,1.26,🔴 VOLATILE,1.88,-0.6,3.1
+Aaron Holiday,Houston Rockets,AST,1.25,🔴 VOLATILE,1.88,-0.6,3.1
+RayJ Dennis,Indiana Pacers,PTS,1.24,🔴 VOLATILE,5.73,-4.5,7.0
+Jaylen Clark,Minnesota Timberwolves,AST,1.24,🔴 VOLATILE,1.88,-0.6,3.1
+Sidy Cissoko,Portland Trail Blazers,PTS,1.24,🔴 VOLATILE,5.73,-4.5,7.0
+Wendell Moore Jr.,Detroit Pistons,AST,1.22,🔴 VOLATILE,1.88,-0.7,3.1
+Bobby Portis,Milwaukee Bucks,AST,1.21,🔴 VOLATILE,1.88,-0.7,3.1
+Trey Alexander,New Orleans Pelicans,PTS,1.21,🔴 VOLATILE,5.73,-4.5,6.9
+Dru Smith,Miami Heat,AST,1.2,🔴 VOLATILE,1.88,-0.7,3.1
+Garrett Temple,Toronto Raptors,AST,1.2,🔴 VOLATILE,1.88,-0.7,3.1
+Clint Capela,Houston Rockets,AST,1.2,🔴 VOLATILE,1.88,-0.7,3.1
+Gary Harris,Milwaukee Bucks,AST,1.18,🔴 VOLATILE,1.88,-0.7,3.1
+Kenrich Williams,Oklahoma City Thunder,AST,1.18,🔴 VOLATILE,1.88,-0.7,3.1
+Yves Missi,New Orleans Pelicans,AST,1.18,🔴 VOLATILE,1.88,-0.7,3.1
+Gary Payton II,Golden State Warriors,AST,1.18,🔴 VOLATILE,1.88,-0.7,3.1
+Aaron Nesmith,Indiana Pacers,AST,1.14,🔴 VOLATILE,1.88,-0.7,3.0
+Duncan Robinson,Detroit Pistons,AST,1.13,🔴 VOLATILE,1.88,-0.8,3.0
+Ja'Kobe Walter,Toronto Raptors,AST,1.12,🔴 VOLATILE,1.88,-0.8,3.0
+Amir Coffey,Milwaukee Bucks,AST,1.11,🔴 VOLATILE,1.88,-0.8,3.0
+Karlo Matković,New Orleans Pelicans,AST,1.11,🔴 VOLATILE,1.88,-0.8,3.0
+Isaiah Stewart,Detroit Pistons,AST,1.1,🔴 VOLATILE,1.88,-0.8,3.0
+Pat Spencer,Golden State Warriors,AST,1.1,🔴 VOLATILE,1.88,-0.8,3.0
+Tidjane Salaün,Charlotte Hornets,AST,1.09,🔴 VOLATILE,1.88,-0.8,3.0
+JD Davison,Houston Rockets,AST,1.06,🔴 VOLATILE,1.88,-0.8,2.9
+Isaac Jones,Detroit Pistons,PTS,1.0,🔴 VOLATILE,5.73,-4.7,6.7
+Simone Fontecchio,Miami Heat,AST,1.0,🔴 VOLATILE,1.88,-0.9,2.9
+Joe Ingles,Minnesota Timberwolves,AST,1.0,🔴 VOLATILE,1.88,-0.9,2.9
+Isaiah Crawford,Houston Rockets,PTS,1.0,🔴 VOLATILE,5.73,-4.7,6.7
+Devin Carter,Sacramento Kings,AST,1.0,🔴 VOLATILE,1.88,-0.9,2.9
+Paul Reed,Detroit Pistons,AST,0.99,🔴 VOLATILE,1.88,-0.9,2.9
+Keshad Johnson,Miami Heat,AST,0.99,🔴 VOLATILE,1.88,-0.9,2.9
+RayJ Dennis,Indiana Pacers,AST,0.99,🔴 VOLATILE,1.88,-0.9,2.9
+Moussa Diabaté,Charlotte Hornets,AST,0.98,🔴 VOLATILE,1.88,-0.9,2.9
+Kel'el Ware,Miami Heat,AST,0.98,🔴 VOLATILE,1.88,-0.9,2.9
+A.J. Lawson,Toronto Raptors,AST,0.98,🔴 VOLATILE,1.88,-0.9,2.9
+Sam Hauser,Boston Celtics,AST,0.97,🔴 VOLATILE,1.88,-0.9,2.8
+Steven Adams,Houston Rockets,AST,0.97,🔴 VOLATILE,1.88,-0.9,2.8
+Ronald Holland II,Detroit Pistons,AST,0.96,🔴 VOLATILE,1.88,-0.9,2.8
+Ousmane Dieng,Oklahoma City Thunder,AST,0.96,🔴 VOLATILE,1.88,-0.9,2.8
+Reed Sheppard,Houston Rockets,AST,0.96,🔴 VOLATILE,1.88,-0.9,2.8
+Gary Trent Jr.,Milwaukee Bucks,AST,0.94,🔴 VOLATILE,1.88,-0.9,2.8
+Jae'Sean Tate,Houston Rockets,AST,0.92,🔴 VOLATILE,1.88,-1.0,2.8
+Lindy Waters III,San Antonio Spurs,AST,0.91,🔴 VOLATILE,1.88,-1.0,2.8
+Antonio Reeves,Charlotte Hornets,AST,0.9,🔴 VOLATILE,1.88,-1.0,2.8
+Josh Okogie,Houston Rockets,AST,0.9,🔴 VOLATILE,1.88,-1.0,2.8
+Nick Richards,Phoenix Suns,AST,0.9,🔴 VOLATILE,1.88,-1.0,2.8
+Javonte Green,Detroit Pistons,AST,0.83,🔴 VOLATILE,1.88,-1.1,2.7
+Ryan Dunn,Phoenix Suns,AST,0.83,🔴 VOLATILE,1.88,-1.1,2.7
+Terrence Shannon Jr.,Minnesota Timberwolves,AST,0.79,🔴 VOLATILE,1.88,-1.1,2.7
+Jordan Walsh,Boston Celtics,AST,0.78,🔴 VOLATILE,1.88,-1.1,2.7
+Dario Šarić,Sacramento Kings,AST,0.78,🔴 VOLATILE,1.88,-1.1,2.7
+Jamison Battle,Toronto Raptors,AST,0.75,🔴 VOLATILE,1.88,-1.1,2.6
+Zach Edey,Memphis Grizzlies,AST,0.75,🔴 VOLATILE,1.88,-1.1,2.6
+Jock Landale,Memphis Grizzlies,AST,0.75,🔴 VOLATILE,1.88,-1.1,2.6
+Brandon Clarke,Memphis Grizzlies,AST,0.74,🔴 VOLATILE,1.88,-1.1,2.6
+Jabari Smith Jr.,Houston Rockets,AST,0.73,🔴 VOLATILE,1.88,-1.1,2.6
+Drew Peterson,Charlotte Hornets,AST,0.7,🔴 VOLATILE,1.88,-1.2,2.6
+Johnny Juzang,Minnesota Timberwolves,AST,0.69,🔴 VOLATILE,1.88,-1.2,2.6
+Mitchell Robinson,New York Knicks,AST,0.64,🔴 VOLATILE,1.88,-1.2,2.5
+Neemias Queta,Boston Celtics,AST,0.63,🔴 VOLATILE,1.88,-1.2,2.5
+Jay Huff,Indiana Pacers,AST,0.62,🔴 VOLATILE,1.88,-1.3,2.5
+Trayce Jackson-Davis,Golden State Warriors,AST,0.61,🔴 VOLATILE,1.88,-1.3,2.5
+Keegan Murray,Sacramento Kings,AST,0.6,🔴 VOLATILE,1.88,-1.3,2.5
+Drew Eubanks,Sacramento Kings,AST,0.6,🔴 VOLATILE,1.88,-1.3,2.5
+Jordan Hawkins,New Orleans Pelicans,AST,0.56,🔴 VOLATILE,1.88,-1.3,2.4
+Jericho Sims,Milwaukee Bucks,AST,0.54,🔴 VOLATILE,1.88,-1.3,2.4
+Robert Williams III,Portland Trail Blazers,AST,0.54,🔴 VOLATILE,1.88,-1.3,2.4
+Trey Jemison III,New York Knicks,AST,0.51,🔴 VOLATILE,1.88,-1.4,2.4
+Branden Carlson,Oklahoma City Thunder,AST,0.51,🔴 VOLATILE,1.88,-1.4,2.4
+Ariel Hukporti,New York Knicks,AST,0.5,🔴 VOLATILE,1.88,-1.4,2.4
+Enrique Freeman,Minnesota Timberwolves,AST,0.5,🔴 VOLATILE,1.88,-1.4,2.4
+Tyler Kolek,New York Knicks,AST,0.46,🔴 VOLATILE,1.88,-1.4,2.3
+Johnny Furphy,Indiana Pacers,AST,0.46,🔴 VOLATILE,1.88,-1.4,2.3
+DeAndre Jordan,New Orleans Pelicans,AST,0.46,🔴 VOLATILE,1.88,-1.4,2.3
+Landry Shamet,New York Knicks,AST,0.44,🔴 VOLATILE,1.88,-1.4,2.3
+Keldon Johnson,San Antonio Spurs,AST,0.44,🔴 VOLATILE,1.88,-1.4,2.3
+Duop Reath,Portland Trail Blazers,AST,0.42,🔴 VOLATILE,1.88,-1.5,2.3
+Brandon Ingram,Toronto Raptors,AST,0.39,🔴 VOLATILE,1.88,-1.5,2.3
+Jae'Sean Tate,Houston Rockets,PTS,0.38,🔴 VOLATILE,5.73,-5.3,6.1
+Trey Alexander,New Orleans Pelicans,AST,0.36,🔴 VOLATILE,1.88,-1.5,2.2
+Pete Nance,Milwaukee Bucks,PTS,0.33,🔴 VOLATILE,5.73,-5.4,6.1
+Joe Ingles,Minnesota Timberwolves,PTS,0.33,🔴 VOLATILE,5.73,-5.4,6.1
+Luka Garza,Boston Celtics,AST,0.3,🔴 VOLATILE,1.88,-1.6,2.2
+Rayan Rupert,Portland Trail Blazers,AST,0.3,🔴 VOLATILE,1.88,-1.6,2.2
+Josh Minott,Boston Celtics,AST,0.29,🔴 VOLATILE,1.88,-1.6,2.2
+Jordan McLaughlin,San Antonio Spurs,AST,0.26,🔴 VOLATILE,1.88,-1.6,2.1
+Xavier Tillman,Boston Celtics,AST,0.14,🔴 VOLATILE,1.88,-1.7,2.0
+Doug McDermott,Sacramento Kings,AST,0.14,🔴 VOLATILE,1.88,-1.7,2.0
+Isaiah Crawford,Houston Rockets,AST,0.13,🔴 VOLATILE,1.88,-1.8,2.0
+Isaac Jones,Detroit Pistons,AST,0.1,🔴 VOLATILE,1.88,-1.8,2.0
+Norman Powell,Miami Heat,AST,0.08,🔴 VOLATILE,1.88,-1.8,2.0
+Sidy Cissoko,Portland Trail Blazers,AST,0.08,🔴 VOLATILE,1.88,-1.8,2.0
+Bryce McGowens,New Orleans Pelicans,PTS,0.07,🔴 VOLATILE,5.73,-5.7,5.8
+Daniss Jenkins,Detroit Pistons,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Bobi Klintman,Detroit Pistons,PTS,0.0,🔴 VOLATILE,5.73,-5.7,5.7
+Bobi Klintman,Detroit Pistons,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Pacôme Dadiet,New York Knicks,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Jahmir Young,Miami Heat,PTS,0.0,🔴 VOLATILE,5.73,-5.7,5.7
+Jahmir Young,Miami Heat,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Pete Nance,Milwaukee Bucks,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Tony Bradley,Indiana Pacers,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Leonard Miller,Minnesota Timberwolves,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Bryce McGowens,New Orleans Pelicans,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+De'Anthony Melton,Golden State Warriors,PTS,0.0,🔴 VOLATILE,5.73,-5.7,5.7
+De'Anthony Melton,Golden State Warriors,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Jackson Rowe,Golden State Warriors,PTS,0.0,🔴 VOLATILE,5.73,-5.7,5.7
+Jackson Rowe,Golden State Warriors,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Daeqwon Plowden,Sacramento Kings,PTS,0.0,🔴 VOLATILE,5.73,-5.7,5.7
+Daeqwon Plowden,Sacramento Kings,AST,0.0,🔴 VOLATILE,1.88,-1.9,1.9
+Xavier Tillman,Boston Celtics,PTS,-0.01,🔴 VOLATILE,5.73,-5.7,5.7
+Chris Boucher,Boston Celtics,AST,-0.03,🔴 VOLATILE,1.88,-1.9,1.8
+Jeff Green,Houston Rockets,AST,-0.27,🔴 VOLATILE,1.88,-2.2,1.6
+Garrett Temple,Toronto Raptors,PTS,-2.22,🔴 VOLATILE,5.73,-7.9,3.5

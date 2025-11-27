@@ -55,13 +55,15 @@ ARENA_COORDINATES: Dict[str, Tuple[float, float]] = {
 
 FEATURES = [
     'PTS_L5', 'MIN_L5', 'REB_L5', 'AST_L5',
-    'STL_L5', 'BLK_L5', 'FG3M_L5', 'HOME_GAME',
+    'STL_L5', 'BLK_L5', 'FG3M_L5', 'PRA_L5',
+    'PTS_PER_MIN', 'REB_PER_MIN', 'PRA_PER_MIN',
+    'HOME_GAME',
     'OPP_DEF_RATING', 'OPP_PACE',           # Opponent Context
-    'TRAVEL_DISTANCE', 'DAYS_REST', 'BACK_TO_BACK',  # Fatigue & Travel
+    #'TRAVEL_DISTANCE', 'DAYS_REST', 'BACK_TO_BACK',  # Fatigue & Travel
     'USAGE_RATE'                             # Roster Context
 ]
 
-TARGETS = ['PTS', 'REB', 'AST', 'STL', 'BLK']
+TARGETS = ['PTS', 'REB', 'AST', 'STL', 'BLK', 'PRA']
 
 # ============================================================================
 # LAG STATISTICS (for feature engineering)
@@ -78,15 +80,20 @@ DAYS_REST_MIN = 0
 DAYS_REST_MAX = 5  # Cap maximum rest days at 5
 
 # ============================================================================
-# XGBOOST HYPERPARAMETERS
+# MODEL HYPERPARAMETERS
 # ============================================================================
 
 XGBOOST_PARAMS = {
     'n_estimators': 1000,
     'learning_rate': 0.01,
-    'max_depth': 3,
+    'max_depth': 2,
     'early_stopping_rounds': 50,
     'random_state': 42,
+}
+
+RIDGE_PARAMS = {
+    'alpha': 1.0,
+    'random_state': 42
 }
 
 # ============================================================================
@@ -99,7 +106,7 @@ TRAIN_TEST_RATIO = 0.8  # 80% train, 20% test
 # DEFAULT PLAYER & SEASON (for quick testing)
 # ============================================================================
 
-DEFAULT_PLAYER_NAME = "LeBron James"
+DEFAULT_PLAYER_NAME = "Kawhi Leonard"
 DEFAULT_SEASON = "2023-24"
 
 # ============================================================================

@@ -1,60 +1,30 @@
 """
 Batch Prediction Module
 
-Predict statistics (PTS, REB, AST, STL, BLK) for multiple players at once.
-Optimized for daily predictions of all players playing today.
-
-Author: NBA Prediction Model
-Date: 2025
+Predict statistics (PTS, REB, AST, STL, BLK, PRA) for multiple players at once.
+Optimized to run the 'Model Tournament' (Ridge vs XGBoost) for every player/stat.
 """
 
 import logging
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional
 import pandas as pd
 import time
 
+# Import shared config and modules
 from src.config import FEATURES, TARGETS, API_DELAY
 from src.data_fetcher import get_player_gamelog, get_opponent_defense_metrics, get_player_usage_rate
 from src.feature_engineer import engineer_features
-from src.model import predict_next_game, prepare_prediction_data
-from src.utils import setup_logger, FeatureEngineeringError
-import xgboost as xgb
+from src.model import train_model, predict_next_game, prepare_prediction_data
+from src.utils import setup_logger
 
 logger = setup_logger(__name__)
 
-
 class BatchPredictor:
-    """Batch prediction for multiple players and stats."""
+    """Batch prediction engine."""
     
-    # Primary stat predictions
-    STAT_FEATURES = ['PTS', 'REB', 'AST', 'STL', 'BLK']
-    
-    def __init__(self, model_path: Optional[str] = None):
-        """
-        Initialize batch predictor.
-        
-        Args:
-            model_path: Optional path to pre-trained XGBoost model.
-                       If None, will train on-the-fly for each player.
-        """
-        self.model_path = model_path
-        self.model = None
+    def __init__(self):
+        # We no longer load models. We train fresh every time to get the "Tournament" winner.
         self.opponent_defense = None
-        
-        if model_path:
-            self._load_model(model_path)
-    
-    def _load_model(self, model_path: str) -> bool:
-        """Load pre-trained model from disk."""
-        try:
-            logger.info(f"Loading model from {model_path}...")
-            self.model = xgb.XGBRegressor()
-            self.model.load_model(model_path)
-            logger.info("Model loaded successfully")
-            return True
-        except Exception as e:
-            logger.warning(f"Could not load model: {e}. Will train on-the-fly.")
-            return False
     
     def predict_player_today(
         self,
@@ -64,75 +34,66 @@ class BatchPredictor:
         season: str = "2024-25"
     ) -> Optional[Dict[str, float]]:
         """
-        Predict stats for a player today.
-        
-        Args:
-            player_name: NBA player name
-            team_name: NBA team name
-            is_home_game: Whether game is home or away
-            season: NBA season (e.g., "2024-25")
-            
-        Returns:
-            Dict with predicted stats: {PTS, REB, AST, STL, BLK, PREDICTION_TIME}
-            None if prediction fails
+        Run the full prediction pipeline for a single player.
         """
         try:
-            logger.info(f"Predicting stats for {player_name} ({team_name})...")
+            logger.info(f"Processing {player_name} ({team_name})...")
             
-            # Step 1: Fetch player game log
+            # 1. Fetch Data
             game_log = get_player_gamelog(player_name, season)
             if game_log is None or game_log.empty:
-                logger.warning(f"No game log found for {player_name}")
                 return None
             
-            # Step 2: Fetch opponent defense metrics
+            # Cache opponent defense to save API calls
             if self.opponent_defense is None:
                 self.opponent_defense = get_opponent_defense_metrics(season)
             
-            # Step 3: Fetch player usage rate
-            usage_rate = get_player_usage_rate(
-                int(game_log.iloc[-1]['PLAYER_ID']),
-                season
-            )
+            # Get Usage Rate
+            try:
+                # Handle case where player ID access might fail
+                pid = int(game_log.iloc[-1]['PLAYER_ID'])
+                usage_rate = get_player_usage_rate(pid, season)
+            except:
+                usage_rate = None
             
-            # Step 4: Engineer features
-            engineered = engineer_features(
-                game_log,
-                self.opponent_defense,
-                usage_rate
-            )
+            # 2. Engineer Features (Includes PRA, Per Minute, etc.)
+            engineered = engineer_features(game_log, self.opponent_defense, usage_rate)
             
             if engineered is None or engineered.empty:
-                logger.warning(f"Could not engineer features for {player_name}")
                 return None
             
-            # Step 5: Prepare prediction data
-            prediction_data = prepare_prediction_data(engineered, is_home_game)
+            # 3. Prepare Input for Prediction
+            prediction_input = prepare_prediction_data(engineered, is_home_game)
             
-            # Step 6: Make prediction for each target
-            all_predictions = {}
-            for target in TARGETS:
-                model_to_use = self.model
-                if model_to_use is None:
-                    logger.info(f"No pre-trained model found. Training model for {player_name} ({target}) on-the-fly...")
-                    from src.model import train_model
-                    model_to_use, _, _, _, _ = train_model(engineered, FEATURES, target)
-
-                prediction = predict_next_game(model_to_use, prediction_data, FEATURES)
-                all_predictions[target] = prediction
-                logger.info(f"Predicted {prediction:.2f} {target} for {player_name}")
-
-            
-            return {
+            # 4. Run Tournament for EVERY Target
+            # This logic now matches prediction_pipeline.py exactly
+            player_preds = {
                 'PLAYER_NAME': player_name,
                 'TEAM_NAME': team_name,
                 'IS_HOME': is_home_game,
-                **all_predictions,
                 'PREDICTION_TIME': pd.Timestamp.now()
             }
+
+            for target in TARGETS:
+                try:
+                    # Train Model (Runs Ridge vs XGBoost Tournament)
+                    # We discard the test sets (_) here as we just want the winner model
+                    model, _, _, _, _ = train_model(engineered, FEATURES, target)
+                    
+                    # Predict
+                    val = predict_next_game(model, prediction_input, FEATURES)
+                    player_preds[target] = val
+                    
+                    logger.debug(f"  -> {target}: {val:.1f}")
+                    
+                except Exception as e:
+                    logger.warning(f"Failed to predict {target} for {player_name}: {e}")
+                    player_preds[target] = 0.0
+
+            return player_preds
             
         except Exception as e:
-            logger.error(f"Error predicting for {player_name}: {e}")
+            logger.error(f"Error processing {player_name}: {e}")
             return None
     
     def predict_multiple_players(
@@ -141,136 +102,46 @@ class BatchPredictor:
         season: str = "2024-25"
     ) -> pd.DataFrame:
         """
-        Predict stats for multiple players.
-        
-        Args:
-            players_data: List of dicts with keys: PLAYER_NAME, TEAM_NAME, IS_HOME, GAME_ID
-            season: NBA season
-            
-        Returns:
-            DataFrame with predictions for all players
+        Loop through a list of players and predict stats.
         """
-        try:
-            logger.info(f"Making predictions for {len(players_data)} players...")
-            
-            # Fetch opponent defense once for efficiency
-            if self.opponent_defense is None:
-                self.opponent_defense = get_opponent_defense_metrics(season)
-            
-            predictions = []
-            
-            for i, player in enumerate(players_data):
-                logger.info(f"[{i+1}/{len(players_data)}] Predicting {player['PLAYER_NAME']}...")
-                
-                time.sleep(API_DELAY)
+        results = []
+        total = len(players_data)
+        
+        # Prefetch defense once
+        if self.opponent_defense is None:
+            self.opponent_defense = get_opponent_defense_metrics(season)
 
-                prediction = self.predict_player_today(
-                    player_name=player['PLAYER_NAME'],
-                    team_name=player['TEAM_NAME'],
-                    is_home_game=player.get('IS_HOME', True),
-                    season=season
-                )
-                
-                if prediction:
-                    prediction['GAME_ID'] = player.get('GAME_ID', '')
-                    predictions.append(prediction)
+        for i, p in enumerate(players_data):
+            logger.info(f"[{i+1}/{total}] Starting Batch for {p['PLAYER_NAME']}")
             
-            result_df = pd.DataFrame(predictions)
-            logger.info(f"Successfully predicted for {len(result_df)} players")
+            # Respect API Rate Limits
+            time.sleep(API_DELAY)
             
-            return result_df
+            pred = self.predict_player_today(
+                player_name=p['PLAYER_NAME'],
+                team_name=p['TEAM_NAME'],
+                is_home_game=p.get('IS_HOME', True),
+                season=season
+            )
             
-        except Exception as e:
-            logger.error(f"Error in batch prediction: {e}")
-            return pd.DataFrame()
-    
-    def get_predictions_for_today(
-        self,
-        playing_today: pd.DataFrame,
-        season: str = "2024-25"
-    ) -> pd.DataFrame:
-        """
-        Get predictions for all players playing today.
+            if pred:
+                results.append(pred)
         
-        Args:
-            playing_today: DataFrame from GameFetcher.get_all_playing_today()
-            season: NBA season
-            
-        Returns:
-            DataFrame with predictions
-        """
-        try:
-            # Prepare player data list
-            players_list = []
-            for _, row in playing_today.iterrows():
-                players_list.append({
-                    'PLAYER_NAME': row['PLAYER_NAME'],
-                    'TEAM_NAME': row['TEAM_NAME'],
-                    'GAME_ID': row['GAME_ID'],
-                    'IS_STARTER': row['IS_STARTER'],
-                    'IS_HOME': row['IS_HOME']
-                })
-            
-            # Get predictions
-            predictions = self.predict_multiple_players(players_list, season)
-            
-            return predictions
-            
-        except Exception as e:
-            logger.error(f"Error getting predictions for today: {e}")
-            return pd.DataFrame()
-    
-    def save_model(self, output_path: str) -> bool:
-        """
-        Save trained model to disk.
-        
-        Args:
-            output_path: Path to save model
-            
-        Returns:
-            True if successful, False otherwise
-        """
-        try:
-            if self.model is None:
-                logger.error("No model to save")
-                return False
-            
-            logger.info(f"Saving model to {output_path}...")
-            self.model.save_model(output_path)
-            logger.info("Model saved successfully")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Error saving model: {e}")
-            return False
+        return pd.DataFrame(results)
 
+    def get_predictions_for_today(self, playing_today_df: pd.DataFrame, season="2024-25"):
+        """Convenience wrapper for the dataframe format."""
+        # Convert DataFrame to List of Dicts for the loop
+        players_list = playing_today_df.to_dict('records')
+        return self.predict_multiple_players(players_list, season)
 
-def predict_all_players_today(
-    playing_today: pd.DataFrame,
-    output_csv: str = "data/predictions_today.csv",
-    season: str = "2024-25"
-) -> pd.DataFrame:
-    """
-    Convenience function to predict all players playing today.
+def predict_all_players_today(playing_today, output_csv, season="2024-25"):
+    """Entry point used by automated_predictions.py"""
+    predictor = BatchPredictor()
+    df = predictor.get_predictions_for_today(playing_today, season)
     
-    Args:
-        playing_today: DataFrame from GameFetcher.get_all_playing_today()
-        output_csv: Path to save CSV results
-        season: NBA season
+    if not df.empty:
+        df.to_csv(output_csv, index=False)
+        logger.info(f"Saved batch predictions to {output_csv}")
         
-    Returns:
-        DataFrame with predictions
-    """
-    try:
-        predictor = BatchPredictor()
-        predictions = predictor.get_predictions_for_today(playing_today, season)
-        
-        if not predictions.empty:
-            predictions.to_csv(output_csv, index=False)
-            logger.info(f"Predictions saved to {output_csv}")
-        
-        return predictions
-        
-    except Exception as e:
-        logger.error(f"Error in predict_all_players_today: {e}")
-        return pd.DataFrame()
+    return df
