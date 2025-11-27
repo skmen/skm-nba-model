@@ -6,43 +6,22 @@
     <title>NBA Master Betting Sheet</title>
     
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="css/style.css">
 
-    <style>
-        /* CSS STYLES */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; color: #333; }
-        .container { max-width: 1400px; margin: 0 auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #f1f1f1; padding-bottom: 20px; }
-        h1 { margin: 0; color: #2c3e50; }
-        .subtitle { color: #7f8c8d; margin-top: 5px; }
-        
-        /* Table & Badges */
-        table.dataTable thead th { background-color: #2c3e50; color: white; padding: 12px; text-align: center; }
-        table.dataTable tbody td { text-align: center; vertical-align: middle; padding: 8px; }
-
-        .trust-badge { display: inline-block; padding: 5px 10px; border-radius: 12px; font-weight: bold; font-size: 0.8em; width: 80px; text-transform: uppercase; }
-        .elite { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .high { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
-        .medium { background: #ffe5d0; color: #d35400; border: 1px solid #ffccb3; }
-        .volatile { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-
-        .stat-badge { background: #e9ecef; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
-        .target-val { font-weight: bold; color: #444; }
-
-        /* Input & Status */
-        .vegas-input { width: 70px; padding: 6px; border: 2px solid #dfe6e9; border-radius: 6px; text-align: center; font-weight: bold; }
-        .vegas-input:focus { border-color: #3498db; outline: none; }
-        
-        .status-badge { display: inline-block; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 0.9em; width: 120px; }
-        .bet { background: #2ecc71; color: white; }
-        .lean { background: #f1c40f; color: #333; }
-        .pass { background: #e74c3c; color: white; }
-        .waiting { background: #f8f9fa; color: #adb5bd; border: 1px dashed #ced4da; }
-    </style>
 </head>
 <body>
 
+    <header class="header">
+        <div class="logo">🏀 NBA Model</div>
+        <nav class="nav">
+            <a href="index.html">Prediction Viewer</a>
+            <a href="master_sheet.html">Betting Sheet</a>
+            <a href="accuracy_report.html">Accuracy Report</a>
+        </nav>
+    </header>
+
 <div class="container">
-    <header>
+    <div class="page-header">
         <div>
             <h1>🍊 Master Betting Sheet</h1>
             <p class="subtitle">Single-File Version - Upload your <code>betting_sheet.csv</code></p>
@@ -50,7 +29,7 @@
         <div>
             <input type="file" id="csvFileInput" accept=".csv" style="padding: 10px; border: 1px solid #ddd; background: #f9f9f9; cursor: pointer;">
         </div>
-    </header>
+    </div>
 
     <table id="bettingTable" class="display" style="width:100%">
         <thead>
@@ -73,135 +52,7 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-
-<script>
-$(document).ready(function() {
-    // 1. Initialize Table
-    var table = $("#bettingTable").DataTable({
-        "pageLength": 25,
-        "order": [[ 5, "asc" ], [ 4, "desc" ]], // Trust then Prediction
-        "columnDefs": [
-            { "className": "dt-center", "targets": "_all" },
-            { "orderable": false, "targets": [3, 9] }
-        ]
-    });
-
-    // 2. File Upload Logic
-    document.getElementById('csvFileInput').addEventListener('change', function(e) {
-        var file = e.target.files[0];
-        if (!file) return;
-
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                var csv = e.target.result;
-                console.log("File read successfully. Length:", csv.length);
-                var data = parseCSV(csv);
-                
-                if (data.length === 0) {
-                    alert("Error: No valid rows found in CSV. Check the file format.");
-                    return;
-                }
-                
-                populateTable(data);
-            } catch (err) {
-                console.error(err);
-                alert("Error parsing CSV: " + err.message);
-            }
-        };
-        reader.readAsText(file);
-    });
-
-    // 3. Live Calculation Logic
-    $('#bettingTable tbody').on('input', '.vegas-input', function() {
-        var input = $(this);
-        var prediction = parseFloat(input.data('pred'));
-        var mae = parseFloat(input.data('mae'));
-        var vegasLine = parseFloat(input.val());
-        var statusCell = input.closest('tr').find('.status-cell');
-
-        if (isNaN(vegasLine)) {
-            statusCell.html('<span class="status-badge waiting">-</span>');
-            return;
-        }
-
-        var result = calculateBetStatus(prediction, mae, vegasLine);
-        statusCell.html(result);
-    });
-
-    // Helper: Bet Logic
-    function calculateBetStatus(prediction, mae, line) {
-        var edge = prediction - line;
-        var absEdge = Math.abs(edge);
-        var direction = edge > 0 ? "OVER" : "UNDER";
-        var strongThresh = mae;
-        var leanThresh = mae * 0.8;
-
-        if (absEdge > strongThresh) return "<span class=\"status-badge bet\">✅ BET " + direction + "</span>";
-        if (absEdge > leanThresh) return "<span class=\"status-badge lean\">⚠️ LEAN " + direction + "</span>";
-        return "<span class=\"status-badge pass\">❌ PASS</span>";
-    }
-
-    // Helper: CSV Parser
-    function parseCSV(csv) {
-        var lines = csv.split(/\r\n|\n/); // Handle both Windows and Mac/Linux line endings
-        var result = [];
-        var headers = lines[0].split(",");
-
-        // Basic validation
-        if (headers.length < 5) {
-            throw new Error("Invalid CSV headers. Expected at least Player, Team, Stat, Prediction, Trust.");
-        }
-
-        for (var i = 1; i < lines.length; i++) {
-            var line = lines[i].trim();
-            if (!line) continue; // Skip empty lines
-            
-            var currentline = line.split(",");
-            
-            // Simple check to ensure row isn't broken
-            if (currentline.length === headers.length) {
-                var obj = {};
-                for (var j = 0; j < headers.length; j++) {
-                    obj[headers[j].trim()] = currentline[j].trim();
-                }
-                result.push(obj);
-            }
-        }
-        return result;
-    }
-
-    // Helper: Populate Table
-    function populateTable(data) {
-        table.clear();
-        data.forEach(function(row) {
-            var trustText = row['Trust'] || "VOLATILE";
-            var trustClass = "volatile";
-            if (trustText.includes("ELITE")) trustClass = "elite";
-            else if (trustText.includes("HIGH")) trustClass = "high";
-            else if (trustText.includes("MEDIUM")) trustClass = "medium";
-
-            var inputField = "<input type=\"number\" step=\"0.5\" class=\"vegas-input\" 
-                                data-pred=\"" + row['Prediction'] + "\" 
-                                data-mae=\"" + row['MAE'] + "\" placeholder=\"-\">";
-
-            table.row.add([
-                row['Player'],
-                row['Team'],
-                "<span class=\"stat-badge\">" + row['Stat'] + "</span>",
-                inputField,
-                row['Prediction'],
-                "<span class=\"trust-badge " + trustClass + "\">" + trustText + "</span>",
-                row['MAE'],
-                "<span class=\"target-val\">" + row['Target_Line_Over'] + "</span>",
-                "<span class=\"target-val\">" + row['Target_Line_Under'] + "</span>",
-                "<span class=\"status-cell\"><span class=\"status-badge waiting\">-</span></span>"
-            ]);
-        });
-        table.draw();
-    }
-});
-</script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
