@@ -2,10 +2,12 @@ import pandas as pd
 import argparse
 import os
 import sys
+import numpy as np
 
 def generate_full_report(input_file):
     """
     Generates a Master Betting Sheet from a raw predictions CSV.
+    Includes advanced context: Usage, Minutes, Pace, and DvP.
     """
     # 1. Validation
     if not os.path.exists(input_file):
@@ -37,6 +39,18 @@ def generate_full_report(input_file):
     for _, row in df.iterrows():
         player = row.get('PLAYER_NAME', 'Unknown')
         team = row.get('TEAM_NAME', 'Unknown')
+        is_home = row.get('IS_HOME', True)
+        
+        # --- NEW CONTEXT METRICS ---
+        # Extract new data if available, with safe defaults
+        minutes = row.get('MINUTES', 0)
+        usage = row.get('USAGE_RATE', 0)
+        pace = row.get('PACE', 0)
+        dvp = row.get('OPP_DvP', 1.0)
+        
+        # Format Usage (if it's a decimal like 0.30, convert to 30.0)
+        if usage < 1.0 and usage > 0:
+            usage = usage * 100
 
         for stat, config in stat_config.items():
             if stat not in row:
@@ -46,21 +60,35 @@ def generate_full_report(input_file):
             mae = config['mae']
 
             # Calculate Target Lines (The "Safe Edge")
-            # Over: Line must be lower than (Pred - Error)
-            # Under: Line must be higher than (Pred + Error)
             target_over = prediction - mae
             target_under = prediction + mae
+
+            # --- OPPONENT ALLOWED CONTEXT ---
+            # Dynamically look for 'OPP_ALLOW_PTS', 'OPP_ALLOW_REB', etc.
+            opp_allow_col = f"OPP_ALLOW_{stat}"
+            opp_avg = row.get(opp_allow_col, np.nan)
+            
+            # Format Opp Avg (Show 'N/A' if missing)
+            opp_avg_display = round(opp_avg, 1) if pd.notna(opp_avg) and opp_avg > 0 else "N/A"
 
             report_data.append({
                 'Player': player,
                 'Team': team,
+                'Loc': '🏠' if is_home else '✈️',
                 'Stat': stat,
                 'Prediction': round(prediction, 2),
+                'Opp_Avg': opp_avg_display,     # New: What opponent allows
+                'Diff': round(prediction - opp_avg, 1) if isinstance(opp_avg_display, float) else 0,
                 'Trust_Rank': config['trust'],  # Hidden sort key
                 'Trust': config['label'],
                 'MAE': mae,
-                'Target_Line_Over': round(target_over, 1),
-                'Target_Line_Under': round(target_under, 1)
+                'Line_Over': round(target_over, 1),
+                'Line_Under': round(target_under, 1),
+                # Context Columns
+                'Mins': round(minutes, 1),
+                'Usg%': round(usage, 1),
+                'Pace': round(pace, 1),
+                'DvP': round(dvp, 2)
             })
 
     # 5. Create DataFrame & Sort
@@ -70,29 +98,33 @@ def generate_full_report(input_file):
         print("⚠️ No valid data found in file.")
         sys.exit(0)
 
-    # Sort by Trust (Elite first), then by highest Prediction
+    # Sort by Trust (Elite first), then by Prediction value
     report_df.sort_values(by=['Trust_Rank', 'Prediction'], ascending=[True, False], inplace=True)
-    report_df.drop(columns=['Trust_Rank'], inplace=True)
+    
+    # Reorder columns for readability
+    cols_order = [
+        'Player', 'Team', 'Loc', 'Stat', 
+        'Prediction', 'Line_Over', 'Line_Under', 'Trust', 
+        'Opp_Avg', 'Mins', 'Usg%', 'Pace', 'DvP'
+    ]
+    # Filter to only existing cols (in case some are missing)
+    cols_order = [c for c in cols_order if c in report_df.columns]
+    report_df = report_df[cols_order]
 
     # 6. Save Report
-    # We save it to the same folder as the input, but with a new name
-    # e.g. "predictions_20251126.csv" -> "betting_sheet_20251126.csv"
     input_filename = os.path.basename(input_file)
     output_filename = f"betting_sheet_{input_filename}"
     
     report_df.to_csv(output_filename, index=False)
     
-    print(f"✅ Report Generated: {output_filename}")
-    print(f"   Contains {len(report_df)} betting lines.")
-    print("-" * 60)
+    print(f"✅ Master Betting Sheet Generated: {output_filename}")
+    print(f"   Contains {len(report_df)} betting lines with full context.")
+    print("-" * 80)
     print(report_df.head(5).to_string(index=False))
-    print("-" * 60)
+    print("-" * 80)
 
 if __name__ == "__main__":
-    # Set up argument parser
     parser = argparse.ArgumentParser(description="Generate a Master Betting Sheet from a predictions CSV file.")
-    
-    # Add the file argument (Required)
     parser.add_argument(
         "file_path", 
         type=str, 
@@ -100,6 +132,4 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-
-    # Run the function
     generate_full_report(args.file_path)

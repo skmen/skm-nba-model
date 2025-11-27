@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import re
 import numpy as np
+import json  # <--- Added
 from datetime import datetime
 
 # Add project root to the Python path
@@ -40,7 +41,7 @@ def find_latest_prediction_file():
 
 def run_game_predictions(predictions_file: str):
     """
-    Generates game-level predictions using player stats, Pace, Usage, and DvP.
+    Generates game-level predictions and saves to JSON.
     """
     logger.info(f"Processing Game Predictions from: {predictions_file}")
 
@@ -54,7 +55,7 @@ def run_game_predictions(predictions_file: str):
         
         if missing:
             logger.warning(f"Missing columns {missing}. Falling back to basic aggregation.")
-            # Create dummy cols if missing to prevent crash
+            # Create dummy cols if missing
             for col in missing:
                 if col == 'PACE': df[col] = 100.0
                 elif col == 'OPP_DvP': df[col] = 1.0
@@ -65,15 +66,15 @@ def run_game_predictions(predictions_file: str):
         logger.error(f"Error loading file: {e}")
         return
 
-    # 2. Get Game Schedule (to identify matchups)
+    # 2. Get Game Schedule
     try:
-        # Extract date from filename for game fetching
         date_match = re.search(r'predictions_(\d{8})', predictions_file)
         if date_match:
-            date_str = date_match.group(1)
-            date_iso = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:]}"
+            date_str_raw = date_match.group(1)
+            date_iso = f"{date_str_raw[:4]}-{date_str_raw[4:6]}-{date_str_raw[6:]}"
         else:
             date_iso = datetime.now().strftime('%Y-%m-%d')
+            date_str_raw = datetime.now().strftime('%Y%m%d')
 
         game_fetcher = GameFetcher()
         games_df = game_fetcher.get_today_games(date_iso)
@@ -91,24 +92,21 @@ def run_game_predictions(predictions_file: str):
     print("="*60 + "\n")
 
     # 3. Calculate Team-Level Metrics
-    # We aggregate player stats to get team totals
-    
-    # Filter out low-impact players for team aggregates (optional, but cleaner)
     active_df = df[df['MINUTES'] > 5].copy()
     
     team_stats = active_df.groupby('TEAM_NAME').agg({
-        'PTS': 'sum',                # Sum of Model Predictions
-        'OPP_ALLOW_PTS': 'sum',      # Sum of Points Opponent Allows to these positions
-        'PACE': 'mean',              # This is the Average Opponent Pace faced by players
-        'OPP_DvP': 'mean',           # Average Difficulty of Matchup ( >1.0 is easy)
-        'USAGE_RATE': 'sum'          # Total Usage (Should be around 1.0 or 100%)
+        'PTS': 'sum',
+        'OPP_ALLOW_PTS': 'sum',
+        'PACE': 'mean',
+        'OPP_DvP': 'mean',
+        'USAGE_RATE': 'sum'
     }).reset_index()
 
-    # Convert to dictionary for fast lookup
     team_data = team_stats.set_index('TEAM_NAME').to_dict('index')
-
-    # League Average Pace (Estimate if not calculated)
     league_avg_pace = active_df['PACE'].mean() if not active_df.empty else 100.0
+
+    # Output list for JSON
+    game_predictions_output = []
 
     # 4. Process Each Game
     for _, game in games_df.iterrows():
@@ -122,43 +120,48 @@ def run_game_predictions(predictions_file: str):
         h_stats = team_data[home_team]
         a_stats = team_data[away_team]
 
-        # --- PACE CALCULATION ---
-        # Player's 'PACE' column = The Pace of the Opponent they are facing.
-        # So Home Team Pace = Away Players' Average 'PACE'
-        # And Away Team Pace = Home Players' Average 'PACE'
-        
-        # However, relying on the 'PACE' column in the CSV (which is Opponent Pace)
-        # means h_stats['PACE'] is actually the Away Team's Pace.
+        # Pace Calculation
         estimated_pace = (h_stats['PACE'] + a_stats['PACE']) / 2
         pace_factor = estimated_pace / league_avg_pace
 
-        # --- SCORE PREDICTION ---
-        
-        # Method A: Model Sum (Pure aggregation of your XGBoost/Ridge models)
+        # Score Prediction
         h_model_score = h_stats['PTS']
         a_model_score = a_stats['PTS']
-
-        # Method B: Implied Defense Score (What opponents usually allow)
-        # If available, we use OPP_ALLOW_PTS
+        
         h_implied = h_stats.get('OPP_ALLOW_PTS', h_model_score)
         a_implied = a_stats.get('OPP_ALLOW_PTS', a_model_score)
         
-        # BLEND: 70% Model, 30% Defensive History
-        # We also apply the Pace Factor to the final result
         h_final = ((h_model_score * 0.7) + (h_implied * 0.3)) * pace_factor
         a_final = ((a_model_score * 0.7) + (a_implied * 0.3)) * pace_factor
         
-        # Total & Spread
         total = h_final + a_final
         spread = h_final - a_final
         winner = home_team if spread > 0 else away_team
 
-        # --- OUTPUT ---
+        # CLI Output
         print(f"{away_team} ({a_final:.1f}) @ {home_team} ({h_final:.1f})")
         print(f"  > Winner: {winner} ({abs(spread):.1f})")
         print(f"  > Total:  {total:.1f}")
-        print(f"  > Pace:   {estimated_pace:.1f}")
         print("-" * 40)
+
+        # JSON Data Collection
+        game_predictions_output.append({
+            "away_team": away_team,
+            "away_score": round(a_final, 1),
+            "home_team": home_team,
+            "home_score": round(h_final, 1),
+            "winner": winner,
+            "spread": round(abs(spread), 1),
+            "total": round(total, 1),
+            "pace": round(estimated_pace, 1)
+        })
+
+    # 5. Save JSON
+    output_filename = f"data/predictions/game_predictions_{date_str_raw}.json"
+    with open(output_filename, 'w') as f:
+        json.dump(game_predictions_output, f, indent=4)
+        
+    logger.info(f"Game predictions saved to {output_filename}")
 
 def main():
     latest = find_latest_prediction_file()

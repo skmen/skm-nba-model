@@ -24,7 +24,7 @@
     <div class="page-header">
         <div>
             <h1>🍊 Master Betting Sheet</h1>
-            <p class="subtitle">Single-File Version - Upload your <code>betting_sheet.csv</code></p>
+            <p class="subtitle">Upload your <code>betting_sheet_...csv</code> file here.</p>
         </div>
         <div>
             <input type="file" id="csvFileInput" accept=".csv" style="padding: 10px; border: 1px solid #ddd; background: #f9f9f9; cursor: pointer;">
@@ -36,14 +36,20 @@
             <tr>
                 <th>Player</th>
                 <th>Team</th>
+                <th>Loc</th>
                 <th>Stat</th>
-                <th>Vegas Line</th>
+                
                 <th>Prediction</th>
+                <th>Opp Avg</th>
+                
+                <th>Mins</th>
+                <th>Usg%</th>
+                <th>Pace</th>
+                <th>DvP</th>
+                
                 <th>Trust</th>
-                <th>MAE</th>
                 <th>Target OVER</th>
                 <th>Target UNDER</th>
-                <th>Bet Status</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -52,6 +58,7 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
 <script src="js/script.js"></script>
 
 </body>
