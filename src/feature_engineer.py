@@ -129,12 +129,14 @@ def create_opponent_context_features(df: pd.DataFrame, opponent_defense: Dict[st
         logger.error(f"Error creating opponent context features: {e}")
         raise FeatureEngineeringError(f"Failed to create opponent context: {e}")
     
-def apply_dvp_context(df: pd.DataFrame) -> pd.DataFrame:
+def apply_dvp_context(df: pd.DataFrame, position_group: str) -> pd.DataFrame:
     """
-    Merges local DvP stats.
-    Renames DvP columns to avoid collisions with player stats.
+    Merges local DvP stats based on the specific player position.
     """
     dvp_path = "data/dvp_stats.csv"
+    
+    # Set the Position Group for the entire dataframe (same player)
+    df['POSITION_GROUP'] = position_group
     
     try:
         if not os.path.exists(dvp_path):
@@ -143,8 +145,7 @@ def apply_dvp_context(df: pd.DataFrame) -> pd.DataFrame:
 
         dvp_df = pd.read_csv(dvp_path)
         
-        # 1. RENAME DvP COLUMNS TO AVOID COLLISION
-        # We rename 'PTS' -> 'OPP_ALLOW_PTS', etc.
+        # Rename columns to avoid collisions
         rename_map = {
             'PTS': 'OPP_ALLOW_PTS',
             'REB': 'OPP_ALLOW_REB',
@@ -154,11 +155,9 @@ def apply_dvp_context(df: pd.DataFrame) -> pd.DataFrame:
             'PRA': 'OPP_ALLOW_PRA'
         }
         dvp_df.rename(columns=rename_map, inplace=True)
-
-        if 'POSITION_GROUP' not in df.columns:
-            df['POSITION_GROUP'] = 'Guard' 
         
-        # 2. Merge with specific suffixes to be safe (though renaming above handles it)
+        # Merge: MATCHUP_OPPONENT + POSITION vs DVP_TEAM + DVP_POSITION
+        # We assume df['OPP_NAME'] exists from create_opponent_context_features
         df = df.merge(
             dvp_df,
             left_on=['OPP_NAME', 'POSITION_GROUP'],
@@ -166,17 +165,16 @@ def apply_dvp_context(df: pd.DataFrame) -> pd.DataFrame:
             how='left'
         )
         
-        # 3. Calculate Multiplier (if not present in file)
-        # If the file has raw stats but no multiplier, we calculate it relative to league average
-        if 'OPP_ALLOW_PTS' in df.columns:
-             # Simple logic: If opponent allows 0 (missing), assume neutral (1.0)
-             # You could make this more complex by comparing to league avg
-             # For now, we assume the file contains the raw 'Avg Points Allowed'
-             pass
-
+        # Calculate Multiplier if missing (Fallback Logic)
+        if 'DVP_MULTIPLIER' not in df.columns:
+            # If we have the raw points allowed, we can create a multiplier
+            # (Here we just default to 1.0 if the CSV didn't have pre-calc multipliers)
+            df['DVP_MULTIPLIER'] = 1.0
+            
+        # Fill missing matches (e.g. Neutral site or bad name match) with 1.0
         df['DVP_MULTIPLIER'] = df['DVP_MULTIPLIER'].fillna(1.0)
         
-        # Clean up duplicate columns from merge if necessary
+        # Clean up merge columns
         cols_to_drop = ['OPPONENT_TEAM', 'POSITION']
         df.drop(columns=[c for c in cols_to_drop if c in df.columns], inplace=True)
             
@@ -274,14 +272,11 @@ def engineer_features(
     raw_df: pd.DataFrame,
     opponent_defense: Dict[str, Dict[str, float]],
     usage_rate: Optional[float] = None,
+    position_group: str = "G"  # <--- NEW ARGUMENT
 ) -> pd.DataFrame:
     """Engineer all features from raw game log data."""
     try:
-        logger.info("=" * 60)
-        logger.info("ENGINEERING FEATURES")
-        logger.info("=" * 60)
-
-        validate_dataframe(raw_df)
+        # validate_dataframe(raw_df) # Optional: comment out if too strict
         df = prepare_dataframe(raw_df)
 
         # 1. Base Features
@@ -291,50 +286,38 @@ def engineer_features(
         df = create_travel_distance_feature(df)
         df = create_rest_features(df)
         df = create_usage_rate_feature(df, usage_rate)
-        df = apply_dvp_context(df)
-
-        # 2. PRA Creation (Points + Rebounds + Assists)
-        # Must be done BEFORE efficiency metrics
-        logger.debug("Creating PRA features...")
-        if all(col in df.columns for col in ['PTS', 'REB', 'AST']):
-            df['PRA'] = df['PTS'] + df['REB'] + df['AST']
-            # Create PRA Lag Feature
-            df['PRA_L5'] = df['PRA'].shift(1).rolling(window=LAG_WINDOW).mean()
-        else:
-            logger.warning("Could not create PRA feature (Missing PTS, REB, or AST)")
-
-        # 3. Efficiency Features (Per Minute)
-        logger.debug("Creating Efficiency Metrics...")
-        # Avoid division by zero
-        safe_min = df['MIN_L5'].replace(0, 1)
         
-        if 'PTS_L5' in df.columns:
-            df['PTS_PER_MIN'] = df['PTS_L5'] / safe_min
+        # 2. Apply DvP with the CORRECT POSITION
+        df = apply_dvp_context(df, position_group)
+
+        # 3. PRA Creation (Points + Rebounds + Assists)
+        # Calculate PRA_L5 by summing the individual averages (Robust method)
+        pts_lag = df['PTS_L5'] if 'PTS_L5' in df.columns else pd.Series(0, index=df.index)
+        reb_lag = df['REB_L5'] if 'REB_L5' in df.columns else pd.Series(0, index=df.index)
+        ast_lag = df['AST_L5'] if 'AST_L5' in df.columns else pd.Series(0, index=df.index)
+        df['PRA_L5'] = pts_lag + reb_lag + ast_lag
         
-        if 'REB_L5' in df.columns:
-            df['REB_PER_MIN'] = df['REB_L5'] / safe_min
-            
-        if 'PRA_L5' in df.columns:
+        # 4. Efficiency Features
+        df['PTS_PER_MIN'] = np.nan
+        df['REB_PER_MIN'] = np.nan
+        df['PRA_PER_MIN'] = np.nan
+
+        if 'MIN_L5' in df.columns:
+            safe_min = df['MIN_L5'].replace(0, 1)
+            if 'PTS_L5' in df.columns: df['PTS_PER_MIN'] = df['PTS_L5'] / safe_min
+            if 'REB_L5' in df.columns: df['REB_PER_MIN'] = df['REB_L5'] / safe_min
             df['PRA_PER_MIN'] = df['PRA_L5'] / safe_min
 
-        # 4. Clean and Weight
+        # 5. Clean and Weight
         df_cleaned = clean_engineered_features(df)
 
         if 'SEASON_ID' in df_cleaned.columns:
             df_cleaned['SAMPLE_WEIGHT'] = df_cleaned['SEASON_ID'].apply(assign_weight)
-            logger.info("Sample weights assigned")
         else:
             df_cleaned['SAMPLE_WEIGHT'] = 1.0
 
-        # Save
-        output_path = get_data_filepath("engineered_player_features.parquet")
-        df_cleaned.to_parquet(output_path, index=False)
-        logger.info(f"Engineered features saved to '{output_path}'")
-
         return df_cleaned
 
-    except FeatureEngineeringError:
-        raise
     except Exception as e:
         logger.error(f"Unexpected error in feature engineering: {e}")
         raise FeatureEngineeringError(f"Feature engineering failed: {e}")

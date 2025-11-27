@@ -7,7 +7,31 @@
     
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <link rel="stylesheet" href="css/style.css">
-
+    <style>
+        /* Styling for the Vegas Input Box */
+        .vegas-input {
+            width: 70px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        /* Styling for Recommendation Badges */
+        .rec-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-align: center;
+            width: 60px;
+        }
+        .rec-bet { background-color: #28a745; } /* Green */
+        .rec-lean { background-color: #ffc107; color: #000; } /* Yellow */
+        .rec-pass { background-color: #dc3545; } /* Red */
+    </style>
 </head>
 <body>
 
@@ -24,7 +48,7 @@
     <div class="page-header">
         <div>
             <h1>🍊 Master Betting Sheet</h1>
-            <p class="subtitle">Upload your <code>betting_sheet_...csv</code> file here.</p>
+            <p class="subtitle">Enter Vegas Lines to see instant Edge Recommendations.</p>
         </div>
         <div>
             <input type="file" id="csvFileInput" accept=".csv" style="padding: 10px; border: 1px solid #ddd; background: #f9f9f9; cursor: pointer;">
@@ -40,16 +64,15 @@
                 <th>Stat</th>
                 
                 <th>Prediction</th>
-                <th>Opp Avg</th>
-                
-                <th>Mins</th>
-                <th>Usg%</th>
+                <th>MAE</th> <th>Usg%</th>
                 <th>Pace</th>
                 <th>DvP</th>
                 
-                <th>Trust</th>
-                <th>Target OVER</th>
-                <th>Target UNDER</th>
+                <th>Vegas Line</th>
+                <th>Bet Rec</th>
+                
+                <th>Safe Over</th>
+                <th>Safe Under</th>
             </tr>
         </thead>
         <tbody></tbody>

@@ -106,10 +106,12 @@ $(document).ready(function() {
                 },
                 { 
                     data: 'Prediction',
-                    render: function(data) { return `<span style="color:#007bff; font-weight:bold;">${data}</span>`; }
+                    render: function(data) { return `<span class="pred-val" style="color:#007bff; font-weight:bold;">${data}</span>`; }
                 },
-                { data: 'Opp_Avg' },
-                { data: 'Mins' },
+                { 
+                    data: 'MAE',
+                    render: function(data) { return `<span class="mae-val" style="color:#666;">${data}</span>`; }
+                },
                 { data: 'Usg%' },
                 { data: 'Pace' },
                 { 
@@ -120,27 +122,76 @@ $(document).ready(function() {
                         return data;
                     }
                 },
-                { 
-                    data: 'Trust',
-                    render: function(data) {
-                        let color = 'gray';
-                        if (data.includes('ELITE')) color = '#28a745';
-                        if (data.includes('HIGH')) color = '#ffc107';
-                        if (data.includes('MEDIUM')) color = '#fd7e14';
-                        if (data.includes('VOLATILE')) color = '#dc3545';
-                        return `<span style="background:${color}; color:white; padding:3px 8px; border-radius:12px; font-size:0.85em;">${data}</span>`;
+                // --- INTERACTIVE COLUMNS ---
+                {
+                    data: null, // Input Column
+                    orderable: false,
+                    render: function(data, type, row) {
+                        return `<input type="number" step="0.5" class="vegas-input" placeholder="-">`;
                     }
                 },
+                {
+                    data: null, // Result Column
+                    orderable: false,
+                    className: "rec-cell",
+                    render: function(data, type, row) {
+                        return `<span class="rec-placeholder" style="color:#ccc;">-</span>`;
+                    }
+                },
+                // ---------------------------
                 { data: 'Line_Over' },
                 { data: 'Line_Under' }
             ],
-            order: [[10, 'asc'], [4, 'desc']]
+            order: [[4, 'desc']] // Sort by Prediction High-to-Low
         });
 
-        // Specific upload handler for Master Sheet page
-        $('#csvFileInput').change(function(e) {
-            handleCsvUpload(e, bettingTable);
+        // --- REAL-TIME CALCULATION LOGIC ---
+        $('#bettingTable tbody').on('keyup change', '.vegas-input', function() {
+            var $row = $(this).closest('tr');
+            var vegasLine = parseFloat($(this).val());
+            
+            // Get data from the DataTable row 
+            // (We use data() so it works even if columns are hidden/responsive)
+            var rowData = bettingTable.row($row).data();
+            var prediction = parseFloat(rowData.Prediction);
+            var mae = parseFloat(rowData.MAE);
+
+            var $recCell = $row.find('.rec-cell');
+
+            if (isNaN(vegasLine)) {
+                $recCell.html('<span class="rec-placeholder" style="color:#ccc;">-</span>');
+                return;
+            }
+
+            // --- THE BETTING LOGIC (Matches bet_analyzer.py) ---
+            var edge = prediction - vegasLine;
+            var absEdge = Math.abs(edge);
+            var direction = edge > 0 ? "OVER" : "UNDER";
+            
+            // Thresholds
+            var strongThreshold = mae * 1.0; // 100% of MAE
+            var leanThreshold = mae * 0.8;   // 80% of MAE
+
+            var html = "";
+
+            if (absEdge > strongThreshold) {
+                // STRONG BET (Green)
+                html = `<span class="rec-badge rec-bet">BET ${direction}</span>`;
+            } else if (absEdge > leanThreshold) {
+                // LEAN (Yellow)
+                html = `<span class="rec-badge rec-lean">LEAN ${direction}</span>`;
+            } else {
+                // PASS (Red)
+                html = `<span class="rec-badge rec-pass">PASS</span>`;
+            }
+
+            // Optional: Show the edge value underneath
+            html += `<div style="font-size:0.75em; margin-top:3px; color:#555;">Edge: ${absEdge.toFixed(1)}</div>`;
+
+            $recCell.html(html);
         });
+
+        setupCsvUpload(table, '#csvFileInput');
     }
 
     // =========================================================

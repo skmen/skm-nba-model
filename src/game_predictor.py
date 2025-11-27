@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import re
 import numpy as np
-import json  # <--- Added
+import json
 from datetime import datetime
 
 # Add project root to the Python path
@@ -41,7 +41,7 @@ def find_latest_prediction_file():
 
 def run_game_predictions(predictions_file: str):
     """
-    Generates game-level predictions and saves to JSON.
+    Generates game-level predictions using player stats normalized to 240 minutes.
     """
     logger.info(f"Processing Game Predictions from: {predictions_file}")
 
@@ -50,16 +50,14 @@ def run_game_predictions(predictions_file: str):
         df = pd.read_csv(predictions_file)
         
         # Check for required new columns
-        required = ['TEAM_NAME', 'PTS', 'PACE', 'OPP_DvP', 'USAGE_RATE', 'MINUTES']
+        required = ['TEAM_NAME', 'PTS', 'PACE', 'MINUTES']
         missing = [col for col in required if col not in df.columns]
         
         if missing:
-            logger.warning(f"Missing columns {missing}. Falling back to basic aggregation.")
+            logger.warning(f"Missing columns {missing}. Totals may be inaccurate.")
             # Create dummy cols if missing
             for col in missing:
                 if col == 'PACE': df[col] = 100.0
-                elif col == 'OPP_DvP': df[col] = 1.0
-                elif col == 'USAGE_RATE': df[col] = 0.2
                 elif col == 'MINUTES': df[col] = 20.0
                 
     except Exception as e:
@@ -91,21 +89,24 @@ def run_game_predictions(predictions_file: str):
     print(f"🏀 GAME PREDICTIONS FOR {date_iso}")
     print("="*60 + "\n")
 
-    # 3. Calculate Team-Level Metrics
-    active_df = df[df['MINUTES'] > 5].copy()
+    # 3. Calculate Team-Level Metrics (Normalized)
+    # Filter out invalid rows first
+    active_df = df[df['MINUTES'] > 0].copy()
     
     team_stats = active_df.groupby('TEAM_NAME').agg({
         'PTS': 'sum',
-        'OPP_ALLOW_PTS': 'sum',
-        'PACE': 'mean',
-        'OPP_DvP': 'mean',
-        'USAGE_RATE': 'sum'
+        'MINUTES': 'sum',
+        'PACE': 'mean' # Average Opponent Pace
     }).reset_index()
-
+    
+    # --- NORMALIZATION LOGIC ---
+    # We calculate Points Per Minute (PPM) and scale to 240 team minutes.
+    # Formula: (Total Predicted PTS / Total Predicted Minutes) * 240
+    team_stats['NORMALIZED_PTS'] = (team_stats['PTS'] / team_stats['MINUTES']) * 240
+    
     team_data = team_stats.set_index('TEAM_NAME').to_dict('index')
     league_avg_pace = active_df['PACE'].mean() if not active_df.empty else 100.0
 
-    # Output list for JSON
     game_predictions_output = []
 
     # 4. Process Each Game
@@ -121,18 +122,16 @@ def run_game_predictions(predictions_file: str):
         a_stats = team_data[away_team]
 
         # Pace Calculation
+        # The 'PACE' column represents the PACE of the OPPONENT the player is facing.
+        # So Home Players' Pace = Away Team's Pace.
         estimated_pace = (h_stats['PACE'] + a_stats['PACE']) / 2
         pace_factor = estimated_pace / league_avg_pace
 
-        # Score Prediction
-        h_model_score = h_stats['PTS']
-        a_model_score = a_stats['PTS']
-        
-        h_implied = h_stats.get('OPP_ALLOW_PTS', h_model_score)
-        a_implied = a_stats.get('OPP_ALLOW_PTS', a_model_score)
-        
-        h_final = ((h_model_score * 0.7) + (h_implied * 0.3)) * pace_factor
-        a_final = ((a_model_score * 0.7) + (a_implied * 0.3)) * pace_factor
+        # Score Prediction (Using Normalized Points)
+        # We removed the 'Implied Defense' sum because summing "Points Allowed Per Game" 
+        # across 15 players leads to massive inflation.
+        h_final = h_stats['NORMALIZED_PTS'] * pace_factor
+        a_final = a_stats['NORMALIZED_PTS'] * pace_factor
         
         total = h_final + a_final
         spread = h_final - a_final
@@ -147,21 +146,30 @@ def run_game_predictions(predictions_file: str):
         # JSON Data Collection
         game_predictions_output.append({
             "away_team": away_team,
-            "away_score": round(a_final, 1),
+            "away_score": clean_for_json(a_final),
             "home_team": home_team,
-            "home_score": round(h_final, 1),
+            "home_score": clean_for_json(h_final),
             "winner": winner,
-            "spread": round(abs(spread), 1),
-            "total": round(total, 1),
-            "pace": round(estimated_pace, 1)
+            "spread": clean_for_json(abs(spread)),
+            "total": clean_for_json(total),
+            "pace": clean_for_json(estimated_pace)
         })
 
     # 5. Save JSON
     output_filename = f"data/predictions/game_predictions_{date_str_raw}.json"
-    with open(output_filename, 'w') as f:
-        json.dump(game_predictions_output, f, indent=4)
-        
-    logger.info(f"Game predictions saved to {output_filename}")
+    
+    try:
+        with open(output_filename, 'w', encoding='utf-8') as f:
+            json.dump(game_predictions_output, f, indent=4, ensure_ascii=False)
+        logger.info(f"Game predictions saved to {output_filename}")
+    except Exception as e:
+        logger.error(f"Failed to save JSON: {e}")
+
+# Helper to sanitize JSON values
+def clean_for_json(val):
+    if pd.isna(val) or np.isnan(val) or np.isinf(val):
+        return 0.0
+    return float(round(val, 1))
 
 def main():
     latest = find_latest_prediction_file()

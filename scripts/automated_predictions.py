@@ -6,8 +6,11 @@ This script automates the entire prediction workflow and can also retrieve
 actual results for a given day.
 
 Usage:
-    # Run predictions for today
+    # Run predictions for today (All Teams)
     python scripts/automated_predictions.py --run-once
+
+    # Run predictions for a specific team
+    python scripts/automated_predictions.py --run-once --team "Lakers"
 
     # Get actuals for yesterday
     python scripts/automated_predictions.py --get-actuals YYYY-MM-DD
@@ -19,9 +22,11 @@ Date: 2025
 import argparse
 import sys
 import os
+from typing import Optional
 from datetime import datetime, timedelta
 from pathlib import Path
 import pandas as pd
+from nba_api.stats.endpoints import leaguegamelog
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -47,97 +52,100 @@ def ensure_directories() -> None:
 
 def get_actuals_for_date(target_date: datetime, output_filename: str, season: str = "2024-25") -> bool:
     """
-    Fetches the actual game stats for all players who played on a given date.
+    Fetches actual game stats for ALL players on a given date using a single API call.
+    Optimized to prevent rate-limit timeouts.
     """
     try:
-        date_str = target_date.strftime('%Y-%m-%d')
-        print_section(f"📊 GETTING ACTUALS FOR {date_str}")
+        date_str_api = target_date.strftime('%m/%d/%Y')
+        date_str_iso = target_date.strftime('%Y-%m-%d')
         
-        fetcher = GameFetcher()
-        playing_that_day = fetcher.get_all_playing_today(target_date.strftime('%d-%m-%Y'))
+        print_section(f"GETTING ACTUALS FOR {date_str_iso}")
+        print("Fetching league-wide stats (1 Batch Request)...")
 
-        if playing_that_day.empty:
-            print_result(f"❌ No players found for {date_str}", True)
-            return True
-
-        print_result(f"✅ Found {len(playing_that_day)} players scheduled on {date_str}", True)
+        logs = leaguegamelog.LeagueGameLog(
+            player_or_team_abbreviation='P',
+            season=season,
+            date_from_nullable=date_str_api,
+            date_to_nullable=date_str_api
+        )
         
-        actuals_list = []
-        for _, player in playing_that_day.iterrows():
-            player_name = player['PLAYER_NAME']
-            print(f"Fetching actuals for {player_name}...")
-            
-            # Fetch game log, which will include the game from target_date
-            game_log = get_player_gamelog(player_name, season)
-            
-            if game_log is None or game_log.empty:
-                logger.warning(f"Could not get game log for {player_name}")
-                continue
+        df = logs.get_data_frames()[0]
 
-            # Filter for the specific game date
-            game_log['GAME_DATE'] = pd.to_datetime(game_log['GAME_DATE']).dt.date
-            target_date_date = target_date.date()
-            
-            actual_game = game_log[game_log['GAME_DATE'] == target_date_date]
-
-            if not actual_game.empty:
-                actual_stats = actual_game.iloc[0]
-                player_actuals = {
-                    'PLAYER_NAME': player_name,
-                    'TEAM_NAME': player['TEAM_NAME'],
-                }
-                for target in TARGETS:
-                    player_actuals[target] = actual_stats.get(target, 0)
-                actuals_list.append(player_actuals)
-                logger.info(f"Found actuals for {player_name}: {player_actuals}")
-            else:
-                logger.warning(f"No game found on {date_str} for {player_name}")
-
-        if not actuals_list:
-            print_result("❌ No actuals could be retrieved.", False)
+        if df.empty:
+            print_result(f"No games found for {date_str_iso}", False)
             return False
+
+        actuals_list = []
+        for _, row in df.iterrows():
+            player_actuals = {
+                'PLAYER_NAME': row['PLAYER_NAME'],
+                'TEAM_NAME': row['TEAM_NAME'],
+                'PTS': row['PTS'],
+                'REB': row['REB'],
+                'AST': row['AST'],
+                'STL': row['STL'],
+                'BLK': row['BLK'],
+                'PRA': row['PTS'] + row['REB'] + row['AST'] 
+            }
+            actuals_list.append(player_actuals)
 
         actuals_df = pd.DataFrame(actuals_list)
         actuals_df.to_csv(output_filename, index=False)
-        print_result(f"✅ Saved actuals for {len(actuals_df)} players to {output_filename}", True)
+        
+        print_result(f"✅ Success", f"Retrieved actuals for {len(actuals_df)} players")
+        print_result(f"Saved to", output_filename)
         return True
 
     except Exception as e:
         logger.error(f"Fatal error in get_actuals_for_date: {e}", exc_info=True)
-        print_result(f"❌ Error getting actuals: {e}", False)
+        print_result("Error getting actuals", str(e)) 
         return False
 
 
-def run_predictions_for_date(target_date: datetime, output_filename: str, season: str = "2024-25") -> bool:
+def run_predictions_for_date(
+    target_date: datetime, 
+    output_filename: str, 
+    season: str = "2024-25",
+    team_filter: Optional[str] = None
+) -> bool:
     """
     Run complete prediction workflow for a given date.
+    Optionally filters by team name.
     """
     try:
-        # 1. Format the date correctly (ISO format)
         date_str_api = target_date.strftime('%Y-%m-%d')
         
         start_time = datetime.now()
         print_section(f"NBA PREDICTIONS FOR {target_date.strftime('%Y-%m-%d')}")
         
-        # 2. ADD THIS MISSING LINE HERE 👇
         fetcher = GameFetcher()
-        
-        # 3. Now you can use it
         games = fetcher.get_today_games(date_str_api)
         
         if games is None or games.empty:
             print_result(f"No games scheduled for {date_str_api}", True)
             return True
         
-        print_result(f"✅ Found {len(games)} game(s)", True)
+        print_result(f"Found {len(games)} game(s)", True)
         
+        # Get all players
         playing_today = fetcher.get_all_playing_today(date_str_api)
         
+        # --- TEAM FILTER LOGIC ---
+        if team_filter:
+            print_result("Filtering by Team", team_filter)
+            # Filter Case-Insensitive (e.g. 'dallas' matches 'Dallas Mavericks')
+            original_count = len(playing_today)
+            playing_today = playing_today[
+                playing_today['TEAM_NAME'].str.contains(team_filter, case=False, na=False)
+            ]
+            print_result("Players Found", f"{len(playing_today)} (filtered from {original_count})")
+        else:
+            print_result(f"Found {len(playing_today)} starting players", True)
+        # -------------------------
+
         if playing_today.empty:
-            print_result("❌ No starting players found", True)
+            print_result("No players found matching criteria", True)
             return True
-        
-        print_result(f"✅ Found {len(playing_today)} starting players", True)
         
         print_section("Generating Predictions")
         print("This may take a few minutes...\n")
@@ -149,21 +157,21 @@ def run_predictions_for_date(target_date: datetime, output_filename: str, season
         )
         
         if predictions.empty:
-            print_result("❌ No predictions generated", False)
+            print_result("No predictions generated", False)
             return False
         
-        print_result(f"✅ Generated predictions for {len(predictions)} players", True)
+        print_result(f"Generated predictions for {len(predictions)} players", True)
         print_result(f"Saved predictions to {output_filename}", True)
         
         duration = (datetime.now() - start_time).total_seconds()
-        print_section("✅ PREDICTIONS COMPLETE")
+        print_section("PREDICTIONS COMPLETE")
         print(f"Duration: {duration:.1f} seconds")
         
         return True
         
     except Exception as e:
         logger.error(f"Fatal error in daily predictions: {e}", exc_info=True)
-        print_result(f"❌ Error in prediction pipeline: {e}", False)
+        print_result(f"Error in prediction pipeline: {e}", False)
         return False
 
 
@@ -179,6 +187,9 @@ def main():
     parser.add_argument('--season', type=str, default='2024-25', help='NBA season')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
     
+    # NEW ARGUMENT
+    parser.add_argument('--team', type=str, help='Filter predictions to a specific team (e.g. "Dallas")')
+    
     args = parser.parse_args()
     
     if args.verbose:
@@ -193,7 +204,9 @@ def main():
     if args.run_once:
         target_date = datetime.strptime(args.date, '%Y-%m-%d') if args.date else datetime.now()
         output_file = f"data/predictions/predictions_{target_date.strftime('%Y%m%d')}.csv"
-        success = run_predictions_for_date(target_date, output_file, args.season)
+        
+        # Pass the team filter to the function
+        success = run_predictions_for_date(target_date, output_file, args.season, team_filter=args.team)
         sys.exit(0 if success else 1)
 
     if args.get_actuals:
@@ -203,21 +216,22 @@ def main():
             success = get_actuals_for_date(target_date, output_file, args.season)
             sys.exit(0 if success else 1)
         except ValueError:
-            print("❌ Invalid date format. Please use YYYY-MM-DD.")
+            print("Invalid date format. Please use YYYY-MM-DD.")
             sys.exit(1)
 
     # Scheduler logic
     try:
-        print_section("🎯 STARTING SCHEDULER")
+        print_section("STARTING SCHEDULER")
         print(f"Running daily predictions at {args.time}")
         print("Press Ctrl+C to stop\n")
         
         def scheduled_job():
             target_date = datetime.now()
             output_file = f"data/predictions/predictions_{target_date.strftime('%Y%m%d')}.csv"
+            # Note: Scheduler runs for ALL teams by default
             run_predictions_for_date(target_date, output_file, args.season)
 
-        scheduler = get_scheduler(args.time, use_apscheduler=False) # Keep it simple
+        scheduler = get_scheduler(args.time, use_apscheduler=False) 
         scheduler.schedule_daily(scheduled_job)
         scheduler.start()
         
