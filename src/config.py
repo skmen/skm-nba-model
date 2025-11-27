@@ -83,7 +83,8 @@ DAYS_REST_MAX = 5  # Cap maximum rest days at 5
 # MODEL HYPERPARAMETERS
 # ============================================================================
 
-XGBOOST_PARAMS = {
+# Default parameters, used as a fallback
+_DEFAULT_XGB_PARAMS = {
     'n_estimators': 1000,
     'learning_rate': 0.01,
     'max_depth': 2,
@@ -91,10 +92,76 @@ XGBOOST_PARAMS = {
     'random_state': 42,
 }
 
-RIDGE_PARAMS = {
+_DEFAULT_RIDGE_PARAMS = {
     'alpha': 1.0,
     'random_state': 42
 }
+
+# Stat-specific XGBoost parameters
+XGBOOST_PARAMS_BY_STAT = {
+    'PTS': {
+        'colsample_bytree': 0.7, 
+        'learning_rate': 0.01, 
+        'max_depth': 2, 
+        'n_estimators': 200, 
+        'reg_lambda': 1.5, 
+        'subsample': 0.7
+        },
+    'REB': {
+        'colsample_bytree': 0.7, 
+        'learning_rate': 0.01, 
+        'max_depth': 2, 
+        'n_estimators': 200, 
+        'reg_lambda': 1, 
+        'subsample': 0.7
+        },
+    'AST': {
+        'colsample_bytree': 0.7, 
+        'learning_rate': 0.01, 
+        'max_depth': 4, 
+        'n_estimators': 200, 
+        'reg_lambda': 1.5, 
+        'subsample': 0.7
+        },
+    'STL': {
+        'colsample_bytree': 0.9, 
+        'learning_rate': 0.01, 
+        'max_depth': 4, 
+        'n_estimators': 200, 
+        'reg_lambda': 1.5, 
+        'subsample': 0.7
+        },
+    'BLK': {
+        'colsample_bytree': 0.9, 
+        'learning_rate': 0.01, 
+        'max_depth': 4, 
+        'n_estimators': 200, 
+        'reg_lambda': 1, 
+        'subsample': 0.9
+        },
+    'PRA': {
+        'colsample_bytree': 0.7, 
+        'learning_rate': 0.01, 
+        'max_depth': 3, 
+        'n_estimators': 200, 
+        'reg_lambda': 1.5, 
+        'subsample': 0.7,
+        'random_state': 42,
+        'early_stopping_rounds': 50
+    }
+}
+
+# Stat-specific Ridge parameters
+RIDGE_PARAMS_BY_STAT = {
+    'PTS': {'alpha': 100.0, 'solver': 'svd'},
+    'REB': {'alpha': 100.0, 'solver': 'auto'},
+    'AST': {'alpha': 100.0, 'solver': 'svd'},
+    'STL': {'alpha': 100.0, 'solver': 'svd'},
+    'BLK': {'alpha': 100.0, 'solver': 'auto'},
+    'PRA': {'alpha': 100.0, 'solver': 'auto'}
+    }
+
+
 
 # ============================================================================
 # TRAIN/TEST SPLIT RATIO

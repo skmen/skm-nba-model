@@ -17,11 +17,11 @@ from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.preprocessing import StandardScaler
 
 from .config import (
-    XGBOOST_PARAMS,
-    RIDGE_PARAMS,
     TRAIN_TEST_RATIO,
     PLOT_FIGSIZE,
     PLOT_ALPHA,
+    XGBOOST_PARAMS_BY_STAT,
+    RIDGE_PARAMS_BY_STAT,
 )
 from .utils import ModelTrainingError, logger
 
@@ -66,16 +66,20 @@ def train_model(
             logger.info(f"Sample weights applied: min={w_min:.2f}, max={w_max:.2f}")
 
         # --- CONTESTANT 1: RIDGE REGRESSION ---
-        # Pipeline: Scale Data -> Ridge Regression
-        ridge_model = make_pipeline(StandardScaler(), Ridge(**RIDGE_PARAMS))
-        # Note: 'ridge__sample_weight' passes weights to the 'ridge' step
+        # Get stat-specific params, with a fallback to the 'PTS' params as default
+        ridge_params = RIDGE_PARAMS_BY_STAT.get(target, RIDGE_PARAMS_BY_STAT['PTS'])
+        logger.info(f"Using Ridge params for {target}: {ridge_params}")
+        ridge_model = make_pipeline(StandardScaler(), Ridge(**ridge_params))
         ridge_model.fit(X_train, y_train, ridge__sample_weight=train_weights)
         
         ridge_pred = ridge_model.predict(X_test)
         ridge_mae = mean_absolute_error(y_test, ridge_pred)
 
         # --- CONTESTANT 2: XGBOOST ---
-        xgb_model = xgb.XGBRegressor(**XGBOOST_PARAMS)
+        # Get stat-specific params, with a fallback to the 'PTS' params as default
+        xgb_params = XGBOOST_PARAMS_BY_STAT.get(target, XGBOOST_PARAMS_BY_STAT['PTS'])
+        logger.info(f"Using XGBoost params for {target}: {xgb_params}")
+        xgb_model = xgb.XGBRegressor(**xgb_params)
         xgb_model.fit(
             X_train, y_train,
             sample_weight=train_weights,

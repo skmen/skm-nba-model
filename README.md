@@ -293,8 +293,9 @@ Tuning Ridge for PTS...
 
 ### How to Use the Results
 
-1.  **For XGBoost:** After the script finishes, you can update the `XGBOOST_PARAMS` dictionary in `src/config.py` with the best-performing parameters for the stat you care about most.
-2.  **For Ridge:** The `alpha` and `solver` are used when the Ridge model is created. You will need to update these values in `src/model.py` where `Ridge()` is called.
+1.  Navigate to `src/config.py`.
+2.  Inside this file, find the `XGBOOST_PARAMS_BY_STAT` and `RIDGE_PARAMS_BY_STAT` dictionaries.
+3.  For each statistic that was tuned, copy the `Best Params` dictionary from the script's output and update the corresponding entry in the config file. For example, you would replace the default 'PTS' parameters with the new, optimized ones you found for 'PTS'.
 
 ---
 
