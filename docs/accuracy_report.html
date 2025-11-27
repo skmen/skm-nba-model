@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Accuracy Report</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">🏀 NBA Model</div>
+        <nav class="nav">
+            <a href="index.html">Prediction Viewer</a>
+            <a href="master_sheet.html">Betting Sheet</a>
+            <a href="accuracy_report.html">Accuracy Report</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>NBA Accuracy Report</h1>
+        <p style="text-align: center; font-size: 1.2em;">Analysis Date: 2025-11-25 (Mock Data)</p>
+
+        <h2>🎯 Trust Scorecard</h2>
+        <p>This table shows the model's performance based on its confidence level. A "Win" is defined as a prediction where the actual score was within the model's Mean Absolute Error (MAE).</p>
+        <table class="small-table">
+            <thead>
+                <tr><th>Trust</th><th>Win_Rate_%</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>🟢 ELITE</td><td>68.2%</td></tr>
+                <tr><td>🟡 HIGH</td><td>61.5%</td></tr>
+                <tr><td>🟠 MEDIUM</td><td>55.9%</td></tr>
+                <tr><td>🔴 VOLATILE</td><td>51.3%</td></tr>
+            </tbody>
+        </table>
+
+        <h2>📈 Bias Analysis (Mean Signed Error)</h2>
+        <p>This metric shows if the model is consistently predicting too high (positive bias) or too low (negative bias) for each stat. A value near zero is ideal.</p>
+        <table class="small-table">
+            <thead>
+                <tr><th>Stat</th><th>Mean_Signed_Error</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>AST</td><td><span class="negative-bias">-0.11</span></td></tr>
+                <tr><td>BLK</td><td><span class="positive-bias">0.02</span></td></tr>
+                <tr><td>PRA</td><td><span class="negative-bias">-0.98</span></td></tr>
+                <tr><td>PTS</td><td><span class="positive-bias">1.21</span></td></tr>
+                <tr><td>REB</td><td><span class="negative-bias">-0.45</span></td></tr>
+                <tr><td>STL</td><td><span class="negative-bias">-0.05</span></td></tr>
+            </tbody>
+        </table>
+
+        <h2>🚨 Bad Beats</h2>
+        <p>These are the Top 10 predictions where the model's prediction was furthest from the actual result, highlighting potential areas for investigation.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>PLAYER_NAME</th>
+                    <th>Stat</th>
+                    <th>Prediction</th>
+                    <th>Actual</th>
+                    <th>Error</th>
+                    <th>Abs_Error</th>
+                    <th>Trust</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Trae Young</td>
+                    <td>PTS</td>
+                    <td>28.5</td>
+                    <td>12.0</td>
+                    <td>-16.5</td>
+                    <td>16.5</td>
+                    <td>🔴 VOLATILE</td>
+                </tr>
+                <tr>
+                    <td>Nikola Jokic</td>
+                    <td>REB</td>
+                    <td>14.2</td>
+                    <td>25.0</td>
+                    <td>10.8</td>
+                    <td>10.8</td>
+                    <td>🟡 HIGH</td>
+                </tr>
+                <tr>
+                    <td>Chris Paul</td>
+                    <td>AST</td>
+                    <td>9.8</td>
+                    <td>2.0</td>
+                    <td>-7.8</td>
+                    <td>7.8</td>
+                    <td>🔴 VOLATILE</td>
+                </tr>
+                 <tr>
+                    <td>Rudy Gobert</td>
+                    <td>BLK</td>
+                    <td>2.1</td>
+                    <td>6.0</td>
+                    <td>3.9</td>
+                    <td>3.9</td>
+                    <td>🟠 MEDIUM</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

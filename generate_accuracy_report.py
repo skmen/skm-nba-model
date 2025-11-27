@@ -28,27 +28,17 @@ HTML_TEMPLATE = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NBA Accuracy Report for {report_date}</title>
-    <style>
-        body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f4f7f6; color: #333; margin: 0; padding: 20px; }}
-        h1, h2, h3 {{ color: #2c3e50; }}
-        h1 {{ text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }}
-        h2 {{ border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 40px; }}
-        .container {{ max-width: 900px; margin: auto; background: white; padding: 20px; box-shadow: 0 0 15px rgba(0,0,0,0.05); border-radius: 8px; }}
-        .summary-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }}
-        .summary-card {{ background-color: #ecf0f1; border-radius: 5px; padding: 15px; text-align: center; }}
-        .summary-card h3 {{ margin-top: 0; color: #34495e; }}
-        .summary-card .value {{ font-size: 2em; font-weight: bold; color: #2980b9; }}
-        table {{ width: 100%; border-collapse: collapse; margin-top: 20px; }}
-        th, td {{ padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }}
-        th {{ background-color: #3498db; color: white; }}
-        tr:nth-child(even) {{ background-color: #f2f2f2; }}
-        .win {{ color: #27ae60; }}
-        .loss {{ color: #c0392b; }}
-        .positive-bias {{ color: #c0392b; font-weight: bold; }}
-        .negative-bias {{ color: #27ae60; font-weight: bold; }}
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <header class="header">
+        <div class="logo">🏀 NBA Model</div>
+        <nav class="nav">
+            <a href="index.html">Prediction Viewer</a>
+            <a href="master_sheet.html">Betting Sheet</a>
+            <a href="accuracy_report.html">Accuracy Report</a>
+        </nav>
+    </header>
     <div class="container">
         <h1>NBA Accuracy Report</h1>
         <p style="text-align: center; font-size: 1.2em;">Analysis Date: {report_date}</p>
@@ -80,7 +70,7 @@ def generate_report_for_date(target_date: datetime):
     base_path = os.path.join('data', 'predictions')
     predictions_file = os.path.join(base_path, f'predictions_{date_str}.csv')
     actuals_file = os.path.join(base_path, f'predictions_{date_str}_ACTUAL.csv')
-    report_output_file = f'accuracy_report_{date_str}.html'
+    report_output_file = os.path.join('docs', 'accuracy_report.html')
     
     # --- 1. Ensure Actuals Exist ---
     if not os.path.exists(actuals_file):
