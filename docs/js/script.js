@@ -112,6 +112,11 @@ $(document).ready(function() {
         // --- MONEYLINE LOGIC ---
         $('.ml-input').on('keyup change', function() {
             var $card = $(this).closest('.score-card');
+            
+            // Get Team Names
+            var awayName = $card.data('away');
+            var homeName = $card.data('home');
+
             var awayOdds = parseFloat($card.find('.ml-input[data-team="away"]').val());
             var homeOdds = parseFloat($card.find('.ml-input[data-team="home"]').val());
             
@@ -119,6 +124,7 @@ $(document).ready(function() {
             var homeScore = parseFloat($card.data('home-score'));
             var margin = Math.abs(awayScore - homeScore);
             var modelWinner = awayScore > homeScore ? 'away' : 'home';
+            var targetTeamName = modelWinner === 'away' ? awayName : homeName;
 
             var $recBox = $card.find('.ml-rec');
             
@@ -138,10 +144,11 @@ $(document).ready(function() {
             var style = "rec-pass";
 
             if (margin > 10 && relevantOdds > -250) {
-                rec = "STRONG";
+                // Add Team Name to Recommendation
+                rec = `STRONG<br><span style="font-size:0.9em">${targetTeamName}</span>`;
                 style = "rec-strong";
             } else if (margin > 5 && relevantOdds > -180) {
-                rec = "LEAN";
+                rec = `LEAN<br><span style="font-size:0.9em">${targetTeamName}</span>`;
                 style = "rec-lean";
             }
 
@@ -151,9 +158,11 @@ $(document).ready(function() {
         // --- SPREAD LOGIC ---
         $('.spread-line').on('keyup change', function() {
             var $card = $(this).closest('.score-card');
-            // We just look at the line being edited to give instant feedback
             var line = parseFloat($(this).val());
-            var team = $(this).data('team'); // 'home' or 'away'
+            var teamType = $(this).data('team'); // 'home' or 'away'
+            
+            // Get the specific team name for this input
+            var teamName = (teamType === 'home') ? $card.data('home') : $card.data('away');
             
             var awayScore = parseFloat($card.data('away-score'));
             var homeScore = parseFloat($card.data('home-score'));
@@ -165,41 +174,28 @@ $(document).ready(function() {
             }
 
             // Calculate Model Margin relative to the specific team
-            // e.g., if Betting Home, Margin = Home - Away
-            var modelMargin = (team === 'home') ? (homeScore - awayScore) : (awayScore - homeScore);
+            var modelMargin = (teamType === 'home') ? (homeScore - awayScore) : (awayScore - homeScore);
             
-            // Edge = (Model Margin) - (Vegas Line)
-            // Example: Model says Home wins by 5 (Margin +5). Vegas says Home -2.
-            // Edge = 5 - 2 = +3 (Home covers comfortably)
-            // Example: Model says Home loses by 2 (Margin -2). Vegas says Home +6.
-            // Edge = (-2) - (-6) = +4 (Home covers)
-            
-            // Note: Vegas line input should be relative (e.g. -5.5 or +5.5)
             // Logic: Does (Model Score + Line) > Opponent Score?
-            
+            // "Edge" here is effectively how much they cover by
             var predictedScoreWithLine = modelMargin + line; 
             
             var rec = "PASS";
             var style = "rec-pass";
-            var direction = "";
 
             // Thresholds: Strong > 4.5 pts cover, Lean > 2.5 pts cover
             if (predictedScoreWithLine > 4.5) {
-                rec = "STRONG";
+                rec = `STRONG<br><span style="font-size:0.9em">${teamName}</span>`;
                 style = "rec-strong";
             } else if (predictedScoreWithLine > 2.5) {
-                rec = "LEAN";
+                rec = `LEAN<br><span style="font-size:0.9em">${teamName}</span>`;
                 style = "rec-lean";
             }
 
-            if (rec !== "PASS") {
-                updateBadge($recBox, rec, style);
-            } else {
-                updateBadge($recBox, "PASS", "rec-pass");
-            }
+            updateBadge($recBox, rec, style);
         });
 
-        // --- TOTAL LOGIC ---
+        // --- TOTAL LOGIC (Unchanged, but included for completeness) ---
         $('.total-line').on('keyup change', function() {
             var $card = $(this).closest('.score-card');
             var vegasTotal = parseFloat($(this).val());
@@ -218,12 +214,11 @@ $(document).ready(function() {
             var rec = "PASS";
             var style = "rec-pass";
 
-            // Thresholds: Strong > 6.0, Lean > 3.0
             if (absDiff > 6.0) {
-                rec = "STRONG " + direction;
+                rec = `STRONG ${direction}`;
                 style = "rec-strong";
             } else if (absDiff > 3.0) {
-                rec = "LEAN " + direction;
+                rec = `LEAN ${direction}`;
                 style = "rec-lean";
             }
 
@@ -231,8 +226,8 @@ $(document).ready(function() {
         });
     }
 
-    function updateBadge($el, text, styleClass) {
-        $el.text(text)
+    function updateBadge($el, htmlContent, styleClass) {
+        $el.html(htmlContent)
            .removeClass("rec-strong rec-lean rec-pass rec-empty")
            .addClass(styleClass);
     }
