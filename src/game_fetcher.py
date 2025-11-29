@@ -20,6 +20,7 @@ from src.config import API_DELAY
 from src.utils import setup_logger, DataAcquisitionError
 
 logger = setup_logger(__name__)
+
 class GameFetcher:
     """Fetches today's NBA games and player information."""
     
@@ -145,7 +146,8 @@ class GameFetcher:
             player_stats = boxscore.get_data_frames()[0]
             
             if player_stats.empty:
-                logger.warning(f"No lineups found for game_id={game_id}")
+                # CHANGED: Downgraded log from WARNING to INFO as this is normal for future games
+                logger.info(f"No lineups/boxscore found for game_id={game_id} (Game likely hasn't started)")
                 return None
             
             # Get home and away team IDs from the first two rows
@@ -327,13 +329,23 @@ class GameFetcher:
                 away_team_id = game['AWAY_TEAM_ID']
                 home_team = game['HOME_TEAM']
                 away_team = game['AWAY_TEAM']
+                
+                # Check Game Status (1 = Scheduled, 2 = InProgress, 3 = Final)
+                # If game status is 1 (Scheduled), the boxscore/lineups will likely be empty.
+                game_status = game.get('GAME_STATUS_ID')
 
                 # Get starting lineups
-                lineups = self.get_team_lineups(game_id)
                 starters = []
-                if lineups:
-                    starters.extend(player['PLAYER_ID'] for player in lineups.get('HOME_LINEUP', []))
-                    starters.extend(player['PLAYER_ID'] for player in lineups.get('AWAY_LINEUP', []))
+                
+                # Only fetch lineups if game is NOT strictly scheduled (Status != 1)
+                # or if we really want to check (you can remove this check if you want to try anyway)
+                if game_status != 1:
+                    lineups = self.get_team_lineups(game_id)
+                    if lineups:
+                        starters.extend(player['PLAYER_ID'] for player in lineups.get('HOME_LINEUP', []))
+                        starters.extend(player['PLAYER_ID'] for player in lineups.get('AWAY_LINEUP', []))
+                else:
+                    logger.debug(f"Skipping lineup fetch for scheduled game {game_id} (Status 1)")
 
                 # Get full rosters
                 home_roster = self.get_team_roster(home_team_id)
