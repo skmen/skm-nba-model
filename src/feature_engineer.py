@@ -2,7 +2,8 @@
 Feature engineering module for NBA prediction pipeline.
 
 Handles all feature creation from raw game logs including lag features,
-opponent context, travel distance, rest days, usage rate, and efficiency metrics.
+EWMA, volatility, home/away splits, opponent context, travel distance, 
+rest days, usage rate, and efficiency metrics.
 """
 
 import logging
@@ -75,131 +76,150 @@ def haversine_distance(lat1: float, lon1: float, lat2: float, lon2: float) -> fl
 
 
 # ============================================================================
-# OPPONENT EXTRACTION & MAPPING
+# OPPONENT EXTRACTION
 # ============================================================================
 
 def extract_opponent_name(matchup: str) -> str:
     """Extract opponent team abbreviation from MATCHUP string."""
     if not isinstance(matchup, str) or not matchup:
         return None
-    parts = matchup.split()
-    return parts[-1] if parts else None
-
-
-def extract_opponent_stats(opponent_name: str, opponent_defense: Dict[str, Dict[str, float]]) -> Tuple[Optional[float], Optional[float]]:
-    """Get opponent defense stats for a given opponent."""
-    if opponent_name not in opponent_defense:
-        return np.nan, np.nan
-    metrics = opponent_defense[opponent_name]
-    return metrics.get('DEF_RATING', np.nan), metrics.get('PACE', np.nan)
+    # MATCHUP formats: "GSW vs. LAL" or "GSW @ LAL"
+    try:
+        if 'vs.' in matchup: return matchup.split('vs.')[1].strip()
+        if '@' in matchup: return matchup.split('@')[1].strip()
+        parts = matchup.split()
+        return parts[-1] if parts else None
+    except:
+        return None
 
 
 # ============================================================================
 # FEATURE CREATION HELPERS
 # ============================================================================
 
-def create_lag_features(df: pd.DataFrame, lag_window: int = LAG_WINDOW) -> pd.DataFrame:
-    """Create lag features (rolling averages) for specified stats."""
+def create_advanced_form_features(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Creates sophisticated form features:
+    1. Standard Lag-5 Rolling Averages
+    2. Exponential Weighted Moving Averages (EWMA)
+    3. Volatility (Standard Deviation)
+    4. Home/Away Performance Splits
+    """
     try:
-        logger.debug(f"Creating {lag_window}-game lag features...")
+        logger.debug("Creating advanced form features (EWMA, Volatility, Splits)...")
+        
+        # 1. Standard Rolling Averages (Lag-5)
+        # Shift(1) prevents data leakage (using today's stats to predict today)
         for stat in LAG_STATS:
             if stat in df.columns:
-                df[f'{stat}_L{lag_window}'] = df[stat].shift(1).rolling(window=lag_window).mean()
+                df[f'{stat}_L5'] = df[stat].shift(1).rolling(window=LAG_WINDOW, min_periods=1).mean()
+        # 2. Exponential Weighted Moving Average (EWMA)
+        # Responds faster to recent changes in form than simple rolling avg
+        ewm_stats = ['PTS', 'REB', 'AST']
+        for stat in ewm_stats:
+            if stat in df.columns:
+                df[f'{stat}_EWMA_5'] = df[stat].shift(1).ewm(span=5, adjust=False).mean()
+
+        # 3. Volatility (Risk Metric)
+        # Standard deviation over last 10 games
+        vol_stats = ['PTS', 'REB']
+        for stat in vol_stats:
+            if stat in df.columns:
+                df[f'{stat}_STD_10'] = df[stat].shift(1).rolling(window=10, min_periods=3).std()
+
+        # 4. Home/Away Splits (Contextual Form)
+        # "How does this player perform at Home vs Away over their last 10 games?"
+        if 'HOME_GAME' in df.columns and 'PTS' in df.columns:
+            is_home = df['HOME_GAME'] == 1
+            
+            # Create streams for Home and Away games
+            home_pts = df.loc[is_home, 'PTS'].shift(1).rolling(window=10, min_periods=1).mean()
+            away_pts = df.loc[~is_home, 'PTS'].shift(1).rolling(window=10, min_periods=1).mean()
+            
+            # Map back to main dataframe
+            df['PTS_L10_HOME'] = np.nan
+            df['PTS_L10_AWAY'] = np.nan
+            
+            df.loc[is_home, 'PTS_L10_HOME'] = home_pts
+            df.loc[~is_home, 'PTS_L10_AWAY'] = away_pts
+            
+            # Forward fill to ensure we have a value even if switching venues
+            # (Use the last known average for that venue type)
+            df['PTS_L10_HOME'] = df['PTS_L10_HOME'].ffill()
+            df['PTS_L10_AWAY'] = df['PTS_L10_AWAY'].ffill()
+            
+            # Fill remaining NaNs (e.g. start of season) with general L5
+            if 'PTS_L5' in df.columns:
+                df['PTS_L10_HOME'] = df['PTS_L10_HOME'].fillna(df['PTS_L5'])
+                df['PTS_L10_AWAY'] = df['PTS_L10_AWAY'].fillna(df['PTS_L5'])
+
         return df
+
     except Exception as e:
-        logger.error(f"Error creating lag features: {e}")
-        raise FeatureEngineeringError(f"Failed to create lag features: {e}")
+        logger.error(f"Error creating advanced form features: {e}")
+        # Fallback: Ensure critical Lag columns exist at minimum
+        for stat in LAG_STATS:
+            if stat in df.columns and f'{stat}_L{LAG_WINDOW}' not in df.columns:
+                 df[f'{stat}_L{LAG_WINDOW}'] = df[stat].shift(1).rolling(window=LAG_WINDOW).mean()
+        return df
 
 
 def create_home_away_feature(df: pd.DataFrame) -> pd.DataFrame:
     """Create HOME_GAME binary feature."""
+    # Logic: 'vs.' usually implies Home, '@' implies Away in NBA data
     df['HOME_GAME'] = df['MATCHUP'].apply(lambda x: 1 if 'vs.' in str(x) else 0)
     return df
 
 
-def create_opponent_context_features(df: pd.DataFrame, opponent_defense: Optional[Dict] = None) -> pd.DataFrame:
-    """Create opponent defense rating and pace features."""
+def create_granular_opponent_features(df: pd.DataFrame, opponent_defense: Optional[Dict] = None) -> pd.DataFrame:
+    """
+    Maps Granular Opponent Defense Metrics (Pts, Reb, Ast multipliers).
+    Replaces the old 'OPP_DEF_RATING' single-metric approach.
+    """
     try:
         df['OPP_NAME'] = df['MATCHUP'].apply(extract_opponent_name)
         
-        # If no defense data provided (e.g., historical training without scraped logs),
-        # use League Averages as neutral defaults
+        # Default neutral values
+        defaults = {
+            'OPP_DEF_RATING': 110.0,
+            'OPP_PACE': 100.0,
+            'OPP_PTS_MULT': 1.0,
+            'OPP_REB_MULT': 1.0,
+            'OPP_AST_MULT': 1.0
+        }
+
         if opponent_defense is None:
-            df['OPP_DEF_RATING'] = 110.0 # League average approx
-            df['OPP_PACE'] = 100.0       # League average approx
+            # Apply defaults if no data
+            for col, val in defaults.items():
+                df[col] = val
             return df
 
-        # Otherwise, look up specific stats
-        opponent_stats = df['OPP_NAME'].apply(lambda opp: extract_opponent_stats(opp, opponent_defense))
-        df['OPP_DEF_RATING'] = opponent_stats.apply(lambda x: x[0])
-        df['OPP_PACE'] = opponent_stats.apply(lambda x: x[1])
-        
-        # Fill any missing lookups with defaults
-        df['OPP_DEF_RATING'] = df['OPP_DEF_RATING'].fillna(110.0)
-        df['OPP_PACE'] = df['OPP_PACE'].fillna(100.0)
+        # Helper to map a row to the dict
+        def get_opp_stats(opp_name):
+            if opp_name in opponent_defense:
+                stats = opponent_defense[opp_name]
+                return pd.Series([
+                    stats.get('OPP_DEF_RATING', defaults['OPP_DEF_RATING']),
+                    stats.get('OPP_PACE', defaults['OPP_PACE']),
+                    stats.get('OPP_PTS_MULT', defaults['OPP_PTS_MULT']),
+                    stats.get('OPP_REB_MULT', defaults['OPP_REB_MULT']),
+                    stats.get('OPP_AST_MULT', defaults['OPP_AST_MULT'])
+                ])
+            else:
+                return pd.Series(list(defaults.values()))
+
+        # Apply mapping
+        cols = ['OPP_DEF_RATING', 'OPP_PACE', 'OPP_PTS_MULT', 'OPP_REB_MULT', 'OPP_AST_MULT']
+        df[cols] = df['OPP_NAME'].apply(get_opp_stats)
         
         return df
+
     except Exception as e:
-        logger.error(f"Error creating opponent context features: {e}")
-        # Don't crash, just return defaults
+        logger.error(f"Error creating granular opponent features: {e}")
+        # Fallback defaults
         df['OPP_DEF_RATING'] = 110.0
         df['OPP_PACE'] = 100.0
         return df
-    
-def apply_dvp_context(df: pd.DataFrame, position_group: str) -> pd.DataFrame:
-    """
-    Merges local DvP stats based on the specific player position.
-    """
-    dvp_path = "data/dvp_stats.csv"
-    
-    # Set the Position Group for the entire dataframe (same player)
-    df['POSITION_GROUP'] = position_group
-    
-    try:
-        if not os.path.exists(dvp_path):
-            df['DVP_MULTIPLIER'] = 1.0
-            return df
-
-        dvp_df = pd.read_csv(dvp_path)
-        
-        # Rename columns to avoid collisions
-        rename_map = {
-            'PTS': 'OPP_ALLOW_PTS',
-            'REB': 'OPP_ALLOW_REB',
-            'AST': 'OPP_ALLOW_AST',
-            'STL': 'OPP_ALLOW_STL',
-            'BLK': 'OPP_ALLOW_BLK',
-            'PRA': 'OPP_ALLOW_PRA'
-        }
-        dvp_df.rename(columns=rename_map, inplace=True)
-        
-        # Merge: MATCHUP_OPPONENT + POSITION vs DVP_TEAM + DVP_POSITION
-        # We assume df['OPP_NAME'] exists from create_opponent_context_features
-        df = df.merge(
-            dvp_df,
-            left_on=['OPP_NAME', 'POSITION_GROUP'],
-            right_on=['OPPONENT_TEAM', 'POSITION'],
-            how='left'
-        )
-        
-        # Calculate Multiplier if missing (Fallback Logic)
-        if 'DVP_MULTIPLIER' not in df.columns:
-            # If we have the raw points allowed, we can create a multiplier
-            # (Here we just default to 1.0 if the CSV didn't have pre-calc multipliers)
-            df['DVP_MULTIPLIER'] = 1.0
-            
-        # Fill missing matches (e.g. Neutral site or bad name match) with 1.0
-        df['DVP_MULTIPLIER'] = df['DVP_MULTIPLIER'].fillna(1.0)
-        
-        # Clean up merge columns
-        cols_to_drop = ['OPPONENT_TEAM', 'POSITION']
-        df.drop(columns=[c for c in cols_to_drop if c in df.columns], inplace=True)
-            
-    except Exception as e:
-        logger.error(f"Error applying DvP context: {e}")
-        df['DVP_MULTIPLIER'] = 1.0
-        
-    return df
 
 
 def create_travel_distance_feature(df: pd.DataFrame) -> pd.DataFrame:
@@ -207,29 +227,51 @@ def create_travel_distance_feature(df: pd.DataFrame) -> pd.DataFrame:
     try:
         df['PREV_OPP_NAME'] = df['OPP_NAME'].shift(1)
         df['TRAVEL_DISTANCE'] = 0.0
+        
+        # Optimization: Create a mapping of Arena Coords for fast lookup
+        # (Assuming ARENA_COORDINATES is imported from config)
+        
         for idx in range(1, len(df)):
+            # We need to know where they played PREVIOUSLY vs CURRENTLY
+            # Logic: 
+            # If Prev Game was HOME -> Prev Loc is Home City
+            # If Prev Game was AWAY -> Prev Loc is Prev Opponent City
+            # If Curr Game is HOME -> Curr Loc is Home City
+            # If Curr Game is AWAY -> Curr Loc is Curr Opponent City
+            
+            # Simplified Logic (Tracking just opponents):
+            # This is an approximation. A robust system tracks the team's actual schedule.
+            # Using the simpler logic from the original file for stability:
             prev_opp = df.loc[idx, 'PREV_OPP_NAME']
             curr_opp = df.loc[idx, 'OPP_NAME']
+            
             if prev_opp in ARENA_COORDINATES and curr_opp in ARENA_COORDINATES:
                 lat1, lon1 = ARENA_COORDINATES[prev_opp]
                 lat2, lon2 = ARENA_COORDINATES[curr_opp]
                 df.loc[idx, 'TRAVEL_DISTANCE'] = haversine_distance(lat1, lon1, lat2, lon2)
+                
         return df
     except Exception as e:
         logger.error(f"Error creating travel distance feature: {e}")
-        raise FeatureEngineeringError(f"Failed to create travel distance: {e}")
+        df['TRAVEL_DISTANCE'] = 0.0
+        return df
 
 
 def create_rest_features(df: pd.DataFrame) -> pd.DataFrame:
     """Create DAYS_REST and BACK_TO_BACK features."""
     try:
-        df['DAYS_REST'] = df['GAME_DATE'].diff().dt.days - 1
-        df['DAYS_REST'] = df['DAYS_REST'].fillna(0).clip(lower=DAYS_REST_MIN, upper=DAYS_REST_MAX)
-        df['BACK_TO_BACK'] = (df['DAYS_REST'] == 0).astype(int)
+        if 'GAME_DATE' in df.columns:
+            df['DAYS_REST'] = df['GAME_DATE'].diff().dt.days - 1
+            df['DAYS_REST'] = df['DAYS_REST'].fillna(3).clip(lower=DAYS_REST_MIN, upper=DAYS_REST_MAX)
+            df['BACK_TO_BACK'] = (df['DAYS_REST'] == 0).astype(int)
+        else:
+            df['DAYS_REST'] = 3
+            df['BACK_TO_BACK'] = 0
         return df
     except Exception as e:
         logger.error(f"Error creating rest features: {e}")
-        raise FeatureEngineeringError(f"Failed to create rest features: {e}")
+        df['DAYS_REST'] = 3
+        return df
 
 
 def create_usage_rate_feature(df: pd.DataFrame, usage_rate: Optional[float]) -> pd.DataFrame:
@@ -238,58 +280,52 @@ def create_usage_rate_feature(df: pd.DataFrame, usage_rate: Optional[float]) -> 
         if usage_rate is not None and not np.isnan(usage_rate):
             df['USAGE_RATE'] = usage_rate
         else:
-            df['USAGE_RATE'] = df['PTS_L5'].fillna(0) / df['MIN_L5'].fillna(1)
+            # Fallback: Calculate approximate usage from L5
+            # USG% approx = (FGA + 0.44*FTA + TOV) / (TmFGA + ...)
+            # Simplified: Just fill with L5 average if available or default
+            if 'USG_PCT_L5' in df.columns:
+                df['USAGE_RATE'] = df['USG_PCT_L5']
+            else:
+                df['USAGE_RATE'] = 20.0 # League average
         return df
     except Exception as e:
         logger.error(f"Error creating usage rate feature: {e}")
-        raise FeatureEngineeringError(f"Failed to create usage rate: {e}")
+        df['USAGE_RATE'] = 20.0
+        return df
     
 def add_advanced_stats(df: pd.DataFrame, advanced_cache: Dict) -> pd.DataFrame:
     """
     Merges season-long advanced stats into the daily dataframe.
     """
-    # List of cols we expect (Must match config.ADVANCED_FEATURES)
-    # Ensure we initialize them to 0.0/NaN first
     from src.config import ADVANCED_FEATURES
     
-    # Create empty columns
+    # Initialize cols
     for col in ADVANCED_FEATURES:
-        df[col] = 0.0
+        if col not in df.columns:
+            df[col] = 0.0
 
-    # If cache is empty, return early
     if not advanced_cache:
         return df
 
     # Map values
-    # We iterate rows, look up PLAYER_ID in cache, and fill
-    # (Vectorized map is faster but dictionary lookup is clearer for safety)
+    # In a real pipeline, this would merge on PLAYER_ID + SEASON
+    # Here we assume cache is for the current season being processed
     
-    # Convert cache to DataFrame for easier merge
-    # Format: Index=PlayerID, Cols=Features
-    cache_df = pd.DataFrame.from_dict(advanced_cache, orient='index')
+    # We can iterate and map, or convert cache to DF and merge. 
+    # Since this function is called per-player-dataframe in the pipeline:
+    if 'PLAYER_ID' in df.columns:
+        player_id = df['PLAYER_ID'].iloc[0]
+        if player_id in advanced_cache:
+            stats = advanced_cache[player_id]
+            for col in ADVANCED_FEATURES:
+                # Handle alias mapping if needed
+                key = col
+                if col == 'SAST' and 'SECONDARY_AST' in stats: key = 'SECONDARY_AST'
+                
+                if key in stats:
+                    df[col] = stats[key]
     
-    # Rename columns if needed to match ADVANCED_FEATURES exactly
-    # (e.g., 'SECONDARY_AST' -> 'SAST')
-    if 'SECONDARY_AST' in cache_df.columns:
-        cache_df.rename(columns={'SECONDARY_AST': 'SAST'}, inplace=True)
-    
-    # Merge
-    # Ensure PLAYER_ID is same type
-    df['PLAYER_ID'] = df['PLAYER_ID'].astype(int)
-    
-    # We left join on PLAYER_ID
-    # We only want the advanced columns from the cache
-    cols_to_use = [c for c in ADVANCED_FEATURES if c in cache_df.columns]
-    
-    # Drop the placeholder columns we just made so merge doesn't conflict
-    df = df.drop(columns=ADVANCED_FEATURES)
-    
-    merged = df.merge(cache_df[cols_to_use], left_on='PLAYER_ID', right_index=True, how='left')
-    
-    # Fill missing (rookies might not be in cache yet)
-    merged[cols_to_use] = merged[cols_to_use].fillna(0.0)
-    
-    return merged
+    return df
 
 def create_possession_metrics(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -304,9 +340,8 @@ def create_possession_metrics(df: pd.DataFrame) -> pd.DataFrame:
                 df[col] = 0.0
         
         # 1. Calculate Possessions (Basic NBA Formula)
-        # Avoid division by zero by replacing 0 with 1
         df['POSS_EST'] = (df['FGA'] + (0.44 * df['FTA']) - df['OREB'] + df['TOV'])
-        df['POSS_EST'] = df['POSS_EST'].replace(0, 1)
+        df['POSS_EST'] = df['POSS_EST'].replace(0, 1) # Avoid div/0
 
         # 2. Create Rate Targets
         targets_map = {
@@ -320,7 +355,6 @@ def create_possession_metrics(df: pd.DataFrame) -> pd.DataFrame:
         }
         
         for raw, rate in targets_map.items():
-            # Formula: (Raw / Poss) * 100
             df[rate] = (df[raw] / df['POSS_EST']) * 100
             
         return df
@@ -336,21 +370,20 @@ def create_possession_metrics(df: pd.DataFrame) -> pd.DataFrame:
 
 def prepare_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     """Prepare dataframe for feature engineering."""
-    df['GAME_DATE'] = pd.to_datetime(df['GAME_DATE'])
-    df = df.sort_values('GAME_DATE').reset_index(drop=True)
+    if 'GAME_DATE' in df.columns:
+        df['GAME_DATE'] = pd.to_datetime(df['GAME_DATE'])
+        # Sort ASCENDING for rolling calculations
+        df = df.sort_values('GAME_DATE', ascending=True).reset_index(drop=True)
     return df
 
 
 def clean_engineered_features(df: pd.DataFrame) -> pd.DataFrame:
     """Clean engineered features by removing rows with missing critical values."""
+    # Critical columns that MUST exist for the model to work
     critical_columns = [
-        'PTS_L5', 'MIN_L5', 'REB_L5', 'AST_L5', 'STL_L5', 'BLK_L5',
-        'FG3M_L5', 'OPP_DEF_RATING', 'OPP_PACE'
+        'PTS_L5', 'MIN_L5', 'OPP_DEF_RATING', 'OPP_PACE'
     ]
-    # Add PRA columns to critical list if they exist in config
-    if 'PRA_L5' in df.columns:
-        critical_columns.append('PRA_L5')
-
+    
     existing_critical = [col for col in critical_columns if col in df.columns]
     
     rows_before = len(df)
@@ -358,10 +391,7 @@ def clean_engineered_features(df: pd.DataFrame) -> pd.DataFrame:
     
     dropped_rows = rows_before - len(df_cleaned)
     if dropped_rows > 0:
-        logger.info(f"Dropped {dropped_rows} rows with missing values")
-
-    if df_cleaned.empty:
-        raise FeatureEngineeringError("All rows dropped after cleaning - insufficient data")
+        logger.debug(f"Dropped {dropped_rows} rows with missing history (Warm-up period)")
 
     return df_cleaned
 
@@ -377,47 +407,56 @@ def engineer_features(
     position_group: str = "G",
     advanced_stats: Dict=None
 ) -> pd.DataFrame:
-    """Engineer all features from raw game log data."""
+    """
+    Engineer all features from raw game log data.
+    Orchestrates the entire feature generation pipeline.
+    """
     try:
-        # validate_dataframe(raw_df) # Optional: comment out if too strict
+        # 1. Preparation
         df = prepare_dataframe(raw_df)
+        if df.empty: return df
 
-        # 1. Base Features
-        df = create_lag_features(df)
+        # 2. Contextual Features
         df = create_home_away_feature(df)
-        df = create_opponent_context_features(df, opponent_defense)
-        df = create_travel_distance_feature(df)
         df = create_rest_features(df)
+        
+        # 3. Opponent Context (New Granular Logic)
+        df = create_granular_opponent_features(df, opponent_defense)
+        
+        # 4. Travel Distance
+        df = create_travel_distance_feature(df)
+        
+        # 5. Advanced Form (Lags, EWMA, Volatility, Splits)
+        df = create_advanced_form_features(df)
+        
+        # 6. Roster Context
         df = create_usage_rate_feature(df, usage_rate)
         df = add_advanced_stats(df, advanced_stats)
         
-        # 2. Apply DvP with the CORRECT POSITION
-        df = apply_dvp_context(df, position_group)
-
-        # 3. PRA Creation (Points + Rebounds + Assists)
+        # 7. PRA Creation (Points + Rebounds + Assists)
         if {'PTS', 'REB', 'AST'}.issubset(df.columns):
             df['PRA'] = df['PTS'] + df['REB'] + df['AST']
 
+        # 8. Possession Normalization (Targets)
         df = create_possession_metrics(df)
 
-        # Calculate PRA_L5 by summing the individual averages (Robust method)
-        pts_lag = df['PTS_L5'] if 'PTS_L5' in df.columns else pd.Series(0, index=df.index)
-        reb_lag = df['REB_L5'] if 'REB_L5' in df.columns else pd.Series(0, index=df.index)
-        ast_lag = df['AST_L5'] if 'AST_L5' in df.columns else pd.Series(0, index=df.index)
-        df['PRA_L5'] = pts_lag + reb_lag + ast_lag
+        # 9. Lagged PRA (Robust method)
+        if {'PTS_L5', 'REB_L5', 'AST_L5'}.issubset(df.columns):
+            df['PRA_L5'] = df['PTS_L5'] + df['REB_L5'] + df['AST_L5']
         
-        # 4. Efficiency Features
+        # 10. Efficiency Features (Per Minute)
         df['PTS_PER_MIN'] = np.nan
         df['REB_PER_MIN'] = np.nan
         df['PRA_PER_MIN'] = np.nan
 
         if 'MIN_L5' in df.columns:
+            # Replace 0 minutes with 1 to avoid Inf
             safe_min = df['MIN_L5'].replace(0, 1)
             if 'PTS_L5' in df.columns: df['PTS_PER_MIN'] = df['PTS_L5'] / safe_min
             if 'REB_L5' in df.columns: df['REB_PER_MIN'] = df['REB_L5'] / safe_min
-            df['PRA_PER_MIN'] = df['PRA_L5'] / safe_min
+            if 'PRA_L5' in df.columns: df['PRA_PER_MIN'] = df['PRA_L5'] / safe_min
 
-        # 5. Clean and Weight
+        # 11. Clean and Weight
         df_cleaned = clean_engineered_features(df)
 
         if 'SEASON_ID' in df_cleaned.columns:

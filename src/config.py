@@ -76,13 +76,37 @@ ADVANCED_FEATURES = [
 ]
 
 FEATURES = [
+    # 1. Base Form (Lag-5)
     'PTS_L5', 'MIN_L5', 'REB_L5', 'AST_L5',
     'STL_L5', 'BLK_L5', 'FG3M_L5', 'PRA_L5',
     'PTS_PER_MIN', 'REB_PER_MIN', 'PRA_PER_MIN',
-    'HOME_GAME', 'DVP_MULTIPLIER',
-    'OPP_DEF_RATING', 'OPP_PACE',           # Opponent Context
-    #'TRAVEL_DISTANCE', 'DAYS_REST', 'BACK_TO_BACK',  # Fatigue & Travel
-    'USAGE_RATE'                             # Roster Context
+    
+    # 2. Contextual
+    'HOME_GAME', 
+    'DAYS_REST',          # Unleashed
+    'TRAVEL_DISTANCE',    # Unleashed
+    'BACK_TO_BACK',       # Unleashed
+    'USAGE_RATE',         # Roster Context
+
+    # 3. Opponent Context (Standard)
+    'DVP_MULTIPLIER',
+    'OPP_DEF_RATING', 
+    'OPP_PACE',
+    
+    # 4. Opponent Context (Granular - NEW)
+    'OPP_PTS_MULT', 
+    'OPP_REB_MULT', 
+    'OPP_AST_MULT',
+
+    # 5. Advanced Form (EWMA - NEW)
+    'PTS_EWMA_5', 'REB_EWMA_5', 'AST_EWMA_5',
+
+    # 6. Volatility (Risk - NEW)
+    'PTS_STD_10', 'REB_STD_10',
+
+    # 7. Splits (Home/Away - NEW)
+    'PTS_L10_HOME', 'PTS_L10_AWAY'
+
 ] + ADVANCED_FEATURES
 
 

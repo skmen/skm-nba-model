@@ -148,13 +148,11 @@ class BatchPredictor:
                     if prev_log is not None and not prev_log.empty:
                         # Safety check for GAME_ID before concatenation
                         if 'GAME_ID' not in prev_log.columns:
-                             # Try to be lenient if columns mismatch slightly or just warn and skip
                              logger.debug(f"Previous season log for {player_name} missing GAME_ID. Skipping history.")
                         else:
                              game_log = pd.concat([prev_log, game_log], ignore_index=True)
                              
                              # Ensure no duplicates if seasons overlap in data source
-                             # FIX: Check if GAME_ID exists before dropping to prevent KeyError
                              if 'GAME_ID' in game_log.columns:
                                  game_log = game_log.drop_duplicates(subset=['GAME_ID'])
                              else:
@@ -434,6 +432,58 @@ def normalize_predictions(df: pd.DataFrame) -> pd.DataFrame:
         
     return pd.concat(normalized_rows)
 
+def redistribute_usage(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Redistributes 'missing' usage/possessions to the active roster.
+    If a star player is out, their possessions must be absorbed by the remaining players.
+    """
+    if df.empty or 'TEAM_NAME' not in df.columns:
+        return df
+
+    logger.info("🔄 Redistributing Usage (Handling Missing Players)...")
+    
+    normalized_rows = []
+    teams = df['TEAM_NAME'].unique()
+    
+    for team in teams:
+        team_df = df[df['TEAM_NAME'] == team].copy()
+        
+        # Determine Target Possessions based on Pace
+        # Pace is roughly possessions per 48 mins per team
+        # If no pace available, default to 100
+        pace = team_df['PACE'].mean() if 'PACE' in team_df.columns else 100.0
+        if pd.isna(pace) or pace == 0: pace = 100.0
+        
+        # Current Sum of Projected Possessions (Personal) for the team
+        # Sum(Personal Poss) should roughly equal Team Pace
+        current_total_poss = team_df['PROJ_POSS'].sum()
+        
+        # If Current Total < Pace, we have a "Usage Void" (missing players)
+        # We perform a boost to fill this void.
+        # Threshold: Only boost if void is significant (e.g. < 90% of Pace) to avoid noise
+        if current_total_poss > 0 and current_total_poss < (pace * 0.95):
+            # Calculate Boost Factor
+            # e.g., Pace 100, Current 80 -> Boost 1.25x
+            boost_factor = pace / current_total_poss
+            
+            # Cap the boost to prevent outliers (e.g., max 1.25x)
+            # This prevents bench players from getting Michael Jordan usage if 4 starters are out
+            MAX_BOOST = 1.25
+            if boost_factor > MAX_BOOST:
+                boost_factor = MAX_BOOST
+                
+            logger.info(f"   -> Boosting {team} Usage by {boost_factor:.2f}x (Void detected)")
+            
+            # Apply Boost to volume stats
+            cols_to_boost = ['PTS', 'REB', 'AST', 'STL', 'BLK', 'FG3M', 'PRA', 'PROJ_POSS']
+            valid_cols = [c for c in cols_to_boost if c in team_df.columns]
+            
+            team_df[valid_cols] *= boost_factor
+            
+        normalized_rows.append(team_df)
+        
+    return pd.concat(normalized_rows)
+
 def predict_all_players_today(playing_today, output_csv, season="2024-25"):
     """Entry point used by automated_predictions.py."""
     os.makedirs(PREDICTIONS_DIR, exist_ok=True)
@@ -460,9 +510,14 @@ def predict_all_players_today(playing_today, output_csv, season="2024-25"):
     else:
         combined_df = new_df
 
+    # 1. Normalize Minutes (Ensure 240m Total)
     final_df = normalize_predictions(combined_df)
+    
+    # 2. Redistribute Usage (Ensure ~100 Possessions Total) - NEW
+    final_df = redistribute_usage(final_df)
+    
     final_df = final_df.sort_values(by=['TEAM_NAME', 'PLAYER_NAME'])
     final_df.to_csv(output_csv, index=False)
     
-    logger.info(f"Saved Normalized Predictions to {output_csv}")
+    logger.info(f"Saved Normalized & Usage-Adjusted Predictions to {output_csv}")
     return final_df

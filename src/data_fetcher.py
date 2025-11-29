@@ -191,48 +191,52 @@ def get_player_gamelog_multiple_seasons(
 # OPPONENT DEFENSE METRICS
 # ============================================================================
 
-def get_opponent_defense_metrics(season: str) -> Dict[str, Dict[str, float]]:
+def get_opponent_defense_metrics(season="2024-25"):
     """
-    Fetch opponent defensive metrics (DEF_RATING, PACE) from LeagueDashTeamStats.
-
-    Args:
-        season: NBA season (e.g., "2023-24")
-
-    Returns:
-        Dictionary mapping team abbreviations to {'DEF_RATING': value, 'PACE': value}
-
-    Raises:
-        DataAcquisitionError: If API call fails
+    Fetches league-wide opponent stats to calculate defensive multipliers.
+    Returns a dict mapping TEAM_NAME to defensive metrics.
     """
     try:
-        logger.info(f"Fetching opponent defense metrics for {season}...")
-
-        team_map = {team["full_name"]: team["abbreviation"] for team in teams.get_teams()}
-
+        from nba_api.stats.endpoints import leaguedashteamstats
+        import time
+        
+        # Use 'Base' measure type which contains OPP_PTS, OPP_REB, etc.
         stats = leaguedashteamstats.LeagueDashTeamStats(
-            measure_type_detailed_defense="Advanced", season=season
+            season=season,
+            per_mode_detailed='PerGame',
+            measure_type_detailed_defense='Base' 
         )
         df = stats.get_data_frames()[0]
+        
+        # Calculate League Averages for normalization
+        avg_pts = df['OPP_PTS'].mean()
+        avg_reb = df['OPP_REB'].mean()
+        avg_ast = df['OPP_AST'].mean()
+        avg_pace = 100.0 # Default if pace missing, or fetch from Advanced stats
 
-        opponent_defense = {}
+        # Build Dictionary
+        defense_map = {}
+        
         for _, row in df.iterrows():
-            team_name = row["TEAM_NAME"]
-            if team_name in team_map:
-                team_abbr = team_map[team_name]
-                opponent_defense[team_abbr] = {
-                    "DEF_RATING": row.get("DEF_RATING", np.nan),
-                    "PACE": row.get("PACE", np.nan),
-                }
-
-        logger.info(
-            f"Retrieved defense metrics for {len(opponent_defense)} teams in {season}"
-        )
-        return opponent_defense
+            team_name = row['TEAM_NAME']
+            
+            # Create Multipliers (e.g., Allows 120pts / Avg 110pts = 1.09 Multiplier)
+            # Higher is better for the offensive player (bad defense)
+            defense_map[team_name] = {
+                'OPP_DEF_RATING': row['OPP_PTS'], # Proxy using raw pts if Rating unavailable
+                'OPP_PACE': 100.0, # Placeholder, ideally fetch Pace from Advanced endpoint
+                
+                # Granular Multipliers
+                'OPP_PTS_MULT': row['OPP_PTS'] / avg_pts if avg_pts > 0 else 1.0,
+                'OPP_REB_MULT': row['OPP_REB'] / avg_reb if avg_reb > 0 else 1.0,
+                'OPP_AST_MULT': row['OPP_AST'] / avg_ast if avg_ast > 0 else 1.0,
+            }
+            
+        return defense_map
 
     except Exception as e:
-        logger.error(f"Error fetching opponent defense metrics: {e}")
-        raise DataAcquisitionError(f"Failed to fetch opponent defense metrics: {e}")
-
+        print(f"Error fetching opponent defense stats: {e}")
+        return {}
 
 def get_opponent_defense_metrics_multiple_seasons(
     seasons: Optional[List[str]] = None,
