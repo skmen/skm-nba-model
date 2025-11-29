@@ -13,7 +13,7 @@ import os
 import pandas as pd
 import numpy as np
 
-from .config import (
+from src.config import (
     ARENA_COORDINATES,
     LAG_STATS,
     LAG_WINDOW,
@@ -22,7 +22,7 @@ from .config import (
     DATA_DIR,
     SEASON_WEIGHTS,
 )
-from .utils import (
+from src.utils import (
     get_data_filepath,
     FeatureEngineeringError,
     validate_dataframe,
@@ -117,17 +117,34 @@ def create_home_away_feature(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def create_opponent_context_features(df: pd.DataFrame, opponent_defense: Dict[str, Dict[str, float]]) -> pd.DataFrame:
+def create_opponent_context_features(df: pd.DataFrame, opponent_defense: Optional[Dict] = None) -> pd.DataFrame:
     """Create opponent defense rating and pace features."""
     try:
         df['OPP_NAME'] = df['MATCHUP'].apply(extract_opponent_name)
+        
+        # If no defense data provided (e.g., historical training without scraped logs),
+        # use League Averages as neutral defaults
+        if opponent_defense is None:
+            df['OPP_DEF_RATING'] = 110.0 # League average approx
+            df['OPP_PACE'] = 100.0       # League average approx
+            return df
+
+        # Otherwise, look up specific stats
         opponent_stats = df['OPP_NAME'].apply(lambda opp: extract_opponent_stats(opp, opponent_defense))
         df['OPP_DEF_RATING'] = opponent_stats.apply(lambda x: x[0])
         df['OPP_PACE'] = opponent_stats.apply(lambda x: x[1])
+        
+        # Fill any missing lookups with defaults
+        df['OPP_DEF_RATING'] = df['OPP_DEF_RATING'].fillna(110.0)
+        df['OPP_PACE'] = df['OPP_PACE'].fillna(100.0)
+        
         return df
     except Exception as e:
         logger.error(f"Error creating opponent context features: {e}")
-        raise FeatureEngineeringError(f"Failed to create opponent context: {e}")
+        # Don't crash, just return defaults
+        df['OPP_DEF_RATING'] = 110.0
+        df['OPP_PACE'] = 100.0
+        return df
     
 def apply_dvp_context(df: pd.DataFrame, position_group: str) -> pd.DataFrame:
     """
@@ -226,6 +243,91 @@ def create_usage_rate_feature(df: pd.DataFrame, usage_rate: Optional[float]) -> 
     except Exception as e:
         logger.error(f"Error creating usage rate feature: {e}")
         raise FeatureEngineeringError(f"Failed to create usage rate: {e}")
+    
+def add_advanced_stats(df: pd.DataFrame, advanced_cache: Dict) -> pd.DataFrame:
+    """
+    Merges season-long advanced stats into the daily dataframe.
+    """
+    # List of cols we expect (Must match config.ADVANCED_FEATURES)
+    # Ensure we initialize them to 0.0/NaN first
+    from src.config import ADVANCED_FEATURES
+    
+    # Create empty columns
+    for col in ADVANCED_FEATURES:
+        df[col] = 0.0
+
+    # If cache is empty, return early
+    if not advanced_cache:
+        return df
+
+    # Map values
+    # We iterate rows, look up PLAYER_ID in cache, and fill
+    # (Vectorized map is faster but dictionary lookup is clearer for safety)
+    
+    # Convert cache to DataFrame for easier merge
+    # Format: Index=PlayerID, Cols=Features
+    cache_df = pd.DataFrame.from_dict(advanced_cache, orient='index')
+    
+    # Rename columns if needed to match ADVANCED_FEATURES exactly
+    # (e.g., 'SECONDARY_AST' -> 'SAST')
+    if 'SECONDARY_AST' in cache_df.columns:
+        cache_df.rename(columns={'SECONDARY_AST': 'SAST'}, inplace=True)
+    
+    # Merge
+    # Ensure PLAYER_ID is same type
+    df['PLAYER_ID'] = df['PLAYER_ID'].astype(int)
+    
+    # We left join on PLAYER_ID
+    # We only want the advanced columns from the cache
+    cols_to_use = [c for c in ADVANCED_FEATURES if c in cache_df.columns]
+    
+    # Drop the placeholder columns we just made so merge doesn't conflict
+    df = df.drop(columns=ADVANCED_FEATURES)
+    
+    merged = df.merge(cache_df[cols_to_use], left_on='PLAYER_ID', right_index=True, how='left')
+    
+    # Fill missing (rookies might not be in cache yet)
+    merged[cols_to_use] = merged[cols_to_use].fillna(0.0)
+    
+    return merged
+
+def create_possession_metrics(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    1. Estimates Possessions: FGA + 0.44*FTA - OREB + TOV
+    2. Creates Per-100-Possession Target Columns
+    """
+    try:
+        # Ensure we have required columns (fill 0 to avoid crash)
+        required = ['FGA', 'FTA', 'OREB', 'TOV', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'FG3M', 'PRA']
+        for col in required:
+            if col not in df.columns:
+                df[col] = 0.0
+        
+        # 1. Calculate Possessions (Basic NBA Formula)
+        # Avoid division by zero by replacing 0 with 1
+        df['POSS_EST'] = (df['FGA'] + (0.44 * df['FTA']) - df['OREB'] + df['TOV'])
+        df['POSS_EST'] = df['POSS_EST'].replace(0, 1)
+
+        # 2. Create Rate Targets
+        targets_map = {
+            'PTS': 'PTS_PER_100',
+            'REB': 'REB_PER_100',
+            'AST': 'AST_PER_100',
+            'STL': 'STL_PER_100',
+            'BLK': 'BLK_PER_100',
+            'PRA': 'PRA_PER_100',
+            'FG3M': 'FG3M_PER_100'
+        }
+        
+        for raw, rate in targets_map.items():
+            # Formula: (Raw / Poss) * 100
+            df[rate] = (df[raw] / df['POSS_EST']) * 100
+            
+        return df
+
+    except Exception as e:
+        logger.warning(f"Error creating possession metrics: {e}")
+        return df
 
 
 # ============================================================================
@@ -272,7 +374,8 @@ def engineer_features(
     raw_df: pd.DataFrame,
     opponent_defense: Dict[str, Dict[str, float]],
     usage_rate: Optional[float] = None,
-    position_group: str = "G"  # <--- NEW ARGUMENT
+    position_group: str = "G",
+    advanced_stats: Dict=None
 ) -> pd.DataFrame:
     """Engineer all features from raw game log data."""
     try:
@@ -286,11 +389,17 @@ def engineer_features(
         df = create_travel_distance_feature(df)
         df = create_rest_features(df)
         df = create_usage_rate_feature(df, usage_rate)
+        df = add_advanced_stats(df, advanced_stats)
         
         # 2. Apply DvP with the CORRECT POSITION
         df = apply_dvp_context(df, position_group)
 
         # 3. PRA Creation (Points + Rebounds + Assists)
+        if {'PTS', 'REB', 'AST'}.issubset(df.columns):
+            df['PRA'] = df['PTS'] + df['REB'] + df['AST']
+
+        df = create_possession_metrics(df)
+
         # Calculate PRA_L5 by summing the individual averages (Robust method)
         pts_lag = df['PTS_L5'] if 'PTS_L5' in df.columns else pd.Series(0, index=df.index)
         reb_lag = df['REB_L5'] if 'REB_L5' in df.columns else pd.Series(0, index=df.index)

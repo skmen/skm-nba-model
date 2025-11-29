@@ -1,607 +1,233 @@
-# 🏀 NBA Player Performance Prediction Model
-
-A machine learning system to predict NBA player statistics (points, rebounds, assists, steals, blocks) using XGBoost and advanced feature engineering. Includes both manual prediction and full daily automation.
-
-**Status**: ✅ Production Ready | **Code**: 1,500+ lines | **Tests**: Easy to verify
-
----
-
-## 📋 Table of Contents
-
-- [Setup](#-setup-instructions)
-- [Manual Predictions](#-manual-predictions-single-player)
-- [Automation](#-automation-daily-predictions)
-- [Model Accuracy & Validation](#-model-accuracy--validation)
-- [Hyperparameter Tuning](#️-hyperparameter-tuning)
-- [Advanced Features](#-advanced-features)
-- [Quick Reference](#-quick-reference)
-
----
-
-## 🚀 Setup Instructions
-
-### 1. Clone the Repository
-```bash
-git clone <your-repository-url>
-cd skm-nba-model
-```
-
-### 2. Create and Activate Virtual Environment
-
-**macOS/Linux:**
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
-**Windows (Command Prompt):**
-```cmd
-python -m venv venv
-venv\Scripts\activate
-```
-
-**Windows (PowerShell):**
-```powershell
-python -m venv venv
-venv\Scripts\Activate.ps1
-```
-
-### 3. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-**Note on macOS**: If you get XGBoost errors, run:
-```bash
-brew install libomp
-```
-
-### 4. Verify Installation
-```bash
-python src/prediction_pipeline.py
-```
-
-**New in v1.1**: By default, predictions now use **3-season data** (current + last 2 seasons) with sample weighting for better robustness!
-
----
-
-## 📊 Manual Predictions (Single Player)
-
-### Run Default Prediction (James Harden)
-
-```bash
-python src/prediction_pipeline.py
-```
-
-This will:
-1. ✅ Fetch game history for James Harden (2023-24 season)
-2. ✅ Engineer 14 features (lag stats, travel distance, opponent defense, rest days, usage rate)
-3. ✅ Train XGBoost model on temporal split (80/20)
-4. ✅ Evaluate vs baseline prediction
-5. ✅ Plot actual vs predicted points
-6. ✅ Show feature importance
-7. ✅ Predict next game score
-
-**Output**:
-```
-Games in dataset: 56
-Training set: 44 games | Test set: 12 games
-
-Model Performance:
-  XGBoost MAE:      2.1 points
-  Naive Baseline:   3.5 points
-  ✅ Model is better!
-
-Predicted Points (Next Game): 24.5 points
-```
-
-### Predict Different Player
-
-```python
-from src.prediction_pipeline import run_prediction_pipeline
-
-# Predict for LeBron James
-run_prediction_pipeline("LeBron James", "2023-24")
-
-# Predict for different season
-run_prediction_pipeline("Stephen Curry", "2024-25")
-```
-
-### Predict Different Stat
-
-To predict rebounds instead of points, modify `src/config.py`:
-```python
-TARGET = 'REB'  # Changed from 'PTS'
-```
-
----
-
-## 🤖 Automation - Daily Predictions
-
-### Quick Start (5 minutes)
-
-**Step 1: Test It Works**
-```bash
-python scripts/automated_predictions.py --run-once
-```
-
-**Step 2: Set Up Daily (Choose One)**
-
-**Option A: Cron Job (Recommended - Runs automatically forever)**
-```bash
-# View setup instructions
-python scripts/automated_predictions.py --show-cron
-
-# Add to crontab
-crontab -e
-# Paste the line shown
-```
-
-**Option B: Terminal Scheduler (Runs while terminal is open)**
-```bash
-# Run at 9:00 AM daily
-python scripts/automated_predictions.py --time 09:00
-```
-
-**Step 3: Monitor**
-```bash
-tail -f logs/automation.log
-```
-
-### Automation Overview
-
-The automation system:
-- ✅ Runs at a specific time (default: 9:00 AM)
-- ✅ Fetches all NBA games scheduled for today
-- ✅ Gets starting lineups and active rosters
-- ✅ **Filters for starters only** (no bench players)
-- ✅ Generates predictions for: **PTS, REB, AST, STL, BLK**
-- ✅ **ONLY if player's team is playing today**
-- ✅ Saves to CSV: `data/predictions/predictions_YYYYMMDD.csv`
-- ✅ Logs all activities: `logs/automation.log`
-
-### Automation Output
-
-**CSV Example** (`data/predictions/predictions_20251125.csv`):
-```
-PLAYER_NAME,TEAM_NAME,IS_HOME,PTS,REB,AST,STL,BLK,PREDICTION_TIME,GAME_ID
-Luka Doncic,Dallas Mavericks,1,28.5,9.2,7.1,1.3,0.8,2025-11-25 09:00:15,...
-Kyrie Irving,Dallas Mavericks,1,18.2,3.5,5.0,1.1,0.2,2025-11-25 09:00:22,...
-```
-
-**Log Example** (`logs/automation.log`):
-```
-2025-11-25 09:00:15 - INFO - Starting daily prediction run
-2025-11-25 09:00:18 - INFO - Found 5 game(s) for today
-2025-11-25 09:00:25 - INFO - Found 50 starting players
-2025-11-25 09:05:42 - INFO - Successfully predicted for 50 players
-```
-
-### Automation Setup Options
-
-| Option | Setup | Auto-Run | Restart Needed |
-|--------|-------|----------|----------------|
-| **Cron** (Recommended) | 2 min | ✅ Yes | ✅ No |
-| **Terminal** | 1 min | ✅ Yes (while open) | Terminal must stay open |
-| **Manual** (--run-once) | 1 min | ❌ No | Run manually each time |
-
-### Customization
-
-**Run at Different Time** (e.g., 2:00 PM):
-```bash
-python scripts/automated_predictions.py --time 14:00
-```
-
-**Multiple Times Daily** (9 AM and 5 PM):
-```bash
-# Add to crontab
-0 9,17 * * * cd /Users/e080858/git/skm-nba-model && python3 scripts/automated_predictions.py --run-once
-```
-
-**Weekdays Only**:
-```bash
-# Add to crontab
-0 9 * * 1-5 cd /Users/e080858/git/skm-nba-model && python3 scripts/automated_predictions.py --run-once
-```
-
-**Verbose Logging**:
-```bash
-python scripts/automated_predictions.py --run-once --verbose
-```
-
----
-
-## 🔬 Model Accuracy & Validation
-
-This project includes a powerful script to automatically generate a daily HTML report that validates the model's performance against actual results. This back-testing is crucial for understanding model calibration, bias, and overall accuracy.
-
-### Workflow
-
-1.  **Day 1 (e.g., Tuesday Night):** The daily automation runs (or you run it manually) and creates `data/predictions/predictions_YYYYMMDD.csv` with the model's predictions.
-2.  **Day 2 (e.g., Wednesday Morning):** After the games have finished, run the accuracy report script.
-3.  The script automatically finds yesterday's predictions, fetches the actual final scores, and generates a detailed HTML report comparing the two.
-
-### How to Run the Report
-
-After yesterday's games have concluded, run the following command from the project root:
-
-```bash
-python generate_accuracy_report.py
-```
-
--   The script defaults to analyzing the previous day's predictions.
--   You can also specify a date: `python generate_accuracy_report.py --date YYYY-MM-DD`
-
-### Report Output
-
-This command generates a new file: `accuracy_report_YYYYMMDD.html`.
-
-This report is designed to answer three critical questions:
-
-1.  **Calibration (Trust Scorecard):** When the model predicted a stat with "Elite Confidence," was it actually more accurate? This table shows the "Win Rate" for each trust tier, where a "Win" is a prediction that fell within the model's expected margin of error (MAE).
-
-2.  **Bias (Mean Signed Error):** Is the model consistently over-optimistic or pessimistic? This table shows the average error for each stat, indicating if the model tends to predict too high (positive bias) or too low (negative bias).
-
-3.  **Bad Beats:** What were the biggest misses? This table lists the top 10 predictions where the model's prediction was furthest from the actual result, helping to identify players or situations where the model may be struggling.
-
----
-
-## ⚙️ Hyperparameter Tuning
-
-Finding the best parameters for a model is crucial for accuracy. This project includes a script to automatically search for the optimal settings for both XGBoost and Ridge regression using `GridSearchCV`.
-
-### How to Run the Tuner
-
-Run the `tune_hyperparameters.py` script from your terminal. It will automatically loop through every statistic (PTS, REB, AST, etc.), test many different combinations of parameters for each one, and report the best settings.
-
-You can optionally specify a player to use as the data source for the tuning process.
-
-```bash
-# Tune models using the default player (James Harden)
-python tune_hyperparameters.py
-
-# Tune models using data from a different player
-python tune_hyperparameters.py --player-name "Stephen Curry"
-```
-*Note: This process is computationally intensive and may take several minutes to complete for all stats, as it's training thousands of small models.*
-
-### Understanding the Output
-
-The script will print a summary for each statistic, showing the best parameter combination found for both XGBoost and Ridge.
-
-**Example Output:**
-```
-============================================================
-        TUNING MODELS FOR 'PTS'
-============================================================
-
-Tuning XGBoost for PTS...
-✅ XGBoost for PTS Complete!
-  Best MAE: 4.813
-  Best Params: {'colsample_bytree': 0.7, 'learning_rate': 0.05, 'max_depth': 2, ...}
-
-Tuning Ridge for PTS...
-✅ Ridge for PTS Complete!
-  Best MAE: 5.102
-  Best Params: {'alpha': 10.0, 'solver': 'svd'}
-
-============================================================
-        TUNING MODELS FOR 'REB'
-============================================================
-...
-```
-
-### How to Use the Results
-
-1.  Navigate to `src/config.py`.
-2.  Inside this file, find the `XGBOOST_PARAMS_BY_STAT` and `RIDGE_PARAMS_BY_STAT` dictionaries.
-3.  For each statistic that was tuned, copy the `Best Params` dictionary from the script's output and update the corresponding entry in the config file. For example, you would replace the default 'PTS' parameters with the new, optimized ones you found for 'PTS'.
-
----
-
-## ⭐ Advanced Features
-
-The model includes sophisticated feature engineering:
-
-### 1. Lag Features (5-game rolling averages)
-- Average points, minutes, rebounds, assists, steals, blocks, 3-pointers
-- Captures player form and consistency
-
-### 2. Home/Away Tracking
-- Binary indicator for home vs away games
-- Different performance patterns for each
-
-### 3. Opponent Context
-- **Opponent Defense Rating**: How good defense is opponent plays
-- **Opponent Pace**: How fast opponent plays (affects scoring opportunities)
-- Both fetched from live NBA API
-
-### 4. Travel Distance
-- Calculates miles between consecutive game arenas
-- Uses Haversine formula for great-circle distance
-- Accounts for travel fatigue
-
-### 5. Rest Days & Back-to-Back
-- Days since last game (capped 0-5 days)
-- Binary back-to-back indicator
-- Rest affects performance
-
-### 6. Player Usage Rate
-- What % of team's possessions player uses
-- Fetched from live NBA API
-- Affects scoring opportunities
-
-### 7. Defense vs Position (DvP)
-- Framework included, ready for enhancement
-- Track how defense performs vs player's position
-
-### 8. Multi-Season Data & Sample Weighting (NEW v1.1)
-- **Default behavior**: Fetches from 3 seasons (2024-25, 2023-24, 2022-23)
-- **Regular season only**: Filters out playoff games automatically
-- **Sample weighting**: Recent seasons weighted higher (data decay)
-  - Current season: 1.0x weight (100% importance)
-  - Last season: 0.8x weight (80% importance)
-  - 2 seasons ago: 0.5x weight (50% importance)
-- **Benefits**: 3x more training data while prioritizing recent patterns
-
-```python
-# Configure in src/config.py
-SEASONS_TO_FETCH = ["2024-25", "2023-24", "2022-23"]
-SEASON_WEIGHTS = {
-    "2024-25": 1.0,   # Current season
-    "2023-24": 0.8,   # Last season
-    "2022-23": 0.5,   # 2 seasons ago
-}
-```
-
-**Total Features: 14** (plus SAMPLE_WEIGHT for training)
-```python
-FEATURES = [
-    'PTS_L5', 'MIN_L5', 'REB_L5', 'AST_L5', 'STL_L5', 'BLK_L5', 'FG3M_L5',  # Lag
-    'HOME_GAME',                                                           # Context
-    'OPP_DEF_RATING', 'OPP_PACE',                                          # Opponent
-    'TRAVEL_DISTANCE', 'DAYS_REST', 'BACK_TO_BACK',                        # Travel/Rest
-    'USAGE_RATE'                                                           # Usage
-]
-```
-
-### Enabling Different Stats
-
-Edit `src/config.py` to predict different statistics:
-
-```python
-# Current
-TARGET = 'PTS'  # Points
-
-# Try:
-TARGET = 'REB'  # Rebounds
-TARGET = 'AST'  # Assists
-TARGET = 'STL'  # Steals
-TARGET = 'BLK'  # Blocks
-```
-
-### Adding Custom Features
-
-1. Add feature to `src/feature_engineer.py`:
-```python
-def create_custom_feature(df):
-    df['CUSTOM'] = ...
-    return df
-```
-
-2. Add to features list in `src/config.py`:
-```python
-FEATURES = [..., 'CUSTOM']
-```
-
-3. Integrate in pipeline `src/feature_engineer.py`:
-```python
-def engineer_features(raw_df, opponent_defense, usage_rate):
-    # ... existing features ...
-    df = create_custom_feature(df)
-    return df
-```
-
-### Customizing Multi-Season Configuration
-
-**Add more seasons:**
-```python
-# src/config.py
-SEASONS_TO_FETCH = ["2024-25", "2023-24", "2022-23", "2021-22"]
-SEASON_WEIGHTS = {
-    "2024-25": 1.0,
-    "2023-24": 0.8,
-    "2022-23": 0.5,
-    "2021-22": 0.3,
-}
-```
-
-**Use single season (backward compatible):**
-```python
-from src.data_fetcher import acquire_all_data
-
-# Fetch only 2024-25
-game_log_df, opponent_defense, player_id, usage_rate = acquire_all_data(
-    player_name="James Harden",
-    season="2024-25",
-    use_multi_season=False  # Disable multi-season mode
-)
-```
-
-**Adjust weight decay:**
-```python
-# More aggressive (heavier recent emphasis):
-SEASON_WEIGHTS = {"2024-25": 1.0, "2023-24": 0.7, "2022-23": 0.3}
-
-# Gentler (more balanced):
-SEASON_WEIGHTS = {"2024-25": 1.0, "2023-24": 0.9, "2022-23": 0.8}
-```
-
----
-
-## 📚 Quick Reference
-
-### Project Structure
-```
-src/
-├── config.py              Constants, hyperparameters, arena coordinates
-├── utils.py               Logging, error handling, utilities
-├── data_fetcher.py        NBA API data acquisition
-├── feature_engineer.py    Feature creation (14 features)
-├── model.py               XGBoost training and evaluation
-├── game_fetcher.py        Fetch games, lineups, rosters (automation)
-├── batch_predictor.py     Batch predictions for multiple players (automation)
-├── scheduler.py           Time-based scheduling (automation)
-├── prediction_pipeline.py Main orchestrator
-└── __init__.py            Package initialization
-
-scripts/
-└── automated_predictions.py Main automation entry point
-
-data/
-├── predictions/           Daily predictions (CSV)
-└── (raw data stored here)
-
-logs/
-└── automation.log         Daily activity logs
-```
-
-### Key Commands
-
-**Manual Prediction**:
-```bash
-# Default player (James Harden)
-python src/prediction_pipeline.py
-
-# Specific player
-python -c "from src.prediction_pipeline import run_prediction_pipeline; run_prediction_pipeline('LeBron James')"
-```
-
-**Automation**:
-```bash
-# Test once
-python scripts/automated_predictions.py --run-once
-
-# Start daily at 9 AM
-python scripts/automated_predictions.py --time 09:00
-
-# Setup cron
-python scripts/automated_predictions.py --show-cron
-
-# Verbose logging
-python scripts/automated_predictions.py --run-once --verbose
-```
-
-**Monitoring**:
-```bash
-# Watch logs
-tail -f logs/automation.log
-
-# View latest predictions
-head data/predictions/predictions_$(date +%Y%m%d).csv
-
-# Count predictions
-wc -l data/predictions/predictions_$(date +%Ym%d).csv
-```
-
-### Configuration
-
-Edit `src/config.py` to customize:
-
-```python
-# Players
-DEFAULT_PLAYER_NAME = "James Harden"
-DEFAULT_SEASON = "2023-24"
-
-# Model
-TARGET = 'PTS'  # What to predict
-TRAIN_TEST_RATIO = 0.8
-
-# XGBoost
-XGBOOST_PARAMS = {
-    'n_estimators': 1000,
-    'learning_rate': 0.01,
-    'max_depth': 3,
-    'early_stopping_rounds': 50
-}
-
-# Feature Engineering
-LAG_WINDOW = 5  # 5-game rolling average
-API_DELAY = 0.5  # Seconds between NBA API calls
-```
-
-### Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| XGBoost error on macOS | Run: `brew install libomp` |
-| ImportError: No module | Check directory: `pwd` (should be project root) |
-| No games today (automation) | Normal on off-season. Check logs: `tail logs/automation.log` |
-| API rate limit | Increase `API_DELAY` in `src/config.py` |
-| Cron job not running | Verify: `crontab -l` and check absolute paths |
-
-### Performance Metrics
-
-```
-Typical Run (Single Player)
-├─ Games analyzed: 56
-├─ Runtime: 30-60 seconds
-├─ Model MAE: 2.1 points
-└─ Baseline MAE: 3.5 points
-
-Typical Automation Run (All Starters)
-├─ Games today: 5
-├─ Players processed: 50
-├─ Runtime: 3-5 minutes
-├─ Success rate: 95%+
-└─ CSV size: 30-100 KB
-```
-
----
-
-## 📖 Additional Resources
-
-### Code Quality
-- ✅ Type hints: 100% coverage
-- ✅ Docstrings: Comprehensive
-- ✅ Error handling: Custom exception hierarchy
-- ✅ Logging: Professional logging throughout
-- ✅ Testing: Easy to verify with `--run-once`
-
-### Data Sources
-- **NBA Stats API**: Live game data, opponent metrics, player stats
-- **Arena Coordinates**: 30 NBA arenas pre-configured
-- **Rate Limiting**: 0.5s delays to respect API limits
-
-### Model Details
-- **Algorithm**: XGBoost (gradient boosting regression)
-- **Features**: 14 engineered features
-- **Validation**: Temporal train/test split (respects time series)
-- **Metrics**: MAE comparison vs naive baseline
-
----
-
-## 🤝 Contributing
-
-To extend the project:
-
-1. **Add new features**: Modify `src/feature_engineer.py`
-2. **Change model**: Modify `src/model.py` (try different algorithms)
-3. **Add new stats**: Change `TARGET` in `src/config.py`
-4. **Improve automation**: Modify `src/batch_predictor.py`
-
----
-
-## 📞 Support
-
-**Quick answers**: Check the Quick Reference section above
-
-**Setup issues**: Verify Python 3.10+, virtual environment activated, dependencies installed
-
-**API issues**: Check NBA API status, verify internet connection, increase API_DELAY
-
----
-
-**Last Updated**: November 25, 2025  
-**Status**: ✅ Production Ready  
-**Version**: 2.1.0
+## SKM NBA Model
+
+SKM NBA Model is a comprehensive Python-based framework for predicting NBA player statistics, simulating game outcomes, and evaluating betting opportunities. It leverages the `nba_api` to fetch real-time data, a custom-built machine learning pipeline using `xgboost` and `scikit-learn` to generate predictions, and a suite of scripts to manage the end-to-end workflow from data acquisition to performance analysis.
+
+### Table of Contents
+* [Setup Guide](#setup-guide)
+* [Workflow Routine](#workflow-routine)
+* [Scripts](#scripts)
+  * [automated\_predictions.py](#automated_predictionspy)
+  * [run\_simulation.py](#run_simulationpy)
+  * [generate\_full\_report.py](#generate_full_reportpy)
+  * [bet\_analyzer.py](#bet_analyzerpy)
+  * [evaluate\_accuracy.py](#evaluate_accuracypy)
+  * [train\_global\_models.py](#train_global_modelspy)
+  * [generate\_accuracy\_report.py](#generate_accuracy_reportpy)
+  * [generate\_dvp\_stats.py](#generate_dvp_statspy)
+* [Core Modules](#core-modules)
+* [Prediction Pipeline](#prediction-pipeline)
+
+### Setup Guide
+
+Follow these steps to set up the project environment.
+
+1.  **Prerequisites:**
+    *   Python 3.x
+
+2.  **Clone the Repository:**
+    ```bash
+    git clone <repository-url>
+    cd skm-nba-model
+    ```
+
+3.  **Create and Activate a Virtual Environment:**
+    *   **Windows:**
+        ```bash
+        python -m venv venv
+        .\venv\Scripts\activate
+        ```
+    *   **macOS/Linux:**
+        ```bash
+        python3 -m venv venv
+        source venv/bin/activate
+        ```
+
+4.  **Install Dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+    The required packages are:
+    *   `pandas`
+    *   `nba_api`
+    *   `xgboost`
+    *   `scikit-learn`
+    *   `matplotlib`
+    *   `pyarrow`
+    *   `requests`
+
+### Workflow Routine
+
+This is the typical step-by-step workflow for using the model.
+
+1.  **Run Training (Weekly):**
+    Train the models on the latest data. This should be done periodically (e.g., weekly) to keep the models current.
+    ```bash
+    python scripts/train_global_models.py
+    ```
+
+2.  **Generate Raw Predictions:**
+    On game days, generate the raw player stat predictions for all scheduled games.
+    ```bash
+    python scripts/automated_predictions.py --run-once
+    ```
+    This creates a file like `data/predictions/predictions_YYYY-MM-DD.csv`.
+
+3.  **Run Game Simulation:**
+    Use the raw predictions to simulate team scores and game outcomes.
+    ```bash
+    python scripts/run_simulation.py
+    ```
+    This generates `game_predictions_YYYY-MM-DD.json` and other related simulation files.
+
+4.  **Generate Betting Sheets:**
+    Create a detailed betting sheet from the raw predictions, including context like model trust, MAE, and opponent stats.
+    ```bash
+    python scripts/generate_full_report.py data/predictions/predictions_YYYY-MM-DD.csv
+    ```
+    This produces a `betting_sheet_...csv` file.
+
+5.  **Analysis and Betting:**
+    Use the interactive `bet_analyzer` to compare model predictions against live sportsbook lines.
+    ```bash
+    python scripts/bet_analyzer.py --date YYYY-MM-DD
+    ```
+
+6.  **Get "Answer Key" (Day After):**
+    The day after the games, fetch the actual player stats.
+    ```bash
+    python scripts/automated_predictions.py --get-actuals YYYY-MM-DD
+    ```
+    This saves the results to `data/predictions/actuals_YYYY-MM-DD.csv`.
+
+7.  **Evaluate Accuracy:**
+    Compare the predictions with the actuals to evaluate model performance.
+    ```bash
+    python scripts/evaluate_accuracy.py YYYY-MM-DD
+    ```
+
+### Scripts
+
+#### `automated_predictions.py`
+Handles the generation of daily predictions and the retrieval of actual game results.
+
+*   **Purpose:**
+    *   `--run-once`: Fetches all players playing on a given day and runs the prediction pipeline for each of them.
+    *   `--get-actuals`: Fetches the actual game statistics for all players on a given date.
+*   **Arguments:**
+    *   `--run-once`: Runs predictions for the current day (or a specified `--date`).
+    *   `--get-actuals YYYY-MM-DD`: Retrieves actual stats for the specified date.
+    *   `--date YYYY-MM-DD` (optional): Specifies the date for predictions. Defaults to the current day.
+    *   `--team <team_name>` (optional): Filters predictions for a specific team.
+    *   `--season <season>` (optional): Specifies the NBA season (e.g., `2024-25`).
+*   **Examples:**
+    *   Run predictions for today:
+        ```bash
+        python scripts/automated_predictions.py --run-once
+        ```
+    *   Get actuals for November 28, 2025:
+        ```bash
+        python scripts/automated_predictions.py --get-actuals 2025-11-28
+        ```
+
+#### `run_simulation.py`
+Simulates game outcomes based on the generated player predictions.
+
+*   **Purpose:** Aggregates individual player predictions to forecast team scores, game totals, and spreads.
+*   **Arguments:**
+    *   `[date]` (optional): The date to run the simulation for, in `YYYY-MM-DD` format. Defaults to the current date.
+*   **Example:**
+    *   Run simulation for November 28, 2025:
+        ```bash
+        python scripts/run_simulation.py 2025-11-28
+        ```
+
+#### `generate_full_report.py`
+Creates a "Master Betting Sheet" from a raw predictions CSV file.
+
+*   **Purpose:** Enriches raw predictions with model trust scores, Mean Absolute Error (MAE), and contextual data like player usage, minutes, and opponent DvP (Defense vs. Position).
+*   **Arguments:**
+    *   `file_path`: The path to the raw predictions CSV file.
+*   **Example:**
+    ```bash
+    python scripts/generate_full_report.py data/predictions/predictions_2025-11-28.csv
+    ```
+
+#### `bet_analyzer.py`
+An interactive tool to compare model predictions against live sportsbook lines.
+
+*   **Purpose:** Allows for quick analysis of betting opportunities by calculating the "edge" between the model's prediction and a given betting line.
+*   **Arguments:**
+    *   `--date YYYY-MM-DD`: Loads the daily betting sheet for the specified date.
+    *   `--file <file_path>` (optional): Direct path to a prediction JSON or CSV file.
+*   **Example:**
+    *   Analyze the betting sheet for a specific date:
+        ```bash
+        python scripts/bet_analyzer.py --date 2025-11-28
+        ```
+
+#### `evaluate_accuracy.py`
+Compares generated predictions with actual results to produce a console-based accuracy report.
+
+*   **Purpose:** Calculates MAE (Mean Absolute Error) and bias (over/under prediction tendency) for each stat category.
+*   **Arguments:**
+    *   `[date]` (optional): The date to evaluate, in `YYYY-MM-DD` format. Defaults to yesterday.
+*   **Example:**
+    ```bash
+    python scripts/evaluate_accuracy.py 2025-11-28
+    ```
+
+#### `train_global_models.py`
+Trains the machine learning models for different player position buckets.
+
+*   **Purpose:** Loads all available historical data, separates players into positional buckets (Guards, Wings, Bigs), and trains a unique model for each stat target (PTS, REB, AST, etc.) within each bucket. The trained models are saved to the `models/` directory.
+*   **Arguments:** None.
+*   **Example:**
+    ```bash
+    python scripts/train_global_models.py
+    ```
+
+#### `generate_accuracy_report.py`
+Generates an HTML report to visualize model performance.
+
+*   **Purpose:** Creates a user-friendly HTML dashboard (`docs/accuracy_report.html`) that shows a trust scorecard, bias analysis, and a "bad beats" section for the biggest prediction misses.
+*   **Arguments:**
+    *   `--date YYYY-MM-DD` (optional): The date to analyze. Defaults to yesterday.
+*   **Example:**
+    ```bash
+    python scripts/generate_accuracy_report.py --date 2025-11-28
+    ```
+
+#### `generate_dvp_stats.py`
+Generates Defense vs. Position (DvP) statistics.
+
+*   **Purpose:** Fetches league-wide data to calculate the average stats allowed by each team to each position (Guard, Forward, Center). This is a crucial feature for the prediction models.
+*   **Arguments:** None.
+*   **Example:**
+    ```bash
+    python scripts/generate_dvp_stats.py
+    ```
+
+### Core Modules
+
+The `src/` directory contains the core logic for the prediction system.
+
+*   **`config.py`**: Central configuration for features, targets, file paths, and constants.
+*   **`data_fetcher.py`**: Handles all data acquisition from `nba_api`.
+*   **`feature_engineer.py`**: Creates the features used by the models.
+*   **`model.py`**: Defines the `NBAPlayerStack` model, which uses an `xgboost` regressor. Includes training, evaluation, and prediction functions.
+*   **`batch_predictor.py`**: Manages the process of making predictions for a large batch of players.
+*   **`game_predictor.py` / `game_simulator.py`**: Contains logic for simulating game outcomes.
+*   **`prediction_pipeline.py`**: Orchestrates the end-to-end process for predicting a single player's performance.
+
+### Prediction Pipeline
+
+The `src/prediction_pipeline.py` script is the heart of the single-player prediction process. While not typically run directly in the daily workflow, it encapsulates the key steps:
+
+1.  **Acquire Data**: Fetches game logs, opponent defensive ratings, and player usage stats.
+2.  **Engineer Features**: Calculates rolling averages, opponent-adjusted stats, and other advanced features.
+3.  **Prepare Simulation Context**: Estimates the player's minutes, the game's pace, and the player's likely possession count.
+4.  **Train & Predict Loop**: For each target statistic (e.g., points, rebounds):
+    *   It trains a fresh, temporary `NBAPlayerStack` model on that player's historical data.
+    *   It predicts the stat as a *rate* (e.g., points per 100 possessions).
+    *   It converts the rate into a *total* prediction based on the simulation context (e.g., 25.5 total points).
+5.  **Output**: Saves the final predictions, model errors (MAE), and simulation context to a JSON file.

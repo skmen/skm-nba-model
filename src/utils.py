@@ -7,43 +7,60 @@ Includes logging, error handling, and helper functions.
 
 import logging
 import os
+import sys
 from typing import Optional
 
-from .config import LOG_LEVEL, LOG_FORMAT, DATA_DIR
+from src.config import LOG_LEVEL, LOG_FORMAT, DATA_DIR, LOGS_DIR
 
 # ============================================================================
 # LOGGING CONFIGURATION
 # ============================================================================
 
-def setup_logger(name: str) -> logging.Logger:
+def setup_logger(name: str = 'NBA_Model') -> logging.Logger:
     """
     Setup and return a configured logger instance.
-
-    Args:
-        name: Logger name (usually __name__)
-
-    Returns:
-        Configured logger instance
+    Writes to both Console and automation.log.
     """
     logger = logging.getLogger(name)
     logger.setLevel(LOG_LEVEL)
 
-    # Create console handler
-    handler = logging.StreamHandler()
-    handler.setLevel(LOG_LEVEL)
+    # Avoid adding handlers multiple times
+    if logger.hasHandlers():
+        return logger
 
     # Create formatter
     formatter = logging.Formatter(LOG_FORMAT)
-    handler.setFormatter(formatter)
 
-    # Add handler to logger
-    if not logger.handlers:
-        logger.addHandler(handler)
+    # --- ENCODING FIX FOR WINDOWS ---
+    if sys.platform == 'win32':
+        # This line prevents the UnicodeEncodeError crash
+        sys.stdout.reconfigure(encoding='utf-8')
+    # --------------------------------
+
+    # 1. Create Console Handler
+    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler.setLevel(LOG_LEVEL)
+    console_handler.setFormatter(formatter)
+
+    # 2. Create File Handler
+    os.makedirs(LOGS_DIR, exist_ok=True)
+    log_file = os.path.join(LOGS_DIR, 'automation.log')
+    
+    # Use 'utf-8' encoding for the file handler too
+    file_handler = logging.FileHandler(log_file, encoding='utf-8')
+    file_handler.setLevel(LOG_LEVEL)
+    file_handler.setFormatter(formatter)
+
+    # Add handlers
+    logger.addHandler(console_handler)
+    logger.addHandler(file_handler)
 
     return logger
 
+# --- CRITICAL FIX: Instantiate the logger globally ---
+# This allows other files to run 'from src.utils import logger'
+logger = setup_logger()
 
-logger = setup_logger(__name__)
 
 # ============================================================================
 # FILE PATH UTILITIES
@@ -139,19 +156,20 @@ def sanitize_filename(filename: str) -> str:
 
 
 # ============================================================================
-# PRINTING & REPORTING
+# PRINTING & REPORTING (UPDATED TO USE LOGGER)
 # ============================================================================
 
 def print_section(title: str) -> None:
-    """Print a formatted section header."""
-    print("\n" + "=" * 60)
-    print(f"  {title}")
-    print("=" * 60)
+    """Print a formatted section header to log and console."""
+    separator = "=" * 60
+    logger.info(separator)
+    logger.info(f"  {title}")
+    logger.info(separator)
 
 
 def print_result(label: str, value: any) -> None:
-    """Print a formatted result line."""
-    print(f"{label:.<40} {value}")
+    """Print a formatted result line to log and console."""
+    logger.info(f"{label:.<40} {value}")
 
 
 def print_model_results(target_name: str, xgb_mae: float, naive_mae: float) -> None:
@@ -162,15 +180,15 @@ def print_model_results(target_name: str, xgb_mae: float, naive_mae: float) -> N
 
     if xgb_mae < naive_mae:
         improvement = ((naive_mae - xgb_mae) / naive_mae) * 100
-        print(f"\n✅ SUCCESS: Model beats baseline by {improvement:.1f}%")
+        logger.info(f"\n✅ SUCCESS: Model beats baseline by {improvement:.1f}%")
     else:
         diff = ((xgb_mae - naive_mae) / naive_mae) * 100
-        print(f"\n❌ FAIL: Model underperforms baseline by {diff:.1f}%")
+        logger.info(f"\n❌ FAIL: Model underperforms baseline by {diff:.1f}%")
 
 
 def print_prediction(predictions: dict) -> None:
     """Print formatted prediction."""
     print_section("PREDICTION FOR NEXT GAME")
     for target, value in predictions.items():
-        print(f"Projected {target}: {value:.1f}")
+        logger.info(f"Projected {target}: {value:.1f}")
     print_section("")

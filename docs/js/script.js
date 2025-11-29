@@ -104,7 +104,6 @@ $(document).ready(function() {
             container.append(cardHtml);
         });
 
-        // Attach Event Listeners to the newly created inputs
         attachCalculatorEvents();
     }
 
@@ -112,46 +111,29 @@ $(document).ready(function() {
         // --- MONEYLINE LOGIC ---
         $('.ml-input').on('keyup change', function() {
             var $card = $(this).closest('.score-card');
-            
-            // Get Team Names
             var awayName = $card.data('away');
             var homeName = $card.data('home');
-
             var awayOdds = parseFloat($card.find('.ml-input[data-team="away"]').val());
             var homeOdds = parseFloat($card.find('.ml-input[data-team="home"]').val());
-            
             var awayScore = parseFloat($card.data('away-score'));
             var homeScore = parseFloat($card.data('home-score'));
             var margin = Math.abs(awayScore - homeScore);
             var modelWinner = awayScore > homeScore ? 'away' : 'home';
             var targetTeamName = modelWinner === 'away' ? awayName : homeName;
-
             var $recBox = $card.find('.ml-rec');
-            
-            // Only calc if we have odds for the predicted winner
             var relevantOdds = modelWinner === 'away' ? awayOdds : homeOdds;
 
-            if (isNaN(relevantOdds)) {
-                updateBadge($recBox, "PASS", "rec-empty");
-                return;
-            }
+            if (isNaN(relevantOdds)) { updateBadge($recBox, "PASS", "rec-empty"); return; }
 
-            // Heuristic: 
-            // 1. Margin > 10 AND Odds > -250 -> STRONG
-            // 2. Margin > 5  AND Odds > -180 -> LEAN
-            
             var rec = "PASS";
             var style = "rec-pass";
-
             if (margin > 10 && relevantOdds > -250) {
-                // Add Team Name to Recommendation
                 rec = `STRONG<br><span style="font-size:0.9em">${targetTeamName}</span>`;
                 style = "rec-strong";
             } else if (margin > 5 && relevantOdds > -180) {
                 rec = `LEAN<br><span style="font-size:0.9em">${targetTeamName}</span>`;
                 style = "rec-lean";
             }
-
             updateBadge($recBox, rec, style);
         });
 
@@ -159,31 +141,19 @@ $(document).ready(function() {
         $('.spread-line').on('keyup change', function() {
             var $card = $(this).closest('.score-card');
             var line = parseFloat($(this).val());
-            var teamType = $(this).data('team'); // 'home' or 'away'
-            
-            // Get the specific team name for this input
+            var teamType = $(this).data('team');
             var teamName = (teamType === 'home') ? $card.data('home') : $card.data('away');
-            
             var awayScore = parseFloat($card.data('away-score'));
             var homeScore = parseFloat($card.data('home-score'));
             var $recBox = $card.find('.spread-rec');
 
-            if (isNaN(line)) {
-                updateBadge($recBox, "PASS", "rec-empty");
-                return;
-            }
+            if (isNaN(line)) { updateBadge($recBox, "PASS", "rec-empty"); return; }
 
-            // Calculate Model Margin relative to the specific team
             var modelMargin = (teamType === 'home') ? (homeScore - awayScore) : (awayScore - homeScore);
-            
-            // Logic: Does (Model Score + Line) > Opponent Score?
-            // "Edge" here is effectively how much they cover by
             var predictedScoreWithLine = modelMargin + line; 
-            
             var rec = "PASS";
             var style = "rec-pass";
 
-            // Thresholds: Strong > 4.5 pts cover, Lean > 2.5 pts cover
             if (predictedScoreWithLine > 4.5) {
                 rec = `STRONG<br><span style="font-size:0.9em">${teamName}</span>`;
                 style = "rec-strong";
@@ -191,26 +161,21 @@ $(document).ready(function() {
                 rec = `LEAN<br><span style="font-size:0.9em">${teamName}</span>`;
                 style = "rec-lean";
             }
-
             updateBadge($recBox, rec, style);
         });
 
-        // --- TOTAL LOGIC (Unchanged, but included for completeness) ---
+        // --- TOTAL LOGIC ---
         $('.total-line').on('keyup change', function() {
             var $card = $(this).closest('.score-card');
             var vegasTotal = parseFloat($(this).val());
             var modelTotal = parseFloat($card.data('total'));
             var $recBox = $card.find('.total-rec');
 
-            if (isNaN(vegasTotal)) {
-                updateBadge($recBox, "PASS", "rec-empty");
-                return;
-            }
+            if (isNaN(vegasTotal)) { updateBadge($recBox, "PASS", "rec-empty"); return; }
 
             var diff = modelTotal - vegasTotal;
             var absDiff = Math.abs(diff);
             var direction = diff > 0 ? "OVER" : "UNDER";
-            
             var rec = "PASS";
             var style = "rec-pass";
 
@@ -221,7 +186,6 @@ $(document).ready(function() {
                 rec = `LEAN ${direction}`;
                 style = "rec-lean";
             }
-
             updateBadge($recBox, rec, style);
         });
     }
@@ -260,7 +224,6 @@ $(document).ready(function() {
             ],
             order: [[7, 'desc']] 
         });
-
         setupCsvUpload(viewerTable, '#csvFileInput');
     }
 
@@ -316,6 +279,42 @@ $(document).ready(function() {
                 $recCell.html(`<span class="rec-badge rec-pass" style="background:#dc3545; color:white; padding:4px;">PASS</span>`);
             }
         });
+    }
+
+    // =========================================================
+    // 4. PAGE 3: SIMULATION VIEWER TABLE (New)
+    // =========================================================
+    if ($('#simulationTable').length) {
+        var simTable = $('#simulationTable').DataTable({
+            scrollX: true,
+            pageLength: 25,
+            columns: [
+                { data: 'PLAYER_NAME' },
+                { data: 'TEAM_NAME' },
+                { data: 'MINUTES', render: $.fn.dataTable.render.number(',', '.', 1) },
+                { 
+                    data: 'PTS', 
+                    render: function(data) { 
+                        return `<span class="pts-val">${parseFloat(data).toFixed(1)}</span>`; 
+                    } 
+                },
+                { data: 'REB', render: $.fn.dataTable.render.number(',', '.', 1) },
+                { data: 'AST', render: $.fn.dataTable.render.number(',', '.', 1) },
+                { data: 'STL', render: $.fn.dataTable.render.number(',', '.', 1) },
+                { data: 'BLK', render: $.fn.dataTable.render.number(',', '.', 1) },
+                { data: 'FG3M', render: $.fn.dataTable.render.number(',', '.', 1) },
+                { 
+                    data: 'USAGE_PCT', 
+                    render: function(data) {
+                        // Assuming USAGE_PCT is decimal (e.g. 0.302)
+                        return `<span class="usage-val">${(parseFloat(data) * 100).toFixed(1)}%</span>`;
+                    }
+                }
+            ],
+            order: [[3, 'desc']] // Sort by PTS descending by default
+        });
+
+        setupCsvUpload(simTable, '#simFileInput');
     }
 
     // =========================================================

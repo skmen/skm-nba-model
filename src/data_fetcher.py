@@ -5,6 +5,7 @@ Handles fetching player game logs, opponent stats, and player usage rates
 from nba_api.
 """
 
+import os
 import logging
 import time
 from typing import Dict, Optional, List
@@ -18,8 +19,14 @@ from nba_api.stats.endpoints import (
     playerdashboardbygeneralsplits,
 )
 
-from .config import DATA_DIR, API_DELAY, SEASONS_TO_FETCH, GAME_TYPE_FILTER
-from .utils import (
+from nba_api.stats.endpoints import (
+    leaguedashplayerstats,
+    leaguedashptstats,
+    leaguehustlestatsplayer
+)
+
+from src.config import DATA_DIR, API_DELAY, SEASONS_TO_FETCH, GAME_TYPE_FILTER, RAW_DATA_DIR
+from src.utils import (
     get_data_filepath,
     DataAcquisitionError,
     sanitize_filename,
@@ -71,17 +78,16 @@ def get_player_gamelog(player_name: str, season: str) -> Optional[pd.DataFrame]:
 
 
         # Filter for regular season games only, if GAME_TYPE is available
-        if 'GAME_TYPE' in df.columns:
-            initial_count = len(df)
-            df = df[df['GAME_TYPE'] == GAME_TYPE_FILTER].reset_index(drop=True)
-            filtered_count = len(df)
-
-            if initial_count > filtered_count:
-                logger.info(f"Filtered from {initial_count} to {filtered_count} "
-                           f"regular season games")
+        if 'SEASON_ID' in df.columns:
+        # Convert to string just in case, and check if it starts with '2'
+        # This keeps only regular season games
+            df = df[df['SEASON_ID'].astype(str).str.startswith('2')]
+        elif 'GAME_TYPE' in df.columns:
+        # Fallback to old method
+            df = df[df['GAME_TYPE'] == 'Regular Season']
         else:
-            logger.warning("'GAME_TYPE' column not found, unable to filter for regular season games. "
-                           "Proceeding with all games.")
+        # It's likely fine to just proceed, but logging debug is better than warning
+            logger.debug("Could not filter for Regular Season (Columns missing). Using all data.")
 
         if df.empty:
             logger.warning(f"No regular season games found for {player_name} in {season}")
@@ -89,11 +95,7 @@ def get_player_gamelog(player_name: str, season: str) -> Optional[pd.DataFrame]:
 
         # Save to CSV
         sanitized_name = sanitize_filename(player_name)
-        raw_data_filename = get_data_filepath(
-            f"{sanitized_name}_{season}_raw_gamelog.csv"
-        )
-        df.to_csv(raw_data_filename, index=False)
-        logger.info(f"Raw data saved to '{raw_data_filename}'")
+        save_player_data(df, f"{sanitized_name}_{season}_raw_gamelog.csv")
 
         return df
 
@@ -179,11 +181,7 @@ def get_player_gamelog_multiple_seasons(
 
     # Save combined data
     sanitized_name = sanitize_filename(player_name)
-    combined_filename = get_data_filepath(
-        f"{sanitized_name}_multi_season_gamelog.csv"
-    )
-    combined_df.to_csv(combined_filename, index=False)
-    logger.info(f"Combined data saved to '{combined_filename}'")
+    save_player_data(combined_df, f"{sanitized_name}_combined_gamelog.csv")
 
     return combined_df
 
@@ -337,7 +335,102 @@ def get_player_usage_rate(player_id: int, season: str) -> Optional[float]:
     except Exception as e:
         logger.error(f"Error fetching usage rate: {e}")
         return None
+    
+# ============================================================================
+# Advaned Stats Cache
+# ============================================================================
 
+def get_advanced_stats_cache(season="2024-25"):
+    """
+    Fetches Season-Long Advanced, Tracking, and Hustle stats for ALL players.
+    Returns a dictionary mapped by PLAYER_ID for fast lookup.
+    """
+    try:
+        logger.info(f"🚀 Fetching Advanced Stats for {season}...")
+        
+        cache = {}
+        
+        # 1. ADVANCED EFFICIENCY (Rating, Pace, PIE)
+        # Endpoint: LeagueDashPlayerStats
+        adv = leaguedashplayerstats.LeagueDashPlayerStats(
+            season=season,
+            measure_type_detailed_defense='Advanced'
+        ).get_data_frames()[0]
+        
+        # 2. TRACKING (Speed, Distance, Touches)
+        # Endpoint: LeagueDashPtStats (Player Tracking)
+        track = leaguedashptstats.LeagueDashPtStats(
+            season=season,
+            player_or_team='Player',
+            pt_measure_type='SpeedDistance' # Split calls if needed for Possessions/Passing
+        ).get_data_frames()[0]
+        
+        # We need a second call for 'Possessions' type to get Touches/Passes if not in SpeedDistance
+        # Actually 'Possessions' includes Touches, 'Passing' includes AstPotential
+        track_poss = leaguedashptstats.LeagueDashPtStats(
+            season=season,
+            player_or_team='Player',
+            pt_measure_type='Possessions'
+        ).get_data_frames()[0]
+
+        track_pass = leaguedashptstats.LeagueDashPtStats(
+            season=season,
+            player_or_team='Player',
+            pt_measure_type='Passing'
+        ).get_data_frames()[0]
+
+        # 3. HUSTLE (Deflections, Contested Shots)
+        # Endpoint: LeagueHustleStatsPlayer
+        hustle = leaguehustlestatsplayer.LeagueHustleStatsPlayer(
+            season=season
+        ).get_data_frames()[0]
+
+        # --- MERGE INTO CACHE ---
+        # We process this into a dictionary {PLAYER_ID: {Stat: Value}}
+        
+        # Helper to merge
+        def merge_to_cache(df, prefix, cols):
+            for _, row in df.iterrows():
+                pid = row['PLAYER_ID']
+                if pid not in cache: cache[pid] = {}
+                for col in cols:
+                    # Some endpoints use all caps, some mixed. Handle gracefully.
+                    val = row.get(col, 0)
+                    cache[pid][col] = float(val) if val is not None else 0.0
+
+        # Mapping specific columns we want
+        merge_to_cache(adv, "", ['OFF_RATING', 'DEF_RATING', 'NET_RATING', 'AST_PCT', 'OREB_PCT', 'DREB_PCT', 'USG_PCT', 'TS_PCT', 'PIE'])
+        
+        # Tracking: Dist/Speed usually in SpeedDistance
+        merge_to_cache(track, "", ['DIST', 'AVG_SPEED'])
+        
+        # Possessions: Touches
+        merge_to_cache(track_poss, "", ['TOUCHES'])
+        
+        # Passing: Potential Assists
+        merge_to_cache(track_pass, "", ['PASSES_MADE', 'AST_POTENTIAL', 'SECONDARY_AST'])
+        # Rename SECONDARY_AST to SAST for brevity if preferred
+        
+        # Hustle
+        merge_to_cache(hustle, "", ['DEFLECTIONS', 'CONTESTED_SHOTS', 'SCREEN_ASSISTS', 'BOX_OUTS'])
+
+        logger.info(f"✅ Advanced stats cached for {len(cache)} players")
+        return cache
+
+    except Exception as e:
+        logger.error(f"Error fetching advanced stats: {e}")
+        return {}
+
+# ============================================================================
+# Save Player Data
+# ============================================================================
+
+def save_player_data(df, filename):
+    # Clean filename to avoid issues with spaces/special characters
+    file_path = os.path.join(RAW_DATA_DIR, filename)
+    df.to_csv(file_path, index=False)
+    logger.info(f"Saved player data to {file_path}")
+    return file_path
 
 # ============================================================================
 # BATCH DATA ACQUISITION

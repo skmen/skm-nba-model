@@ -7,12 +7,22 @@ Contains all constants, settings, and configurable parameters.
 import os
 from typing import Dict, Tuple
 
+# Dynamic Project Root calculation
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # ============================================================================
 # DATA DIRECTORY CONFIGURATION
 # ============================================================================
 
-DATA_DIR = "data"
-os.makedirs(DATA_DIR, exist_ok=True)
+DATA_DIR = os.path.join(PROJECT_ROOT, "data")
+RAW_DATA_DIR = os.path.join(DATA_DIR, "raw")
+PREDICTIONS_DIR = os.path.join(DATA_DIR, "predictions")
+PROCESSED_DATA_DIR = os.path.join(DATA_DIR, "processed")
+LOGS_DIR = os.path.join(PROJECT_ROOT, "logs")
+MODELS_DIR = os.path.join(PROJECT_ROOT, "models")
+
+for directory in [RAW_DATA_DIR, PREDICTIONS_DIR, PROCESSED_DATA_DIR, LOGS_DIR, MODELS_DIR]:
+    os.makedirs(directory, exist_ok=True)
 
 # ============================================================================
 # NBA ARENA COORDINATES (for travel distance calculation)
@@ -52,6 +62,18 @@ ARENA_COORDINATES: Dict[str, Tuple[float, float]] = {
 # ============================================================================
 # MODEL FEATURES & TARGET
 # ============================================================================
+POSSESSION_BASE = 100.00
+
+ADVANCED_FEATURES = [
+    # Efficiency (from LeagueDashPlayerStats)
+    'OFF_RATING', 'DEF_RATING', 'NET_RATING', 'PCT_AST', 'PCT_OREB', 'PCT_DREB', 'USG_PCT', 'TS_PCT', 'PIE',
+    
+    # Tracking (from LeagueDashPtStats)
+    'DIST', 'AVG_SPEED', 'TOUCHES', 'PASSES_MADE', 'AST_POTENTIAL', 'SAST',
+    
+    # Hustle (from LeagueHustleStatsPlayer)
+    'DEFLECTIONS', 'CONTESTED_SHOTS', 'SCREEN_ASSISTS', 'BOX_OUTS'
+]
 
 FEATURES = [
     'PTS_L5', 'MIN_L5', 'REB_L5', 'AST_L5',
@@ -61,9 +83,20 @@ FEATURES = [
     'OPP_DEF_RATING', 'OPP_PACE',           # Opponent Context
     #'TRAVEL_DISTANCE', 'DAYS_REST', 'BACK_TO_BACK',  # Fatigue & Travel
     'USAGE_RATE'                             # Roster Context
-]
+] + ADVANCED_FEATURES
 
-TARGETS = ['PTS', 'REB', 'AST', 'STL', 'BLK', 'PRA']
+
+RAW_TARGETS = ['PTS', 'REB', 'AST', 'STL', 'BLK', 'PRA']
+
+TARGETS = [
+    'PTS_PER_100', 
+    'REB_PER_100', 
+    'AST_PER_100', 
+    'STL_PER_100', 
+    'BLK_PER_100', 
+    'PRA_PER_100',
+    'FG3M_PER_100'
+]
 
 # ============================================================================
 # LAG STATISTICS (for feature engineering)
@@ -148,7 +181,23 @@ XGBOOST_PARAMS_BY_STAT = {
         'subsample': 0.7,
         'random_state': 42,
         'early_stopping_rounds': 50
-    }
+    },
+    'PTS_PER_100': { # Clone PTS params for start
+        'colsample_bytree': 0.7, 'learning_rate': 0.01, 'max_depth': 2, 
+        'n_estimators': 200, 'reg_lambda': 1.5, 'subsample': 0.7
+    },
+    'REB_PER_100': {
+        'colsample_bytree': 0.7, 'learning_rate': 0.01, 'max_depth': 2, 
+        'n_estimators': 200, 'reg_lambda': 1, 'subsample': 0.7
+    },
+    'AST_PER_100': {
+        'colsample_bytree': 0.7, 'learning_rate': 0.01, 'max_depth': 4, 
+        'n_estimators': 200, 'reg_lambda': 1.5, 'subsample': 0.7
+    },
+    'STL_PER_100': { 'learning_rate': 0.01, 'max_depth': 4, 'n_estimators': 200 },
+    'BLK_PER_100': { 'learning_rate': 0.01, 'max_depth': 4, 'n_estimators': 200 },
+    'PRA_PER_100': { 'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 200 },
+    'FG3M_PER_100': { 'learning_rate': 0.01, 'max_depth': 2, 'n_estimators': 200 }
 }
 
 # Stat-specific Ridge parameters

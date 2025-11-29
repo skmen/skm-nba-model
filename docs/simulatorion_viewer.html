@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Simulation Viewer</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Specific styles for the simulation table can go here if needed */
+        .usage-val { font-weight: bold; color: #555; }
+        .pts-val { color: #2980b9; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">🏀 NBA Model</div>
+        <nav class="nav">
+            <a href="index.html">Prediction Viewer</a>
+            <a href="master_sheet.html">Betting Sheet</a>
+            <a href="simulation_viewer.html">Sim Viewer</a>
+            <a href="accuracy_report.html">Accuracy Report</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <div>
+                <h1>Simulation Box Scores</h1>
+                <div class="subtitle">View projected stats based on Pace, Minutes, and Usage Simulation</div>
+            </div>
+        </div>
+        
+        <div class="upload-section">
+            <div class="upload-group">
+                <label>Load Simulation CSV (game_sims_players_YYYY-MM-DD.csv)</label>
+                <input type="file" id="simFileInput" accept=".csv">
+            </div>
+        </div>
+
+        <table id="simulationTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Player</th>
+                    <th>Team</th>
+                    <th>Mins</th>
+                    <th>Pts</th>
+                    <th>Reb</th>
+                    <th>Ast</th>
+                    <th>Stl</th>
+                    <th>Blk</th>
+                    <th>3PM</th>
+                    <th>Usg%</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
